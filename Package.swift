@@ -9,6 +9,15 @@ let package = Package(
     ],
     targets: [
         .target(name: "RotCityIOS", dependencies: ["RotCityNativeBridge"], path: "Sources/RotCityIOS"),
-        .target(name: "RotCityNativeBridge", path: "Sources/RotCityNativeBridge", publicHeadersPath: "include"),
+        .target(
+            name: "RotCityNativeBridge",
+            path: "Sources/RotCityNativeBridge",
+            publicHeadersPath: "include",
+            cxxSettings: [
+                .headerSearchPath("vendor/raknet"),
+                .headerSearchPath("vendor/raknet/SAMP"),
+                .define("RAKNET", to: "1"),
+            ]
+        ),
     ]
 )
