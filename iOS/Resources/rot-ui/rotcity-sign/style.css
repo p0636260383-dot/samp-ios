@@ -1,0 +1,380 @@
+/* ==========================================================================
+   ROT CITY - 3D FLOATING INTERACTION BILLBOARD / SIGN UI (CEF HUD)
+   Neon Green (Ready/In-Range) vs Cyber Red (Locked/Out-of-Range)
+   Dual Input: Keyboard [N] for PC / Touch Tap on Sign for Mobile
+   Anchors to 3D World Target Coordinates with Holographic Depth
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 0;
+  padding: 0;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", Tahoma, "Noto Sans Thai", -apple-system, sans-serif;
+  
+  --green-glow: rgba(0, 255, 110, 0.75);
+  --green-border: #00ff73;
+  --green-bg: rgba(0, 40, 18, 0.85);
+
+  --red-glow: rgba(255, 40, 60, 0.75);
+  --red-border: #ff2b47;
+  --red-bg: rgba(45, 8, 12, 0.85);
+
+  --anim-ease: cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: transparent !important;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ==========================================================================
+   1. FULLSCREEN OVERLAY CANVAS
+   ========================================================================== */
+.sign-root {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ==========================================================================
+   2. STABLE INTERACTION BILLBOARD HUD
+   Positioned ergonomically on screen (Never warps, never jitters)
+   Hovering above the interaction target in front of the player
+   ========================================================================== */
+.sign-card {
+  position: absolute;
+  /* Default: Center-Top above target in front of player (like clothes shop screenshot) */
+  left: var(--hud-x, 50%);
+  top: var(--hud-y, 38%);
+  transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(var(--scale, 1));
+  transform-origin: var(--origin-x, center) var(--origin-y, center);
+  width: clamp(280px, 32vw, 440px);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: opacity 0.22s ease, left 0.08s linear, top 0.08s linear, transform 0.18s cubic-bezier(0.2, 0.8, 0.25, 1);
+  touch-action: manipulation;
+}
+
+/* 3D World Tracking Mode: Anchors the callout pin directly to physical target screen coords */
+.sign-card.tracked-3d {
+  --trans-x: calc(-1 * var(--anchor-x, 4.3%));
+  --trans-y: calc(-1 * var(--anchor-y, 72.0%));
+  --origin-x: var(--anchor-x, 4.3%);
+  --origin-y: var(--anchor-y, 72.0%);
+}
+
+/* Entrance / Exit */
+.sign-card.hidden {
+  opacity: 0;
+  transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(0.85);
+  pointer-events: none;
+}
+
+.sign-card.visible {
+  opacity: 1;
+}
+
+/* State Glow Filters */
+.sign-card.state-ready {
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.94))
+          drop-shadow(0 0 18px var(--green-glow));
+}
+
+.sign-card.state-locked {
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.94))
+          drop-shadow(0 0 16px var(--red-glow));
+}
+
+/* Tactile Tap Animation */
+.sign-card:active,
+.sign-card.tapped {
+  transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(calc(var(--scale, 1) * 0.94)) !important;
+  transition: transform 0.08s ease-out;
+}
+
+/* Shake Animation on Locked / Denied click */
+@keyframes signShake {
+  0%, 100% { transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(var(--scale, 1)) translateX(0); }
+  20% { transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(var(--scale, 1)) translateX(-8px) rotate(-1deg); }
+  40% { transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(var(--scale, 1)) translateX(8px) rotate(1deg); }
+  60% { transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(var(--scale, 1)) translateX(-5px); }
+  80% { transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(var(--scale, 1)) translateX(5px); }
+}
+
+.sign-card.shake {
+  animation: signShake 0.4s var(--anim-ease);
+}
+
+/* Success Pop Animation */
+@keyframes signSuccessPulse {
+  0% { transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(var(--scale, 1)); }
+  40% { transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(calc(var(--scale, 1) * 1.05)); }
+  100% { transform: translate(var(--trans-x, -50%), var(--trans-y, -50%)) scale(var(--scale, 1)); }
+}
+
+.sign-card.success-pop {
+  animation: signSuccessPulse 0.35s var(--anim-ease);
+}
+
+/* ==========================================================================
+   3. BANNER GRAPHIC & HOLOGRAPHIC BOBBING
+   ========================================================================== */
+@keyframes holoFloatBob {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+.banner-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: holoFloatBob 3s ease-in-out infinite;
+}
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+}
+
+.banner-img.green-layer {
+  position: relative;
+  opacity: 0;
+}
+
+.banner-img.red-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.sign-card.state-ready .green-layer {
+  opacity: 1;
+}
+
+.sign-card.state-ready .red-layer {
+  opacity: 0;
+}
+
+.sign-card.state-locked .green-layer {
+  opacity: 0;
+}
+
+.sign-card.state-locked .red-layer {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   4. INTERACTIVE ACTION HOTSPOT BUTTON
+   ========================================================================== */
+.action-hotspot {
+  position: absolute;
+  top: 18%;
+  right: 2.2%;
+  width: 32%;
+  height: 64%;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  pointer-events: auto;
+  outline: none;
+  overflow: hidden;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.action-hotspot:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sign-card.state-ready .action-hotspot:hover {
+  box-shadow: 0 0 16px rgba(0, 255, 110, 0.45) inset;
+}
+
+.sign-card.state-locked .action-hotspot:hover {
+  box-shadow: 0 0 16px rgba(255, 40, 60, 0.45) inset;
+}
+
+.hotspot-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  pointer-events: none;
+}
+
+.action-hotspot:active .hotspot-ripple {
+  opacity: 1;
+  transform: scale(1.4);
+}
+
+/* ==========================================================================
+   5. FLOATING PROMPT & DISTANCE HUD BAR
+   ========================================================================== */
+.sign-prompt-bar {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.prompt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: rgba(8, 12, 18, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #e0f2fe;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+  transition: all 0.2s ease;
+}
+
+.key-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  color: #000;
+  font-weight: 900;
+  font-size: 10px;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(56, 189, 248, 0.6);
+}
+
+.sign-card.state-ready .key-badge {
+  border-color: rgba(0, 255, 110, 0.5);
+  color: #bbf7d0;
+}
+
+.sign-card.state-ready .key-tag {
+  background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
+  box-shadow: 0 1px 6px rgba(74, 222, 128, 0.8);
+}
+
+.touch-icon {
+  font-size: 11px;
+}
+
+.dist-badge {
+  font-family: "Consolas", monospace, sans-serif;
+  color: #94a3b8;
+}
+
+.sign-card.state-ready .dist-badge {
+  color: #86efac;
+  border-color: rgba(74, 222, 128, 0.4);
+}
+
+.sign-card.state-locked .dist-badge {
+  color: #fca5a5;
+  border-color: rgba(248, 113, 113, 0.4);
+}
+
+/* Left Callout Node Pin Animation (Anchored directly on the PNG leader dot) */
+.callout-pin {
+  position: absolute;
+  left: var(--anchor-x, 4%);
+  top: var(--anchor-y, 74%);
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.sign-card.state-ready .callout-pin {
+  background: #00ff66;
+  box-shadow: 0 0 14px #00ff66, 0 0 28px #00ff66;
+  animation: pinPulseGreen 1.4s infinite ease-in-out;
+}
+
+.sign-card.state-locked .callout-pin {
+  background: #ff2b47;
+  box-shadow: 0 0 14px #ff2b47, 0 0 24px #ff2b47;
+  animation: pinPulseRed 1.4s infinite ease-in-out;
+}
+
+@keyframes pinPulseGreen {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+  50% { transform: translate(-50%, -50%) scale(1.45); opacity: 1; }
+}
+
+@keyframes pinPulseRed {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  50% { transform: translate(-50%, -50%) scale(1.35); opacity: 1; }
+}
+
+/* Touch client adjustments */
+body.is-touch .action-hotspot {
+  top: 10%;
+  height: 80%;
+  right: 1%;
+  width: 36%;
+}
+
+body.is-touch .key-badge {
+  display: none;
+}
+
+body.is-touch .touch-badge {
+  background: rgba(14, 116, 144, 0.9);
+  border-color: #38bdf8;
+  color: #fff;
+}
+
+/* ==========================================================================
+   6. RESPONSIVE QUERIES
+   ========================================================================== */
+@media (max-height: 520px) {
+  .sign-card {
+    width: clamp(240px, 36vw, 420px);
+  }
+  .sign-prompt-bar {
+    bottom: -24px;
+    gap: 4px;
+  }
+  .prompt-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+}

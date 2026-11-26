@@ -9,6 +9,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "RotCityIOS", dependencies: ["RotCityNativeBridge"], path: "Sources/RotCityIOS"),
+        .testTarget(name: "RotCityIOSTests", dependencies: ["RotCityIOS"], path: "Tests/RotCityIOSTests"),
         .target(
             name: "RotCityNativeBridge",
             path: "Sources/RotCityNativeBridge",

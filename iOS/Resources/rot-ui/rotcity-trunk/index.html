@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROT CITY • VEHICLE TRUNK</title>
+<style>
+  * { box-sizing: border-box; user-select: none; }
+  html, body {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    background: transparent; font-family: 'Segoe UI', Tahoma, sans-serif;
+    display: flex; align-items: center; justify-content: center;
+    color: #e6f3f8; overflow: hidden;
+  }
+
+  .trunk-shell {
+    width: 1000px; max-width: 96vw; max-height: 90vh;
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(16, 26, 36, 0.96) 0%, rgba(8, 14, 21, 0.98) 100%);
+    border: 1px solid rgba(72, 189, 224, 0.45);
+    border-radius: 14px;
+    box-shadow:
+      0 30px 90px rgba(0, 0, 0, 0.88),
+      0 0 36px rgba(56, 189, 248, 0.16),
+      inset 0 1px 0 rgba(165, 243, 252, 0.25);
+    display: flex; flex-direction: column; overflow: hidden;
+    animation: shellIn 0.2s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes shellIn {
+    from { opacity: 0; transform: scale(0.96) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Tactical metal & grime overlay matching Inventory v2.7 */
+  .trunk-shell::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: url('../rotcity-inventory/steel-grit.webp') center/cover no-repeat;
+    opacity: 0.12; mix-blend-mode: screen;
+  }
+  .trunk-shell::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(56, 189, 248, 0.025) 0 1px, transparent 1px 3px);
+  }
+
+  .rivet { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #94a3b8, #1e293b); border: 1px solid rgba(56,189,248,0.35); z-index: 5; }
+  .rivet.tl { top: 8px; left: 8px; }
+  .rivet.tr { top: 8px; right: 8px; }
+  .rivet.bl { bottom: 8px; left: 8px; }
+  .rivet.br { bottom: 8px; right: 8px; }
+
+  .topbar {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 22px;
+    background: linear-gradient(90deg, rgba(14, 116, 144, 0.42), rgba(13, 22, 34, 0.92) 65%);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.32);
+  }
+  .brand { display: flex; align-items: center; gap: 13px; }
+  .crest {
+    width: 40px; height: 40px; border-radius: 9px;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(14, 116, 144, 0.45));
+    border: 1px solid rgba(103, 232, 249, 0.65);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; color: #67e8f9;
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.28);
+  }
+  .brand small { display: block; font-size: 10px; letter-spacing: 2px; color: #67e8f9; font-weight: 700; opacity: 0.9; }
+  .brand h1 { margin: 1px 0 0; font-size: 19px; color: #f8fafc; font-weight: 800; letter-spacing: 0.3px; }
+
+  .top-right { display: flex; align-items: center; gap: 10px; }
+  .qty-pill {
+    display: flex; align-items: center; gap: 5px;
+    background: rgba(7, 13, 22, 0.85);
+    border: 1px solid rgba(56, 189, 248, 0.38);
+    padding: 5px 10px; border-radius: 9px; font-size: 12px; color: #cbd5e1;
+  }
+  .qty-pill input {
+    width: 48px; background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 6px;
+    color: #facc15; font-weight: 800; font-size: 13px; text-align: center;
+    padding: 3px 4px; outline: none;
+  }
+  .qbtn {
+    background: rgba(56, 189, 248, 0.14); color: #7dd3fc;
+    border: 1px solid rgba(56, 189, 248, 0.32); border-radius: 6px;
+    padding: 4px 9px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.12s;
+  }
+  .qbtn:hover, .qbtn.active {
+    background: linear-gradient(135deg, #06b6d4, #0284c7);
+    color: #fff; border-color: #67e8f9; box-shadow: 0 0 10px rgba(34, 211, 238, 0.35);
+  }
+  .close-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: rgba(239, 68, 68, 0.16); color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.45);
+    font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.12s;
+  }
+  .close-btn:hover { background: rgba(239, 68, 68, 0.45); color: #fff; }
+
+  .workspace {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1fr 68px 1fr; gap: 10px;
+    padding: 16px 20px; flex: 1; overflow: hidden; align-items: stretch;
+  }
+  .pane {
+    display: flex; flex-direction: column;
+    background: rgba(9, 16, 26, 0.86);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 12px; overflow: hidden; min-height: 380px; max-height: 58vh;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    position: relative;
+  }
+  .pane.drop-active {
+    border-color: #22c55e;
+    box-shadow: 0 0 24px rgba(34, 197, 94, 0.28), inset 0 0 24px rgba(34, 197, 94, 0.14);
+  }
+  .pane-head {
+    padding: 11px 14px;
+    background: linear-gradient(180deg, rgba(22, 36, 54, 0.95), rgba(14, 23, 36, 0.95));
+    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  }
+  .pane-row { display: flex; justify-content: space-between; align-items: center; }
+  .pane-title { font-size: 13px; font-weight: 800; color: #e2e8f0; letter-spacing: 0.3px; }
+  .pane-badge {
+    font-size: 11px; font-weight: 700; color: #67e8f9;
+    background: rgba(6, 182, 212, 0.16); border: 1px solid rgba(34, 211, 238, 0.35);
+    padding: 2px 10px; border-radius: 999px;
+  }
+  .cap-track {
+    margin-top: 8px; height: 6px; border-radius: 999px;
+    background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(56, 189, 248, 0.18);
+    overflow: hidden;
+  }
+  .cap-fill {
+    height: 100%; border-radius: 999px;
+    background: linear-gradient(90deg, #06b6d4, #38bdf8, #818cf8);
+    transition: width 0.22s ease;
+  }
+
+  .grid {
+    padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 9px; overflow-y: auto; align-content: start; flex: 1;
+  }
+  .grid::-webkit-scrollbar { width: 6px; }
+  .grid::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.35); border-radius: 999px; }
+
+  .tile {
+    touch-action: none;
+    background: linear-gradient(180deg, rgba(24, 38, 56, 0.92), rgba(12, 20, 32, 0.96));
+    border: 1px solid rgba(100, 116, 139, 0.35);
+    border-radius: 10px; padding: 8px 6px 7px; min-height: 98px;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+    cursor: grab; position: relative; text-align: center;
+    transition: transform 0.12s, border-color 0.12s, box-shadow 0.12s;
+  }
+  .tile:hover {
+    border-color: #38bdf8; transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(14, 165, 233, 0.22);
+  }
+  .tile.selected {
+    border-color: #facc15;
+    background: linear-gradient(180deg, rgba(42, 56, 72, 0.96), rgba(16, 26, 38, 0.98));
+    box-shadow: 0 0 16px rgba(250, 204, 21, 0.32), inset 0 0 10px rgba(250, 204, 21, 0.12);
+  }
+  .tile.empty {
+    cursor: default; opacity: 0.48; border-style: dashed;
+    background: rgba(10, 17, 28, 0.55);
+  }
+  .tile.empty:hover { transform: none; box-shadow: none; border-color: rgba(56, 189, 248, 0.55); }
+  .tile.drag-over-slot {
+    opacity: 1 !important; border-color: #22c55e !important; border-style: solid !important;
+    background: rgba(22, 163, 74, 0.24) !important;
+    box-shadow: 0 0 18px rgba(34, 197, 94, 0.38);
+  }
+  .tile .idx {
+    position: absolute; top: 4px; left: 6px; font-size: 9px;
+    color: #64748b; font-weight: 800;
+  }
+  .tile .ico {
+    width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
+    margin-top: 2px; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.65));
+  }
+  .tile .ico img { max-width: 44px; max-height: 44px; object-fit: contain; pointer-events: none; }
+  .tile .nm {
+    font-size: 11px; color: #f1f5f9; font-weight: 600; line-height: 1.18;
+    max-height: 26px; overflow: hidden; word-break: break-word;
+  }
+  .tile .qty {
+    font-size: 11px; font-weight: 800; color: #facc15;
+    background: rgba(6, 12, 22, 0.92); border: 1px solid rgba(250, 204, 21, 0.28);
+    padding: 1px 7px; border-radius: 6px;
+  }
+
+  .mid-col {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  }
+  .move-btn {
+    width: 58px; height: 52px; border-radius: 12px;
+    background: linear-gradient(180deg, rgba(22, 38, 56, 0.95), rgba(12, 22, 36, 0.98));
+    border: 1px solid rgba(56, 189, 248, 0.5); color: #67e8f9;
+    font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.14s;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  }
+  .move-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #06b6d4, #2563eb); color: #fff;
+    border-color: #a5f3fc; box-shadow: 0 0 18px rgba(34, 211, 238, 0.42);
+    transform: scale(1.04);
+  }
+  .move-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .hazard-strip {
+    height: 7px; width: 100%;
+    background: repeating-linear-gradient(-45deg, #facc15 0 10px, #111827 10px 20px);
+    opacity: 0.72;
+  }
+  .footer {
+    position: relative; z-index: 2;
+    padding: 10px 20px; background: rgba(7, 12, 20, 0.98);
+    border-top: 1px solid rgba(56, 189, 248, 0.22);
+    display: flex; justify-content: space-between; align-items: center; font-size: 12px;
+  }
+  .notice { color: #67e8f9; font-weight: 700; }
+  .notice.ok { color: #4ade80; }
+  .notice.err { color: #f87171; }
+
+  #dragGhost {
+    position: fixed; pointer-events: none; z-index: 9999; display: none;
+    width: 98px; padding: 8px; border-radius: 11px;
+    background: rgba(14, 116, 144, 0.94); border: 1px solid #67e8f9;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.75), 0 0 18px rgba(34, 211, 238, 0.45);
+    text-align: center; transform: translate(-50%, -50%) scale(1.08);
+  }
+  #dragGhost .ico { height: 42px; display: flex; align-items: center; justify-content: center; }
+  #dragGhost .ico img { max-width: 40px; max-height: 40px; }
+  #dragGhost .nm { font-size: 11px; font-weight: 700; color: #fff; margin-top: 4px; }
+</style>
+</head>
+<body>
+  <div class="trunk-shell">
+    <i class="rivet tl"></i><i class="rivet tr"></i><i class="rivet bl"></i><i class="rivet br"></i>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="crest">◇</div>
+        <div>
+          <small>ROT CITY // VEHICLE STORAGE</small>
+          <h1 id="trunkTitle">ท้ายรถเก็บเสบียง</h1>
+        </div>
+      </div>
+      <div class="top-right">
+        <div class="qty-pill">
+          <span>จำนวนย้าย:</span>
+          <input type="number" id="moveQty" value="1" min="1" max="999">
+          <button class="qbtn active" data-q="1">1</button>
+          <button class="qbtn" data-q="5">5</button>
+          <button class="qbtn" data-q="10">10</button>
+          <button class="qbtn" data-q="all">ทั้งหมด</button>
+        </div>
+        <button class="close-btn" id="closeBtn">✕</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <section class="pane" id="bagPane">
+        <div class="pane-head">
+          <div class="pane-row">
+            <span class="pane-title">กระเป๋าผู้รอดชีวิต</span>
+            <span class="pane-badge" id="bagStat">0 ชิ้น</span>
+          </div>
+          <div class="cap-track"><div class="cap-fill" id="bagBar" style="width:0%"></div></div>
+        </div>
+        <div class="grid" id="bagGrid"></div>
+      </section>
+
+      <div class="mid-col">
+        <button class="move-btn" id="btnDep" disabled><span>ฝาก</span><span>&gt;&gt;</span></button>
+        <button class="move-btn" id="btnWdr" disabled><span>หยิบ</span><span>&lt;&lt;</span></button>
+      </div>
+
+      <section class="pane" id="trunkPane">
+        <div class="pane-head">
+          <div class="pane-row">
+            <span class="pane-title">ท้ายรถ (10 ช่อง)</span>
+            <span class="pane-badge" id="trunkStat">0/10 ช่อง</span>
+          </div>
+          <div class="cap-track"><div class="cap-fill" id="trunkBar" style="width:0%"></div></div>
+        </div>
+        <div class="grid" id="trunkGrid"></div>
+      </section>
+    </div>
+
+    <div class="hazard-strip"></div>
+    <footer class="footer">
+      <span class="notice" id="noticeText">ลากไอเทมข้ามฝั่ง • ดับเบิลคลิก • หรือกดปุ่ม ฝาก / หยิบ ตรงกลาง</span>
+      <span style="color:#64748b;font-weight:700">ROT CITY • TRUNK v3.0</span>
+    </footer>
+  </div>
+
+  <div id="dragGhost"><div class="ico" id="ghostIco"></div><div class="nm" id="ghostNm"></div></div>
+
+<script src="../rotcity-shared/item-icons.js"></script>
+<script>
+(() => {
+  const thaiNames = ['น้ำดื่ม','อาหารกระป๋อง','ผ้าพันแผล','ยาต้านเชื้อ','เศษเหล็ก','กระสุน','น้ำมัน','น้ำดื่มขวดใหญ่','น้ำอัดลม','เครื่องดื่มชูกำลัง','ถั่วกระป๋อง','ปลาทูน่า','ขนมปังกรอบ','ช็อกโกแลต','อาหารทหาร','แอปเปิล','เนื้อดิบ','เนื้อปรุงสุก','ยาแก้ปวด','ชุดปฐมพยาบาล','น้ำยาฆ่าเชื้อ','วิตามิน','เศษผ้า','ไม้','ตะปู','เทปกาว','เชือก','แบตเตอรี่','ไฟฉาย','กล่องเครื่องมือ','เครื่องกรองน้ำ','หน้ากาก','สมุนไพร','ไม้ขีดไฟ','พลาสติก','ลวด'];
+  const weaponNames = ["ไม่มีอาวุธ","สนับมือ","ไม้กอล์ฟ","กระบอง","มีด","ไม้เบสบอล","พลั่ว","ไม้พูล","ดาบคาตานะ","เลื่อยยนต์","ดิลโด้สีม่วง","ดิลโด้","ไวเบรเตอร์","ไวเบรเตอร์เงิน","ดอกไม้","ไม้เท้า","ระเบิดมือ","แก๊สน้ำตา","โมโลตอฟ","อาวุธ 19","อาวุธ 20","อาวุธ 21","ปืนพก 9mm","ปืนเก็บเสียง","Desert Eagle","ลูกซอง","ลูกซองสั้น","ลูกซองรัว","Micro Uzi","MP5","AK-47","M4","Tec-9","ไรเฟิล","สไนเปอร์","RPG","จรวดล็อกเป้า","เครื่องพ่นไฟ","มินิกัน","ระเบิด C4","ตัวจุดระเบิด","สเปรย์","ถังดับเพลิง","กล้อง","NVG","Thermal","ร่มชูชีพ"];
+  const ammoNames = ['กระสุน 9mm','กระสุนเก็บเสียง','กระสุน .50 AE','กระสุนลูกซอง','กระสุน SMG','กระสุนไรเฟิล','กระสุนสไนเปอร์','จรวด RPG','จรวดติดตาม','เชื้อเพลิงพ่นไฟ','กระสุนมินิกัน','สีสเปรย์','น้ำยาดับเพลิง','ฟิล์มกล้อง'];
+  const extraNames = {
+    100:'แผ่นเหล็ก',101:'อิฐ',102:'ปูนซีเมนต์',103:'บานพับ',104:'ยางรถ',
+    105:'เครื่องยนต์',106:'แบตเตอรี่รถ',107:'กุญแจรถ',108:'ชุดซ่อมรถ',
+    109:'แผ่นกระจก',110:'พลุแอร์ดรอป',111:'ลำกล้องเสริม',
+    112:'ชุดเก็บเสียง',113:'สปริง/ลั่นไก',114:'เกราะ/สายสะพาย',115:'ชะแลง'
+  };
+
+  function getName(id) {
+    if (extraNames[id]) return extraNames[id];
+    if (id >= 97 && id <= 99) return 'หน้ากากพิษ LV.' + (id - 96);
+    if (id >= 83 && id <= 96) return ammoNames[id - 83] || ('กระสุน #' + id);
+    if (id >= 36 && id <= 82) return weaponNames[id - 36] || ('อาวุธ #' + id);
+    return thaiNames[id] || ('ITEM #' + id);
+  }
+
+  function fillIcon(el, id, size = 42) {
+    if (id >= 0 && window.RotItems && typeof RotItems.iconHTML === 'function') {
+      const html = RotItems.iconHTML(id, size);
+      if (html) {
+        el.innerHTML = html;
+        const img = el.querySelector('img');
+        if (img) {
+          img.addEventListener('error', () => { el.textContent = '📦'; }, { once: true });
+        }
+        return;
+      }
+    }
+    el.textContent = id < 0 ? '·' : '📦';
+  }
+
+  let bagItems = [];
+  let trunkSlots = Array.from({length: 10}, (_, i) => ({slot: i, id: -1, qty: 0}));
+  let isOwner = true;
+  let qtyMode = 'num';
+  let selBag = null;
+  let selTrunk = null;
+  let drag = null;
+
+  const ghost = document.getElementById('dragGhost');
+  const ghostIco = document.getElementById('ghostIco');
+  const ghostNm = document.getElementById('ghostNm');
+  const bagGrid = document.getElementById('bagGrid');
+  const trunkGrid = document.getElementById('trunkGrid');
+  const bagPane = document.getElementById('bagPane');
+  const trunkPane = document.getElementById('trunkPane');
+  const qtyInput = document.getElementById('moveQty');
+  const noticeEl = document.getElementById('noticeText');
+  const btnDep = document.getElementById('btnDep');
+  const btnWdr = document.getElementById('btnWdr');
+
+  function setNotice(txt, cls = '') {
+    noticeEl.className = 'notice' + (cls ? ' ' + cls : '');
+    noticeEl.textContent = txt;
+  }
+
+  function getMoveQty(maxHave) {
+    if (qtyMode === 'all') return maxHave;
+    return Math.max(1, Math.min(maxHave, parseInt(qtyInput.value, 10) || 1));
+  }
+
+  function emitMove(cmd) {
+    if (typeof cef !== 'undefined' && cef && typeof cef.emit === 'function') {
+      cef.emit('rottrunk.move', cmd);
+    }
+  }
+
+  function updateMidButtons() {
+    btnDep.disabled = !(isOwner && selBag && selBag.qty > 0);
+    btnWdr.disabled = !(selTrunk && selTrunk.id >= 0 && selTrunk.qty > 0);
+  }
+
+  function render() {
+    bagGrid.replaceChildren();
+    let totalBag = 0;
+    for (const it of bagItems) {
+      totalBag += it.qty;
+      const el = document.createElement('div');
+      el.className = 'tile' + (selBag && selBag.id === it.id ? ' selected' : '');
+      const ico = document.createElement('div'); ico.className = 'ico'; fillIcon(ico, it.id, 42);
+      const nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = getName(it.id);
+      const q = document.createElement('div'); q.className = 'qty'; q.textContent = 'x' + it.qty;
+      el.append(ico, nm, q);
+
+      el.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0 && e.pointerType === 'mouse') return;
+        selBag = {id: it.id, qty: it.qty};
+        selTrunk = null;
+        if (isOwner) drag = {from: 'bag', id: it.id, qty: it.qty, slot: -1, startX: e.clientX, startY: e.clientY, active: false};
+        renderSelections();
+      });
+      el.addEventListener('dblclick', () => {
+        if (isOwner) emitMove(`dep|${it.id}|-1|${getMoveQty(it.qty)}`);
+      });
+      bagGrid.appendChild(el);
+    }
+    document.getElementById('bagStat').textContent = totalBag + ' ชิ้น';
+    document.getElementById('bagBar').style.width = Math.min(100, (totalBag / 150) * 100) + '%';
+
+    trunkGrid.replaceChildren();
+    let usedSlots = 0;
+    for (let s = 0; s < 10; s++) {
+      const sl = trunkSlots[s] || {slot: s, id: -1, qty: 0};
+      const empty = sl.id < 0 || sl.qty <= 0;
+      if (!empty) usedSlots++;
+      const el = document.createElement('div');
+      el.className = 'tile' + (empty ? ' empty' : '') + (selTrunk && selTrunk.slot === s ? ' selected' : '');
+      el.dataset.trunkSlot = String(s);
+
+      const idxEl = document.createElement('span'); idxEl.className = 'idx'; idxEl.textContent = '#' + (s + 1);
+      const ico = document.createElement('div'); ico.className = 'ico'; fillIcon(ico, empty ? -1 : sl.id, 42);
+      const nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = empty ? 'ว่าง' : getName(sl.id);
+      const q = document.createElement('div'); q.className = 'qty'; q.textContent = empty ? '-' : ('x' + sl.qty);
+      el.append(idxEl, ico, nm, q);
+
+      if (!empty) {
+        el.addEventListener('pointerdown', (e) => {
+          if (e.button !== 0 && e.pointerType === 'mouse') return;
+          selTrunk = {slot: s, id: sl.id, qty: sl.qty};
+          selBag = null;
+          drag = {from: 'trunk', id: sl.id, qty: sl.qty, slot: s, startX: e.clientX, startY: e.clientY, active: false};
+          renderSelections();
+        });
+        el.addEventListener('dblclick', () => {
+          emitMove(`wdr|${s}|${getMoveQty(sl.qty)}`);
+        });
+      }
+      trunkGrid.appendChild(el);
+    }
+    document.getElementById('trunkStat').textContent = usedSlots + '/10 ช่อง';
+    document.getElementById('trunkBar').style.width = (usedSlots * 10) + '%';
+    updateMidButtons();
+  }
+
+  function renderSelections() {
+    const bagEls = bagGrid.children;
+    for (let i = 0; i < bagItems.length; i++) {
+      if (bagEls[i]) bagEls[i].classList.toggle('selected', Boolean(selBag && selBag.id === bagItems[i].id));
+    }
+    const trEls = trunkGrid.children;
+    for (let s = 0; s < 10; s++) {
+      if (trEls[s]) trEls[s].classList.toggle('selected', Boolean(selTrunk && selTrunk.slot === s));
+    }
+    updateMidButtons();
+  }
+
+  function clearDropHighlights() {
+    bagPane.classList.remove('drop-active');
+    trunkPane.classList.remove('drop-active');
+    document.querySelectorAll('.drag-over-slot').forEach(el => el.classList.remove('drag-over-slot'));
+  }
+
+  window.addEventListener('pointermove', (e) => {
+    if (!drag) return;
+    if (!drag.active) {
+      if (Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY) < 6) return;
+      drag.active = true;
+      fillIcon(ghostIco, drag.id, 38);
+      ghostNm.textContent = getName(drag.id) + ' x' + getMoveQty(drag.qty);
+      ghost.style.display = 'block';
+    }
+    ghost.style.left = e.clientX + 'px';
+    ghost.style.top = e.clientY + 'px';
+
+    clearDropHighlights();
+    const elem = document.elementFromPoint(e.clientX, e.clientY);
+    if (!elem) return;
+    if (drag.from === 'bag' && isOwner) {
+      const tSlot = elem.closest('[data-trunk-slot]');
+      if (tSlot) tSlot.classList.add('drag-over-slot');
+      else if (elem.closest('#trunkPane')) trunkPane.classList.add('drop-active');
+    } else if (drag.from === 'trunk') {
+      if (elem.closest('#bagPane')) bagPane.classList.add('drop-active');
+    }
+  });
+
+  window.addEventListener('pointerup', (e) => {
+    if (!drag) return;
+    const wasActive = drag.active;
+    const d = drag;
+    drag = null;
+    ghost.style.display = 'none';
+    clearDropHighlights();
+    if (!wasActive) return;
+
+    const elem = document.elementFromPoint(e.clientX, e.clientY);
+    if (!elem) return;
+    if (d.from === 'bag' && isOwner) {
+      const tSlot = elem.closest('[data-trunk-slot]');
+      if (tSlot) {
+        const sIdx = parseInt(tSlot.dataset.trunkSlot, 10);
+        emitMove(`dep|${d.id}|${sIdx}|${getMoveQty(d.qty)}`);
+      } else if (elem.closest('#trunkPane')) {
+        emitMove(`dep|${d.id}|-1|${getMoveQty(d.qty)}`);
+      }
+    } else if (d.from === 'trunk') {
+      if (elem.closest('#bagPane')) {
+        emitMove(`wdr|${d.slot}|${getMoveQty(d.qty)}`);
+      }
+    }
+  });
+
+  btnDep.addEventListener('click', () => {
+    if (isOwner && selBag) emitMove(`dep|${selBag.id}|-1|${getMoveQty(selBag.qty)}`);
+  });
+  btnWdr.addEventListener('click', () => {
+    if (selTrunk) emitMove(`wdr|${selTrunk.slot}|${getMoveQty(selTrunk.qty)}`);
+  });
+
+  document.querySelectorAll('.qbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const q = btn.dataset.q;
+      if (q === 'all') { qtyMode = 'all'; qtyInput.value = '999'; }
+      else { qtyMode = 'num'; qtyInput.value = q; }
+    });
+  });
+  qtyInput.addEventListener('input', () => {
+    qtyMode = 'num';
+    document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('active'));
+  });
+
+  function closeUi() {
+    if (typeof cef !== 'undefined' && cef && typeof cef.emit === 'function') {
+      cef.emit('rottrunk.close', '1');
+    }
+  }
+  document.getElementById('closeBtn').addEventListener('click', closeUi);
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeUi(); });
+
+  if (typeof cef !== 'undefined' && cef && typeof cef.on === 'function') {
+    cef.on('rottrunk.begin', (ownerFlag, ownerName) => {
+      isOwner = Number(ownerFlag) === 1;
+      bagItems = [];
+      selBag = null;
+      selTrunk = null;
+      trunkSlots = Array.from({length: 10}, (_, i) => ({slot: i, id: -1, qty: 0}));
+      document.getElementById('trunkTitle').textContent = isOwner
+        ? `ท้ายรถของคุณ (${ownerName || '-'})`
+        : `ขโมยของท้ายรถ (${ownerName || '-'})`;
+    });
+    cef.on('rottrunk.bag', (id, qty) => {
+      const i = Number(id), q = Number(qty);
+      if (i >= 0 && q > 0) bagItems.push({id: i, qty: q});
+    });
+    cef.on('rottrunk.slot', (s, id, qty) => {
+      const idx = Number(s), i = Number(id), q = Number(qty);
+      if (idx >= 0 && idx < 10) trunkSlots[idx] = {slot: idx, id: i, qty: q};
+    });
+    cef.on('rottrunk.end', () => render());
+    cef.on('rottrunk.noticev2', (code, itemId, qty, slotNo) => {
+      const c = Number(code), id = Number(itemId), q = Number(qty), sl = Number(slotNo);
+      if (c === 1) setNotice('เฉพาะเจ้าของรถเท่านั้นที่ฝากของได้', 'err');
+      else if (c === 2) setNotice('ท้ายรถเต็มแล้ว (สูงสุด 10 ช่อง)', 'err');
+      else if (c === 3) setNotice(`ฝาก ${getName(id)} x${q} ลงช่อง #${sl} เรียบร้อย`, 'ok');
+      else if (c === 4) setNotice('กระเป๋าเต็มหรือน้ำหนักเกิน!', 'err');
+      else if (c === 5) setNotice(`หยิบ ${getName(id)} x${q} เข้ากระเป๋าแล้ว`, 'ok');
+    });
+    cef.emit('rottrunk.ready', '1');
+  } else {
+    render();
+  }
+})();
+</script>
+</body>
+</html>

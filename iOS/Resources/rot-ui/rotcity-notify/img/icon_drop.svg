@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="dropGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff7675"/>
+      <stop offset="100%" stop-color="#d63031"/>
+    </linearGradient>
+  </defs>
+  <!-- Trash Bin -->
+  <path d="M 14 16 L 16 42 L 32 42 L 34 16" fill="none" stroke="url(#dropGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="20" y1="22" x2="21" y2="36" stroke="url(#dropGrad)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="28" y1="22" x2="27" y2="36" stroke="url(#dropGrad)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="10" y1="14" x2="38" y2="14" stroke="#ff7675" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 19 14 L 21 8 L 27 8 L 29 14" fill="none" stroke="#ff7675" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

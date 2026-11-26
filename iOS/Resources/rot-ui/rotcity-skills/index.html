@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ROT CITY — ผังทักษะผู้รอดชีวิต &amp; บอสกลายพันธุ์</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="skills-overlay" class="skills-overlay hidden">
+    <div class="skills-window">
+      <!-- Header -->
+      <header class="skills-header">
+        <div class="brand-wrap">
+          <div class="brand-icon">🧬</div>
+          <div>
+            <span class="kicker">ROT CITY BIO-EVOLUTION // SURVIVOR PERK MATRIX</span>
+            <h1 class="title">ผังทักษะผู้รอดชีวิต &amp; เรดาร์บอสโลก</h1>
+          </div>
+        </div>
+
+        <div class="header-stats">
+          <div class="stat-pill">
+            <span class="s-label">เลเวลผู้รอดชีวิต</span>
+            <strong id="val-level" class="s-val cyan">Lv.1</strong>
+          </div>
+          <div class="stat-pill">
+            <span class="s-label">แต้มทักษะคงเหลือ</span>
+            <strong id="val-sp" class="s-val glow">1 SP</strong>
+          </div>
+          <div class="stat-pill">
+            <span class="s-label">แต้มผลงาน</span>
+            <strong id="val-mp" class="s-val">0</strong>
+          </div>
+          <button id="btn-refresh" class="icon-btn" title="รีเฟรช">↻</button>
+          <button id="btn-close" class="close-btn" title="ปิด (ESC)">✕</button>
+        </div>
+      </header>
+
+      <!-- Toast -->
+      <div id="skills-toast" class="skills-toast hidden"></div>
+
+      <!-- Content Grid -->
+      <main class="skills-body">
+        <!-- Left: Professions + 5 Upgradeable Survivor Perks -->
+        <section class="perks-panel">
+          <div class="section-head" style="margin-bottom:8px">
+            <div>
+              <span class="sec-tag">SURVIVOR PROFESSION</span>
+              <h2>สายอาชีพผู้รอดชีวิต (เลือกครั้งแรกฟรี · เปลี่ยนสาย 2,500 แต้ม)</h2>
+            </div>
+            <span id="val-prof-badge" class="perk-lv">ยังไม่เลือกสายอาชีพ</span>
+          </div>
+          <div id="prof-list" class="prof-grid"></div>
+
+          <div class="section-head" style="margin-top:14px">
+            <div>
+              <span class="sec-tag">SURVIVOR PERK TREE</span>
+              <h2>อัปเกรดสายทักษะเอาชีวิตรอด (สูงสุด Lv.5 ต่อสาย)</h2>
+            </div>
+            <button id="btn-reset-skills" class="cyber-btn danger-outline">🔄 รีเซ็ตแต้มทักษะ (2,000 แต้ม)</button>
+          </div>
+
+          <div id="perks-list" class="perks-list"></div>
+        </section>
+
+        <!-- Right: World Boss Radar & Player Bio Profile -->
+        <aside class="boss-panel">
+          <div class="boss-card">
+            <div class="boss-header">
+              <span class="sec-tag">WORLD BOSS RAID RADAR</span>
+              <h2>☣️ บอสกลายพันธุ์ระดับภัยพิบัติ</h2>
+            </div>
+
+            <div id="boss-status-badge" class="boss-badge inactive">กำลังตรวจจับสัญญาณชีพ...</div>
+
+            <div class="boss-hp-box">
+              <div class="boss-hp-top">
+                <span>พลังชีวิตบอส (Mutant Bio-Core HP)</span>
+                <strong id="boss-hp-text">0 / 2,500 HP</strong>
+              </div>
+              <div class="boss-hp-track">
+                <div id="boss-hp-fill" class="boss-hp-fill" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="boss-loc-box">
+              <span>📍 พิกัดเป้าหมายล่าสุด:</span>
+              <strong id="boss-loc-text">รอการปรากฏตัวในแผนที่</strong>
+            </div>
+
+            <div class="boss-rewards-box">
+              <h3>🎁 รางวัลผู้ร่วมโค่นล้ม World Boss</h3>
+              <ul>
+                <li>⚡ <strong>+300 EXP</strong> เลเวลผู้รอดชีวิต</li>
+                <li>🪙 <strong>+3,500 แต้มผลงาน</strong> (Merit Points)</li>
+                <li>💠 <strong>+10 ไบโอคอร์ (CP)</strong> + ชุดปฐมพยาบาล x2</li>
+                <li>🛡️ <strong>+120 Guild EXP</strong> สำหรับผู้ที่มีสังกัดกิลด์</li>
+              </ul>
+            </div>
+
+            <button id="btn-track-boss" class="cyber-btn primary full">📡 ปักหมุดพิกัด World Boss บนเรดาร์</button>
+          </div>
+
+          <div class="bio-summary-card">
+            <div class="bio-row">
+              <span>ค่าประสบการณ์สะสม (Total EXP)</span>
+              <strong id="val-xp">0 EXP</strong>
+            </div>
+            <div class="bio-row">
+              <span>สถิติสังหาร World Boss</span>
+              <strong id="val-boss-kills">0 ครั้ง</strong>
+            </div>
+            <p class="bio-hint">💡 สังหารซอมบี้, ทำภารกิจรายวัน หรือปราบบอสโลกเพื่อสะสม EXP และรับแต้มทักษะ (1 เลเวล = 1 SP)</p>
+          </div>
+        </aside>
+      </main>
+    </div>
+  </div>
+
+  <script src="../rotcity-shared/cef-thai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

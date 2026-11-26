@@ -1,0 +1,315 @@
+/* ROT CITY | Worn Metal Inventory 2.1 — UI-only visual upgrade.
+   Existing Pawn/CEF events and all original element IDs are preserved. */
+:root {
+  --cyan: #18c4e8;
+  --cyan-light: #8ff0ff;
+  --steel: #14313c;
+  --rust: #955026;
+  --plate: #08151e;
+  --line: #5a7882;
+  --dark: #020e14;
+}
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: transparent; color: #deedf3; font-family: Tahoma, "Noto Sans Thai", Arial, sans-serif; user-select: none; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--cyan-light); outline-offset: 2px; }
+body { pointer-events: none; }
+.inv-shell {
+  display: none;
+  position: fixed; z-index: 200;
+  left: 50%; top: 48.5%; transform: translate(-50%, -50%);
+  width: min(1210px, calc(100vw - 86px));
+  height: min(744px, calc(100vh - 126px));
+  flex-direction: column; overflow: visible;
+  border: 5px solid #293a41;
+  border-top-color: #78878a; border-left-color: #738186;
+  border-right-color: #4e575a; border-bottom-color: #754531;
+  border-radius: 13px 16px 14px 12px;
+  box-shadow: 0 0 0 3px #071116, 0 0 0 6px #22272a, 0 0 0 8px #49352d,
+    0 22px 47px rgba(0, 0, 0, .64), inset 0 0 0 2px #132a33, inset 0 0 33px rgba(0, 0, 0, .58);
+  background: linear-gradient(125deg, rgba(20,42,49,.90), rgba(2,13,20,.96) 42%,rgba(12,32,41,.96)), url("textures/steel-grit.webp") center/cover;
+  pointer-events: auto;
+}
+.inv-shell.is-open { display: flex; }
+.inv-shell::before {
+  content: ""; position: absolute; pointer-events: none; z-index: 9; inset: -5px;
+  border: 1px solid rgba(194, 217, 213, .49); border-radius: 13px;
+  background: radial-gradient(circle at 8px 8px, #111b1e 0 3px, #8d9994 4px 6px, #1c2021 7px, transparent 8px) top left/22px 22px no-repeat,
+    radial-gradient(circle at 8px 8px, #111b1e 0 3px, #8d9994 4px 6px, #1c2021 7px, transparent 8px) top right/22px 22px no-repeat,
+    linear-gradient(100deg, transparent 0 63%, rgba(137, 74, 44, .22) 82%, transparent 100%);
+}
+.frame-rivets { position: absolute; z-index: 11; inset: -17px; pointer-events: none; }
+.frame-rivets i { position: absolute; width: 26px; height: 26px; border: 3px solid #4e5f60; border-radius: 50%; box-shadow: 0 1px 2px #a5b7b7 inset, 0 2px 7px #020708, 0 0 0 2px #0c1113; background: radial-gradient(circle at 40% 35%, #8e9b97, #26363c 45%, #0b1619 70%); }
+.frame-rivets i::after { content:""; position: absolute; left: 5px; top: 9px; width: 11px; height: 2px; background:#101b1d; transform: rotate(-26deg); }
+.frame-rivets i:nth-child(1) { top: 4px; left: 5px; }.frame-rivets i:nth-child(2) { top: 4px; right: 5px; }.frame-rivets i:nth-child(3) { bottom: 4px; left: 5px; }.frame-rivets i:nth-child(4) { bottom: 4px; right: 5px; }
+.canvas-strap { position: absolute; left: -23px; top: 23%; height: 220px; width: 22px; transform: rotate(3deg); pointer-events: none; z-index: -1; background: repeating-linear-gradient(90deg,#23302b 0 3px,#4f5a42 4px 6px,#293c32 7px 11px); border: 2px solid #202823; box-shadow: 2px 5px 6px #010708; }
+.canvas-strap::before,.canvas-strap::after { content:""; display:block; position: absolute; left: -5px; width: 30px; height: 26px; border: 5px solid #626a57; border-radius: 3px; box-shadow: 0 0 0 2px #192122; }
+.canvas-strap::before { top: 36px; }.canvas-strap::after { bottom: 36px; }
+.grunge-overlay { position:absolute; inset:0; pointer-events:none; z-index:1; border-radius:10px; opacity:.18; background: url("textures/grime.png") center/cover; mix-blend-mode: soft-light; }
+/* Title plate, moonlit ruined city, glass fractures */
+.topbar { position: relative; z-index: 1; flex: 0 0 100px; min-height: 0; display: flex; align-items: center; gap: 16px; padding: 16px 26px;
+  border-bottom: 5px ridge #3c5962;
+  background: linear-gradient(90deg, rgba(10,31,41,.96) 0%,rgba(8,24,32,.78) 33%,rgba(6,15,23,.63) 72%,rgba(4,16,20,.81) 100%), url("textures/cracked-glass.svg") right -25px top -45px / 430px auto no-repeat, url("textures/skyline.svg") center bottom/100% auto no-repeat;
+  box-shadow: inset 0 5px 16px rgba(115,164,179,.19),inset 0 -9px 9px rgba(0,0,0,.55);
+  overflow: hidden;
+}
+.topbar::after { content:""; position:absolute; left:0; right:0; bottom:0; height:3px; background: repeating-linear-gradient(99deg, #2b2522 0 14px,#805132 18px 23px,#0c1c23 27px 59px); opacity:.8; }
+.crest { position:relative; flex:0 0 69px; height:69px; display:grid; place-items:center; font: 62px Georgia,serif; line-height:1; color:#41e6ff; border: 2px solid #3d8a9c; border-radius: 5px; background:linear-gradient(140deg,#062737,#07151c); box-shadow: 0 0 0 3px rgba(10,14,17,.8), inset 0 0 22px rgba(23,170,221,.35), 0 0 18px rgba(0,153,203,.18); text-shadow:0 0 8px #17b6dc; }
+.crest::after { content:""; position:absolute; top:5px; left:5px; right:5px; bottom:5px; border:1px solid rgba(60,189,218,.30); pointer-events:none; }
+.headcopy { position:relative; z-index:2; display:flex; flex-direction:column; min-width:0; }
+.headcopy small { font:bold 11px Arial,sans-serif; letter-spacing:2.1px; color:#a2c0c7; text-shadow:0 1px 2px black; }
+.headcopy h1 { margin:4px 0 0; font-size:28px; line-height:1.28; color:#f1f3f2; letter-spacing:.3px; text-shadow:0 2px 3px #000; }
+.header-end { margin-left:auto; display:flex; align-items:center; gap:27px; z-index:2; align-self:flex-start; margin-top:5px; }
+.pulse { font: bold 10px Arial,sans-serif; letter-spacing:1.3px; color:#6ce5ec; white-space:nowrap; text-shadow:0 0 7px #03768b; }
+.pulse i { display:inline-block; height:8px;width:8px;border-radius:50%;background:#1ef3ff;box-shadow:0 0 8px #16d5e5;margin-right:5px; }
+.xbtn { background: linear-gradient(142deg,#425159,#111a20 60%); color:#e8fbff; border:2px outset #6e8890; box-shadow: inset 0 0 4px #050d12, 0 2px 6px #000; width:42px;height:41px;border-radius:4px;font-size:29px;line-height:27px; }
+.xbtn:hover { border-color:#28d4f1; color:white; }
+.status { flex:0 0 64px; display:flex; align-items:stretch; gap:10px; padding:9px 15px 10px; background:linear-gradient(180deg,rgba(9,22,26,.98),rgba(26,42,48,.95)); border-bottom:3px solid #31444b; }
+.stat { min-width:0; display:flex; gap:7px; align-items:center; padding:6px 11px; border:2px solid #435660; border-top-color:#70888c; border-bottom-color:#1c2529; border-radius:4px; background:linear-gradient(180deg,#1c2d34,#071820 58%); box-shadow:inset 0 0 0 1px #08151a,0 2px 3px #0006; }
+.stat-weight { flex:2.5; }.stat.short { flex:1; }.stat-icon { font-size:18px; color:#c4d4d8; text-shadow:0 1px 1px #000; }.stat-drop { color:#19dcf7; }
+.stat label { white-space:nowrap; font-size:12px; font-weight:bold; color:#c4d3d7; }.stat strong { margin-left:auto; white-space:nowrap; font-size:12px; color:#edf3f6; }
+.meter { flex:1; min-width:45px; height:10px; border:2px inset #536773; box-shadow: inset 0 1px 7px #000; background:#0d151b; overflow:hidden; border-radius:2px; }.fill { height:100%; width:0; background:linear-gradient(180deg,#b5effb,#00c5ee 38%,#07819c); box-shadow:0 0 8px #0dbeec; }
+/* Main plates */
+.layout { flex:1; min-height:0; display:grid; grid-template-columns:minmax(0,1fr) 32%; gap:10px; padding:10px 12px 8px; background:linear-gradient(110deg,rgba(9,25,34,.66),rgba(6,14,20,.68)); }
+.items-pane,.detail { min-height:0; position:relative; overflow:hidden; border:3px ridge #586d76; border-radius:6px; box-shadow:inset 0 0 0 2px #0b2029,0 1px 4px #000b; background:linear-gradient(90deg,rgba(4,17,25,.93),rgba(7,27,39,.91)),url("textures/steel-grit.webp") center/cover; }
+.items-pane { display:flex; flex-direction:column; padding:12px 15px 13px; }
+.items-pane::after { content:""; position:absolute; bottom:0; right:0; left:0; height:11px; z-index:4; pointer-events:none; background:repeating-linear-gradient(-45deg,rgba(237,183,44,.60) 0 13px,#162129 13px 26px); border-top:2px solid #4a4132; opacity:.7; }
+.section-title { flex:0 0 37px; display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:9px; }
+.section-title strong { padding:8px 15px; font-size:17px; white-space:nowrap; background:linear-gradient(125deg,#576064,#18252b 85%); color:#eff1ee; text-shadow:0 2px #000; border:2px outset #67787c; transform:skew(-6deg); box-shadow:2px 3px 4px #0009; }
+.section-title strong > * { transform:skew(6deg); }.bag-mark { color:#d5e4e9; margin-right:5px; }.section-title label { font-size:10px; color:#a8c2cc; text-align:right; }
+.tabs { display:flex; flex-wrap:wrap; gap:6px; min-height:35px; margin-bottom:10px; }
+.tab { min-width:67px; padding:7px 9px; color:#c9d4d6; font-size:11px; font-weight:bold; text-shadow:0 1px #000; border:2px outset #55656b; border-radius:5px; background:linear-gradient(160deg,#314147,#0b1922 70%); box-shadow:inset 0 0 0 1px #071218,0 2px 3px #0009; }
+.tab span { font-size:14px; margin-right:5px; color:#b3c9ce; }.tab:hover { border-color:#57bbcf; }
+.tab.active { color:white; background:linear-gradient(160deg,#087693,#062f43 65%,#101c26); border-color:#2ce5ff; box-shadow:inset 0 0 9px #158bad,0 0 11px rgba(23,200,255,.55); }
+.grid-deck { flex:1; min-height:0; position:relative; overflow:hidden; background:linear-gradient(180deg,rgba(6,18,26,.04),rgba(2,14,20,.76)),url("textures/hazard.svg") left 2% bottom 7% / 130px 130px no-repeat,url("textures/steel-grit.webp") center/cover; border:1px solid #2b4b54; }
+.grid-deck::before { content:""; position:absolute; z-index:1; inset:0; pointer-events:none; background:linear-gradient(90deg,rgba(168,182,179,.045) 1px, transparent 1px),linear-gradient(rgba(168,182,179,.04) 1px, transparent 1px); background-size:127px 132px; }
+.grid { position:relative; z-index:3; overflow-y:auto; height:100%; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); grid-auto-rows:106px; gap:9px; align-content:start; padding:8px 7px 18px; }
+.grid::-webkit-scrollbar,.detail::-webkit-scrollbar { width:6px; }.grid::-webkit-scrollbar-thumb,.detail::-webkit-scrollbar-thumb { background:linear-gradient(#437783,#123c4e);border:1px solid #152b34; }
+.tile { color:#e6ecec; position:relative; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:9px 4px 5px; overflow:hidden; background:linear-gradient(140deg,rgba(59,77,82,.60),rgba(11,27,34,.87) 60%),url("textures/steel-grit.webp") center/cover; border:2px outset #60727a; border-radius:6px; box-shadow:inset 0 0 0 1px #122631,0 2px 4px #000a; text-align:center; }
+.tile::after { content:""; pointer-events:none; position:absolute; inset:3px; border:1px solid rgba(169,204,208,.10); border-radius:3px; }
+.tile:hover { border-color:#62c5df; background:linear-gradient(140deg,#175266,#071c29); }
+.tile.selected { border:2px solid #54e3ff; box-shadow:0 0 8px rgba(4,198,255,.69),inset 0 0 13px rgba(4,198,255,.25),0 2px 6px #000; background:linear-gradient(160deg,rgba(4,112,143,.66),rgba(9,33,45,.95)); }
+.tile.empty { opacity:.40; }.tile .icon { font-size:31px; line-height:37px; filter:drop-shadow(0 2px 4px #000); position:relative; z-index:2; }
+.tile .title {
+  position:relative; z-index:3; max-width:100%;
+  font-size:12px; font-weight:800; letter-spacing:.2px;
+  color:#f4fcff !important;
+  text-shadow:0 1px 0 #000, 0 0 6px rgba(0,0,0,.95), 0 2px 4px #000;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.35));
+  padding:2px 5px; border-radius:3px; margin-top:2px;
+}
+.tile .qty {
+  position:relative; z-index:3;
+  color:#9ef0ff !important; font-size:12px; font-weight:700;
+  text-shadow:0 1px 2px #000, 0 0 4px #000;
+}
+.tile .tag {
+  position:absolute; right:6px; top:4px; z-index:3;
+  font:bold 10px Arial; color:#e8fbff !important;
+  text-shadow:0 1px 2px #000;
+  background:rgba(0,20,28,.65); padding:1px 4px; border-radius:3px;
+}
+.quarantine-stencil { position:absolute; left:17px; bottom:22px; z-index:1; opacity:.35; color:#afbdb9; display:flex; align-items:center; gap:6px; transform:rotate(-5deg); pointer-events:none; }.quarantine-stencil span{font-size:43px;}.quarantine-stencil small{font:bold 11px Arial;line-height:1.15;}.bloody-palm { position:absolute; bottom:32px; right:42px; z-index:1; font-size:66px; color:#7c1d18; opacity:.23;transform:rotate(-16deg);pointer-events:none; }
+/* Inspector panel */
+.detail { overflow-y:auto; display:flex; flex-direction:column; padding:0 16px 9px; }
+.inspector-head { height:33px; flex:0 0 33px; margin:0 -16px 7px; padding:7px 17px 6px; border-bottom:3px solid #1a343a; color:#142027; background:linear-gradient(105deg,#c0b9ae,#707c7d 70%,#202b30); font-weight:900; text-shadow:0 1px rgba(255,255,255,.36); }
+.detail-eyebrow { font:bold 13px Arial;letter-spacing:.5px; }
+.dogtag { position:absolute; right:7px; top:30px; width:49px; height:68px; transform:rotate(12deg);display:grid;place-items:center;color:#7f564b; font-size:31px; background:linear-gradient(135deg,#565e5f,#182832 70%);clip-path:polygon(15% 0,87% 0,100% 14%,100% 100%,0 100%,0 15%);border:1px solid #879492;opacity:.67;pointer-events:none; }
+.dogtag::before { content:""; height:8px;width:8px;border-radius:50%;background:#04151a;position:absolute;top:5px;left:50%;transform:translateX(-50%);border:1px solid #adbbb6; }
+.detail-icon { height:61px;flex:0 0 61px;display:grid;place-items:center; font-size:46px; background:radial-gradient(ellipse at center,rgba(8,178,226,.21),transparent 65%);filter:drop-shadow(0 4px 3px #000b); }
+.detail h2 { font-size:18px; margin:0 0 2px;line-height:1.2;color:#e7f2f1;text-shadow:0 1px 2px black; }
+.detail-key { margin:0 0 5px; font:10px Arial; letter-spacing:1px; color:#80aab4; }
+.detail-text { font-size:10px; color:#a7c3c9; margin:0 0 5px; line-height:1.3; }
+.detail-row { padding:5px 0; border-bottom:1px solid #3e5058; display:flex; justify-content:space-between; font-size:11px; gap:8px; }
+.detail-row span{color:#a1bbc1}.detail-row b{white-space:nowrap;color:#f0f5f6}
+.action { width:100%; flex-shrink:0; height:33px; border-radius:4px; margin-top:7px; font-size:12px; font-weight:bold; line-height:1; text-shadow:0 1px 1px #10202b; }
+.action:disabled{opacity:.42;cursor:not-allowed;filter:grayscale(.6);}
+.action.primary { color:#071b24; text-shadow:0 1px #84e1f4; border:2px outset #63dff5; background:linear-gradient(180deg,#0c93b4,#14cbee 42%,#08718e 100%); box-shadow:inset 0 0 8px rgba(200,248,255,.33),0 1px 5px #000d; }
+.action.secondary { color:#d5e2e3; border:2px outset #5f767b; background:linear-gradient(180deg,#384a51,#101e24); }
+.action.give-action { border:2px outset #4d93a3; color:#d6f8fd; background:linear-gradient(180deg,#176079,#0a2938); }
+.action:not(:disabled):hover { filter:brightness(1.20); }
+.quick-assign, .give-panel { margin-top:7px; padding-top:7px; border-top:1px solid #4f656c; }
+.quick-assign b,.give-panel b{display:block; font-size:11px; margin-bottom:6px; color:#dfebed;}
+.bind-slots { display:flex;gap:6px; }
+.bind-button { flex:1; height:28px; min-width:0; padding:0; color:#deedf1; font:bold 11px Arial; background:linear-gradient(180deg,#39494e,#0b1a21); border:2px outset #5f747b; border-radius:4px; }
+.bind-button.attached { background:linear-gradient(180deg,#13bce1,#08617c); border-color:#5bebff;box-shadow:0 0 6px #1dc7ea; }
+.bind-button:disabled{opacity:.48;cursor:default;}.quick-assign small{font-size:9px;color:#92abb1;line-height:1.25;display:block;margin-top:4px;}
+.give-controls { display:grid; grid-template-columns:1fr 90px; gap:9px; }.give-controls label{font-size:10px; color:#b2cad0;}.give-controls input{width:100%;height:28px;margin-top:3px;padding:3px 7px; border:1px solid #547988; border-radius:3px;background:rgba(1,13,19,.87); color:#f0fcff;outline:none;user-select:text;}
+.detail-note{font-size:9px; color:#829ca2;line-height:1.2; padding-top:6px; margin-top:auto; }
+footer { height:34px; flex:0 0 34px; padding:0 20px; display:flex; align-items:center; justify-content:space-between; font-size:11px; color:#a7c5cc; border-top:2px ridge #50666c; background:linear-gradient(180deg,#1b323c,#0b1b25); }
+footer span{font:10px Arial;letter-spacing:1px;color:#a6bec6;}
+/* Perma-hotbar, non-focus by default; click/touch via existing JS events. */
+.hotbar { position:fixed; z-index:150; bottom:10px;left:50%;transform:translateX(-50%);pointer-events:none; }
+.hotbar-slots { display:flex;justify-content:center;gap:7px;pointer-events:auto; }
+.quick-cell { position:relative;width:79px;height:73px; display:flex; flex-direction:column;align-items:center;justify-content:center; gap:0; padding:5px 3px 4px; touch-action:manipulation;pointer-events:auto; border:3px ridge #657980;border-bottom-color:#8d5130;border-radius:5px;color:#e9f3f4;background:linear-gradient(155deg,rgba(27,55,67,.92),rgba(6,21,31,.96)),url("textures/steel-grit.webp") center/cover; box-shadow:inset 0 0 0 1px #0b2b35,0 3px 7px #0009,0 0 0 1px #0c1417; }
+.quick-cell::after { content:"";pointer-events:none;position:absolute;inset:3px;border:1px solid rgba(175,208,211,.12); }
+.quick-cell:active {border-color:#18bfe5;transform:translateY(2px)}
+.quick-cell.unassigned {opacity:.69;}.quick-cell.depleted{opacity:.55;}
+.qnum { position:absolute;top:2px;left:5px;font:bold 11px Arial;color:#d4ebf2; }.qicon { font-size:27px;line-height:30px;filter:drop-shadow(0 2px 2px #000); }.qname { font-size:10px;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-shadow:0 1px 2px #000; }.qcount{position:absolute;right:4px;top:3px;font:bold 10px Arial;color:#eff9fb;}
+.hotbar-toast{ opacity:0;transition:opacity .16s;margin:6px auto 0;padding:5px 9px; width:max-content;max-width:95vw;text-align:center;font-size:11px;color:#e2f7f9;background:#102833;border:1px solid #4589a0;white-space:nowrap;}.hotbar-toast.show{opacity:1;}
+.inventory-open .hotbar { opacity:.94; }
+/* Game resolutions: proportional shrinking without distorting UI or obscuring actions. */
+@media(max-width:1260px) { .inv-shell { width:calc(100vw - 50px); height:min(680px,calc(100vh - 115px)); } .grid{grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-rows:95px;} .topbar{flex-basis:88px;} .status{flex-basis:58px;}.tab{padding:6px 7px;} }
+@media(max-width:940px), (max-height:740px) { .inv-shell{width:calc(100vw - 25px);height:calc(100vh - 93px);top:47.5%;}.topbar{flex-basis:70px;padding:8px 16px;gap:10px}.headcopy h1{font-size:21px}.crest{height:50px;flex-basis:50px;font-size:45px}.header-end{gap:10px}.pulse{font-size:8px}.status{flex-basis:53px;gap:5px;padding:6px}.stat{padding:5px;gap:4px}.stat-icon{font-size:14px}.stat label,.stat strong{font-size:10px}.items-pane{padding:8px}.layout{gap:5px;padding:6px;grid-template-columns:minmax(0,1fr) 34%}.section-title{margin-bottom:4px;flex-basis:31px}.section-title strong{font-size:13px;padding:5px}.section-title label{display:none}.tabs{gap:4px;margin-bottom:5px}.tab{font-size:10px;padding:5px}.grid{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:83px;gap:5px}.detail{padding:0 9px 5px}.inspector-head{margin:0 -9px 3px;height:25px;flex-basis:25px;padding:4px 10px}.detail-icon{height:39px;flex-basis:39px;font-size:32px}.dogtag{display:none}.detail h2{font-size:14px}.detail-text,.detail-key{font-size:9px;margin-bottom:2px}.detail-row{padding:3px 0}.action{height:25px;margin-top:4px;font-size:10px}.quick-assign,.give-panel{margin-top:4px;padding-top:4px}.quick-assign b,.give-panel b{font-size:10px;margin-bottom:3px}.quick-assign small{font-size:8px}.bind-button{height:23px}.give-controls input{height:24px}.detail-note{display:none}footer{height:28px;flex-basis:28px} }
+@media(max-width:640px) { .inv-shell{width:calc(100vw - 9px);height:calc(100vh - 87px);border-width:3px}.layout{grid-template-columns:minmax(0,1fr) 40%}.grid{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:70px}.tile{padding:5px 2px}.tile .icon{font-size:21px;line-height:22px}.tile .title,.tile .qty{font-size:9px}.tab span{display:none}.tab{font-size:9px;padding:4px}.stat-icon{display:none}.stat strong{font-size:9px}.headcopy small{font-size:7px;letter-spacing:.3px}.headcopy h1{font-size:17px}.pulse{display:none}footer span{display:none}.section-title label{display:none}.give-controls{grid-template-columns:1fr 56px}.quick-cell{width:min(17vw,65px);height:60px}.qicon{font-size:23px}.qname{font-size:8px}.hotbar-slots{gap:4px}.hotbar{bottom:8px} }
+
+/* ROT CITY v2.3: ช่องว่างไม่มีไอเทมปลอม, รองรับลากวางและแค็ตตาล็อก */
+.tile.empty { opacity:.22; border-style:dashed; }
+.tile.empty::after { content:""; }
+.tile.drop-target { border-color:#44e6ff; box-shadow:0 0 13px #0db9edaa, inset 0 0 13px #0db9ed55; }
+.tile[draggable="true"] { cursor:grab; }
+.tile[draggable="true"]:active { cursor:grabbing; }
+.tile.catalog-tile { opacity:1; }
+#catalogDetails { color:#9ad9ee; border-top:1px solid #36515a; padding-top:8px; }
+
+/* ซ่อนช่องลัดตั้งแต่เฟรมแรก รวมถึงก่อน JavaScript เริ่มต้น */
+#hotbar, #hotbar[hidden] { display: none !important; }
+body.hotbar-authorized #hotbar:not([hidden]) { display: block !important; }
+
+/* ซ่อนรูป ชื่อ จำนวน ของช่องที่ยังไม่มีไอเทม (กรอบยังอยู่) */
+.quick-cell.unassigned .qicon,.quick-cell.unassigned .qname,.quick-cell.unassigned .qcount{display:none!important}
+
+/* ROT CITY 2.11: ไฮไลต์ช่องลัดเมื่อกำลังลากไอเทม */
+.quick-cell.drop-target { outline:2px solid #35e7ff; box-shadow:0 0 14px #19a9d6; }
+
+/* ROT CITY 2.13: หมอกพิษ 2D บนจอ เกมยังมองเห็นผ่านเอฟเฟ็กต์ */
+.toxic-fog{display:none;position:fixed;inset:0;pointer-events:none;z-index:65;opacity:var(--fog-opacity,.22);overflow:hidden;background:radial-gradient(ellipse at 50% 80%,rgba(48,255,84,.70),transparent 68%),linear-gradient(0deg,rgba(30,112,20,.65),transparent 88%)}
+.toxic-fog.active{display:block}
+.toxic-fog i{position:absolute;inset:-50%;width:200%;height:200%;border-radius:50%;background:radial-gradient(ellipse,rgba(80,255,95,.72) 0%,rgba(24,111,29,.25) 32%,transparent 67%);filter:blur(46px);animation:rotToxicDrift 13s ease-in-out infinite alternate}
+.toxic-fog i:nth-child(2){animation-delay:-4s;animation-duration:19s;transform:translateX(20%)}
+.toxic-fog i:nth-child(3){animation-delay:-8s;animation-duration:23s;transform:translateY(15%)}
+@keyframes rotToxicDrift{from{translate:-15% -5%;scale:1}to{translate:12% 8%;scale:1.1}}
+.toxic-hud{display:none!important}
+.toxic-hud.active{display:none!important}
+
+/* 2.17 หมอกพิษชัดเจนโดยไม่บังปุ่มเกม */
+.toxic-fog{z-index:90!important;mix-blend-mode:screen;background:radial-gradient(ellipse at 55% 92%,rgba(50,255,40,.85),rgba(33,129,21,.43) 52%,transparent 85%)!important}
+.toxic-hud{display:none!important}
+
+/* ROT CITY - Admin Item List 2.19: controls are only visible inside catalog mode */
+.admin-set-panel { flex-shrink:0; margin-top:8px; padding:9px; border:1px solid #356579;
+  border-radius:5px; background:linear-gradient(155deg,#14323e,#06171f); }
+.admin-set-panel[hidden] { display:none !important; }
+.admin-set-panel>b { display:block; color:#87e4f3; font-size:12px; margin-bottom:4px; }
+.admin-set-panel p,.admin-set-panel small { display:block; color:#b2cbd0; font-size:10px; margin:5px 0; line-height:1.4; }
+.admin-set-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.admin-set-fields label { font-size:10px; color:#d3e7eb; min-width:0; }
+.admin-set-fields input { display:block; margin-top:3px; width:100%; height:29px;
+  padding:3px 6px; background:#071620; color:#fff; border:1px solid #528b9e;
+  border-radius:3px; user-select:text; }
+.admin-set-notice { min-height:13px; }
+
+/* หลอดป้องกันเชื้อเหนือ HUD หลัก (เลื่อนได้ตามความละเอียดหน้าจอ) */
+.infection-shield { position:fixed;left:210px;bottom:102px;z-index:145;width:304px;height:20px;display:flex;gap:6px;align-items:center;padding:2px 7px;box-sizing:border-box;border:1px solid #526f84;border-radius:4px;background:rgba(5,18,26,.91);color:#ccefff;font:10px Tahoma,sans-serif;pointer-events:none; }
+.infection-shield span {white-space:nowrap}.infection-shield b {font:10px Tahoma,sans-serif;min-width:35px;text-align:right}
+.infection-shield-track { flex:1;height:7px;background:#162430;border:1px solid #345065;overflow:hidden }
+#infectionShieldFill {width:100%;height:100%;background:linear-gradient(#8ff0e9,#069fbd);transition:width .3s}
+.infection-shield.infected #infectionShieldFill {background:linear-gradient(#ff9b88,#c22b2b)}
+@media(max-width:850px){.infection-shield{left:13vw;bottom:107px;width:260px}}
+
+/* ROT CITY 2.30: ใช้หลอดภูมิคุ้มกัน HUD เท่านั้น */
+/* แถบเดิมจาก Inventory ซ่อนทั้งบล็อก ไม่กระทบ rothud.immunity */
+#infectionShield, .infection-shield, .infection-shield-track,
+#infectionShieldFill, #infectionShieldValue {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* PNG item icons */
+.icon img, .qicon img, #detailIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: auto;
+  pointer-events: none;
+}
+.icon, .qicon { display: flex; align-items: center; justify-content: center; overflow: hidden; }
+#detailIcon { display: flex; align-items: center; justify-content: center; }
+#detailIcon img { width: 56px; height: 56px; }
+
+
+/* === Readable text overrides (anti-submerged) === */
+.grid, .items-pane, .layout { position: relative; z-index: 4; }
+.tile .title, .tile .qty, .tile .tag { position: relative; z-index: 5; }
+.tile .title {
+  color: #f7fdff !important;
+  background: rgba(0, 12, 18, .72) !important;
+  text-shadow: 0 1px 0 #000, 0 0 8px rgba(0,0,0,.9) !important;
+}
+.tile .qty { color: #9ef3ff !important; }
+.headcopy h1, .headcopy small, .section-title, .stat label, .stat strong {
+  position: relative; z-index: 5;
+}
+#detailName, #detailKey, .inspector h2, .inspector b, .inspector p {
+  color: #eef8fc !important;
+  text-shadow: 0 1px 2px #000;
+}
+.qname, .qcount, .qnum {
+  color: #e8f6fa !important;
+  text-shadow: 0 1px 2px #000;
+}
+
+
+/* === Tile labels: full name, no ID badge, no black plate === */
+.tile .tag { display: none !important; }
+.tile {
+  justify-content: flex-start !important;
+  padding: 8px 6px 6px !important;
+  gap: 4px !important;
+}
+.tile .icon {
+  flex: 0 0 auto;
+  height: 42px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tile .icon img {
+  max-height: 40px;
+  max-width: 90%;
+  object-fit: contain;
+}
+.tile .title {
+  position: relative;
+  z-index: 5;
+  max-width: 100%;
+  width: 100%;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0;
+  color: #f2f8fb !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.9) !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  word-break: break-word;
+  text-align: center;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  min-height: 2.5em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden !important;
+}
+.tile .qty {
+  position: relative;
+  z-index: 5;
+  margin-top: auto;
+  color: #8eefff !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px #000 !important;
+  background: transparent !important;
+}
+.tile.catalog-tile .qty {
+  color: #b8d4dc !important;
+  font-size: 10px !important;
+  letter-spacing: .04em;
+}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>ROT CITY • World Boss Raid &amp; Leaderboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="backdrop">
+    <main class="shell" role="dialog" aria-label="Raid &amp; Leaderboard">
+      <header class="topbar">
+        <div class="brand">
+          <div class="badge">RB</div>
+          <div>
+            <div class="eyebrow">CYBER-BLUE RAID &amp; RANKING</div>
+            <h1>เรดบอสโลก &amp; ตารางอันดับผู้รอดชีวิต</h1>
+          </div>
+        </div>
+        <div class="top-right">
+          <button id="btnRefresh" class="icon-btn">↻</button>
+          <button id="btnClose" class="icon-btn close">✕</button>
+        </div>
+      </header>
+
+      <div id="toast" class="toast" hidden></div>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="boss">สถานะ World Boss</button>
+        <button class="tab" data-tab="players">Top 10 ผู้รอดชีวิต</button>
+        <button class="tab" data-tab="guilds">Top 10 กิลด์</button>
+      </nav>
+
+      <section id="tab-boss" class="panel">
+        <div class="boss-card">
+          <div class="boss-head">
+            <div>
+              <h2 id="bossName">Titan Bio-Boss</h2>
+              <p id="bossStatus" class="sub">กำลังรอการปรากฏตัว</p>
+            </div>
+            <button id="btnGps" class="btn btn-primary">ปักหมุด GPS บอส</button>
+          </div>
+          <div class="hp-bar"><div id="bossHpFill"></div></div>
+          <div class="hp-meta">
+            <span id="bossHpText">0 / 5000 HP</span>
+            <span>ดาเมจของคุณ: <strong id="myDmg">0</strong></span>
+          </div>
+        </div>
+        <h3 class="sec-title">ผู้ทำดาเมจสูงสุดในรอบนี้</h3>
+        <div id="damagerList" class="rank-list"></div>
+      </section>
+
+      <section id="tab-players" class="panel" hidden>
+        <div id="topPlayers" class="rank-list"></div>
+      </section>
+
+      <section id="tab-guilds" class="panel" hidden>
+        <div id="topGuilds" class="rank-list"></div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

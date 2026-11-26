@@ -1,0 +1,137 @@
+/* Diamond HUD v1 - CEF overlay, screenshot reference 1536x432 */
+:root { --ui-scale: 1; }
+* {box-sizing:border-box}
+html,body { padding:0;margin:0;width:100%;height:100%;overflow:hidden;background:transparent!important; }
+body { user-select:none; pointer-events:none; font-family: "Noto Sans Thai", "Segoe UI", "Tahoma", "Arial", sans-serif; }
+
+#hud {
+    width: 1536px;
+    height: 432px;
+
+    position: fixed;
+
+    /* ตำแหน่งอัตโนมัติ */
+    left: var(--hud-left, 48px);
+    bottom: var(--hud-bottom, 10px);
+
+    top: auto;
+    right: auto;
+
+    /* ขนาดอัตโนมัติ */
+    transform: scale(var(--ui-scale, 1.11));
+    transform-origin: left bottom;
+
+    will-change: transform;
+    z-index: 9999;
+}
+
+.asset,.fill-clip{position:absolute;display:block;user-select:none;pointer-events:none;}
+.asset{object-fit:fill}
+.player-avatar{position:absolute;left:64px;top:207px;width:134px;height:147px;object-fit:cover;border-radius:10px;z-index:2;pointer-events:none;user-select:none}
+.fill-clip{overflow:hidden;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 100%,0 100%);transition:width 180ms cubic-bezier(.2,.6,.2,1)}
+.fill-clip img{display:block;max-width:none}
+.label{position:absolute;z-index:4;color:#f7faff;font-weight:800;white-space:nowrap;letter-spacing:-.55px;text-shadow:0 2px 3px #000,0 0 5px #8898ab;line-height:1.2}
+
+/* ==============================
+   DIAMOND HUD - TEXT SETTINGS
+============================== */
+
+/* ID ผู้เล่น */
+.id-label {
+    left: 242px;
+    top: 146px;
+    font-size: 32px;
+}
+
+/* ชื่อผู้เล่น */
+.player-name {
+    left: 350px;
+    top: 145px;
+    font-size: 34px;
+    max-width: 480px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: "Noto Sans Thai", "Segoe UI", "Tahoma", "Arial", sans-serif;
+}
+
+/* วันที่ */
+.date-label {
+    left: 1050px;
+    top: 74px;
+    font-size: 32px;
+}
+
+/* เวลา */
+.time-label {
+    left: 1334px;
+    top: 74px;
+    font-size: 32px;
+}
+
+/* ผู้เล่นออนไลน์ */
+.online-label {
+    left: 1230px;
+    top: 147px;
+    font-size: 32px;
+}
+
+/* ตัวเลขเลือด */
+.health-label {
+    left: 314px;
+    top: 237px;
+    font-size: 36px;
+}
+
+/* ตัวเลขเกราะ */
+.armour-label {
+    left: 314px;
+    top: 309px;
+    font-size: 36px;
+}
+
+/* จำนวนเงิน */
+.money-label {
+    left: 973px;
+    top: 144px;
+    font-size: 35px;
+}
+
+
+/* ตัวเลขอาหารและน้ำ */
+.hunger-label,
+.thirst-label {
+    position: absolute;
+    top: 335px;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1;
+    color: #FFFFFF;
+    text-align: center;
+    letter-spacing: -4px;
+    z-index: 9999;
+
+    text-shadow:
+        2px 2px 5px #000000,
+        0 0 8px #00BFFF;
+}
+
+/* ตัวเลขใต้ไอคอนอาหาร */
+.hunger-label {
+    left: 1112px;
+    width: 180px;
+}
+
+/* ตัวเลขใต้ไอคอนน้ำ */
+.thirst-label {
+    left: 1279px;
+    width: 180px;
+}
+
+
+.dynamic-icon{transition:opacity 180ms ease}
+.waveform {transform-origin:center; opacity:.58;}
+#hud.is-speaking .waveform{opacity:1;animation:wave .28s ease-in-out infinite alternate;}
+@keyframes wave{from{transform:scaleY(.63);filter:brightness(.85)}to{transform:scaleY(1.12);filter:brightness(1.75)}}
+/* Set .hide-money on #hud to reproduce the reference without money. */
+#hud.hide-money .money-asset,#hud.hide-money .money-label{display:none}

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><title>ROT CITY | Rusted Survival HUD</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<!-- หน้า HUD แยกจาก Inventory โดยสิ้นเชิง; ปรับขนาด/ตำแหน่งที่ส่วน SETTINGS ใน style.css -->
+<div id="hudAnchor" class="hud-anchor"><section id="hud" class="hud" aria-label="ข้อมูลตัวละคร ROT CITY">
+  <div class="bolts" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="portrait" aria-label="รูปโปรไฟล์"><div class="portrait-inner"><div id="avatarFallback" class="silhouette"><div class="sil-head"></div><div class="sil-shoulders"></div></div><img id="avatar" alt="รูปโปรไฟล์" referrerpolicy="no-referrer" hidden><span class="hazard-stripes"></span><span class="bio-symbol">☣</span><span class="portrait-caption">UNKNOWN</span></div></div>
+  <div class="core">
+    <div class="identity"><strong id="playerName">ROT CITY SURVIVOR</strong><span class="brand">ROT<br>CITY</span></div>
+    <div class="meta"><span>ID : <b id="playerId">—</b></span><span>LV.<b id="level">1</b></span><span>EXP : <b id="xp">0%</b></span></div>
+    <!-- หลอดบน: ภูมิคุ้มกันต่อการติดเชื้อ ไม่ใช่ EXP -->
+    <div class="immunity-rail" title="ภูมิคุ้มกัน"><div id="rotHudImmunityFill" class="immunity-fill"></div><span class="bar-scratches"></span></div>
+    <div class="bar-row hp-row"><span class="bar-symbol heart">♥</span><div class="track hp-track"><div id="hpFill" class="fill hp-fill"></div><span class="bar-scratches"></span><b id="hpText">100%</b></div></div>
+    <div class="bar-row armour-row"><span class="bar-symbol armour-icon">✚</span><div class="track armour-track"><div id="armourFill" class="fill armour-fill"></div><span class="bar-scratches"></span><b id="armourText">0%</b></div></div>
+  </div>
+  <div class="needs" aria-label="สถานะการเอาชีวิตรอด">
+    <div class="need hunger"><span class="need-icon">◆</span><strong id="hunger">100%</strong><small>หิว</small></div>
+    <div class="need water"><span class="need-icon">◇</span><strong id="thirst">100%</strong><small>น้ำ</small></div>
+    <div class="need energy"><span class="need-icon">ϟ</span><strong id="energy">100%</strong><small>พลัง</small></div>
+  </div>
+  <div id="infectionAlert" class="infection-alert" hidden>☣ ติดเชื้อ</div>
+</section></div>
+<div id="avatarEditor" class="editor-backdrop" hidden><form id="avatarForm" class="editor"><h2>เปลี่ยนรูปโปรไฟล์</h2><p>ใส่ลิงก์รูป HTTPS โดยตรง</p><input id="avatarURL" type="url" maxlength="480" placeholder="https://example.com/avatar.png" autocomplete="off">
+<div class="avatar-preview"><div class="avatar-preview-frame"><img id="avatarPreview" alt="ภาพตัวอย่างก่อนบันทึก" referrerpolicy="no-referrer" hidden><div id="avatarPreviewFallback">ยังไม่มีภาพตัวอย่าง</div></div><div class="avatar-preview-info"><b>ตัวอย่างรูปโปรไฟล์</b><small id="avatarPreviewStatus">วางลิงก์ HTTPS รูปภาพ แล้วภาพจะปรากฏที่นี่</small></div></div>
+<p id="editorFeedback" class="feedback"></p><div class="editor-actions"><button id="avatarCancel" type="button">ยกเลิก</button><button id="avatarSave" type="submit">บันทึก</button></div></form></div>
+<script src="app.js"></script><script>
+if (window.cef && typeof window.cef.on === 'function') {
+  window.cef.on('wardrobe:apply_outfit', function(jsonStr) {
+    try {
+      var d = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;
+      if (!d) return;
+      var sex = Number(d.sex) ? 1 : 0;
+      window.cef.emit('skin:beginPreview', String(sex));
+      window.cef.emit('skin:changeSex', sex);
+      var models = Array.isArray(d.models) ? d.models : [];
+      var texs = Array.isArray(d.texs) ? d.texs : [];
+      var colors = Array.isArray(d.colors) ? d.colors : [];
+      for (var s = 0; s < 12; s++) {
+        var m = Number(models[s]) || 0;
+        var t = Number(texs[s]) || 0;
+        var c = colors[s] !== undefined ? Number(colors[s]) : 255;
+        window.cef.emit('skin:previewPart', s + ',0,' + m);
+        if (m > 0) {
+          window.cef.emit('skin:previewPart', s + ',1,' + t);
+          window.cef.emit('skin:previewPart', s + ',2,' + c);
+        }
+      }
+      window.cef.emit('skin:finishPreview', '1');
+    } catch (e) {}
+  });
+}
+</script></body></html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ROT CITY • Tactical Gunsmith Stat Tuning</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="gt-backdrop">
+    <div class="gt-shell">
+      <header class="gt-header">
+        <div class="gt-brand">
+          <img class="gt-emblem" src="emblem.jpg" alt="Gunsmith" />
+          <div>
+            <div class="gt-kicker">ROT CITY ARMORY OS // TACTICAL STAT TUNING</div>
+            <h1 class="gt-title">โต๊ะแต่งปืน 3D • ปรับแต่งค่าสถานะอาวุธ</h1>
+          </div>
+        </div>
+        <div class="gt-resources">
+          <div class="res-pill"><span class="res-lbl">เศษเหล็ก</span><strong id="resScrap">0</strong></div>
+          <div class="res-pill merit"><span class="res-lbl">แต้มผลงาน</span><strong id="resMerit">0</strong></div>
+          <button class="btn-icon" id="btnRefresh" title="รีเฟรช">↻</button>
+          <button class="btn-close" id="btnClose" title="ปิด">✕</button>
+        </div>
+      </header>
+
+      <main class="gt-main">
+        <section class="gt-weapon-panel">
+          <div class="wpn-card">
+            <div class="wpn-badge" id="wpnLvBadge">LV.1</div>
+            <div class="wpn-scanline"></div>
+            <div class="wpn-icon-wrap" id="wpnPreviewIcon"></div>
+            <h2 class="wpn-name" id="wpnName">กรุณาถือปืนในมือ</h2>
+            <p class="wpn-sub" id="wpnHint">ถือปืน (ID 22–38) ก่อนเปิดโต๊ะแต่งปืนเพื่อติดตั้งชุดแต่ง</p>
+            <div class="dura-row">
+              <span>ความทนทานอาวุธ</span>
+              <span id="wpnDuraText">0 / 100</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill cyan" id="wpnDuraBar" style="width:0%"></div></div>
+          </div>
+
+          <div class="stats-card">
+            <div class="stats-title">TACTICAL STAT TELEMETRY (ค่าสถานะรวม)</div>
+            <div class="stat-item">
+              <div class="stat-head"><span>โบนัสดาเมจ (ลำกล้องเสริม)</span><strong id="statDmg">+0%</strong></div>
+              <div class="bar-track"><div class="bar-fill cyan" id="barDmg" style="width:0%"></div></div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-head"><span>ระยะเสียงดึงดูดซอมบี้ (เก็บเสียง)</span><strong id="statNoise">95 ม.</strong></div>
+              <div class="bar-track"><div class="bar-fill emerald" id="barNoise" style="width:10%"></div></div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-head"><span>ลดโอกาสปืนสึกหรอ (สปริง/ไกปืน)</span><strong id="statWear">-0%</strong></div>
+              <div class="bar-track"><div class="bar-fill amber" id="barWear" style="width:0%"></div></div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-head"><span>เกราะลดดาเมจที่ได้รับ (สายสะพาย/เกราะ)</span><strong id="statDef">-0%</strong></div>
+              <div class="bar-track"><div class="bar-fill violet" id="barDef" style="width:0%"></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="gt-slots-grid" id="slotsGrid"></section>
+      </main>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

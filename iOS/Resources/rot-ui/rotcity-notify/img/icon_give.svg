@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="giveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a29bfe"/>
+      <stop offset="100%" stop-color="#6c5ce7"/>
+    </linearGradient>
+  </defs>
+  <!-- Handshake -->
+  <path d="M 8 26 L 16 20 L 22 25 L 18 31 Z" fill="url(#giveGrad)" stroke="#ffffff" stroke-width="1.5"/>
+  <path d="M 40 26 L 32 20 L 26 25 L 30 31 Z" fill="url(#giveGrad)" stroke="#ffffff" stroke-width="1.5"/>
+  <path d="M 22 25 L 26 25 L 28 29 L 24 33 L 20 29 Z" fill="#6c5ce7" stroke="#ffffff" stroke-width="1.5"/>
+  <!-- Cuff links -->
+  <line x1="6" y1="28" x2="12" y2="34" stroke="#a29bfe" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="42" y1="28" x2="36" y2="34" stroke="#a29bfe" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

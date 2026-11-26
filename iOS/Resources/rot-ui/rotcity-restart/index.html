@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROT CITY • LB-Restart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="menu" class="card">
+            <div class="card-glow"></div>
+            <header>
+                <div class="brand">
+                    <span class="logo">LB-Restart</span>
+                </div>
+                <div class="hright">
+                    <div class="server-line" id="status-line">กำลังโหลดสถานะ...</div>
+                    <button class="close-x" id="btn-close-x" title="ปิดหน้าต่าง">&times;</button>
+                </div>
+            </header>
+
+            <div class="section">
+                <div class="section-title">ตัวเลือกรีสตาร์ทเซิร์ฟเวอร์</div>
+                <div class="grid">
+                    <button class="opt" data-minutes="0">รีสตาร์ททันที (30 วิ)</button>
+                    <button class="opt" data-minutes="1">ในอีก 1 นาที</button>
+                    <button class="opt" data-minutes="5">ในอีก 5 นาที</button>
+                    <button class="opt" data-minutes="10">ในอีก 10 นาที</button>
+                    <button class="opt" data-minutes="30">ในอีก 30 นาที</button>
+                    <button class="opt" id="btn-custom-toggle">กำหนดเวลาเอง</button>
+                </div>
+                <div class="custom-wrap" id="custom-wrap" hidden>
+                    <div class="field-row">
+                        <input type="number" id="custom-min" min="1" max="1440" placeholder="จำนวนนาที (เช่น 15)">
+                        <button class="opt mini" id="btn-custom-min">เริ่มนับถอยหลัง</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="field">
+                    <label>ตั้งเวลารีสตาร์ทประจำวัน (HH:MM)</label>
+                    <div class="field-row">
+                        <input type="text" id="schedule-time" maxlength="5" placeholder="เช่น 04:00">
+                        <button class="opt mini" id="btn-schedule">ตั้งเวลา</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section actions">
+                <button class="opt danger" id="btn-cancel-pending">ยกเลิกการรีสตาร์ทที่ค้างอยู่</button>
+                <button class="opt ghost" id="btn-close">ปิด</button>
+            </div>
+
+            <footer>
+                <span id="pending-line">ไม่มีการรีสตาร์ทที่รออยู่</span>
+                <div class="footer-meta">
+                    <span id="scheduled-line">ตั้งเวลา: -</span>
+                    <span id="uptime-line">เปิดเซิร์ฟเวอร์: -</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+<script>
+(() => {
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => document.querySelectorAll(s);
+    const cef = window.cef;
+
+    function emit(ev, val) {
+        if (cef && typeof cef.emit === 'function') cef.emit(ev, String(val !== undefined ? val : '1'));
+    }
+
+    function showApp(on) {
+        const app = $('#app');
+        if (on) {
+            app.style.display = 'flex';
+            requestAnimationFrame(() => { app.style.opacity = '1'; });
+        } else {
+            app.style.opacity = '0';
+            setTimeout(() => { app.style.display = 'none'; }, 200);
+        }
+    }
+
+    $$('.opt[data-minutes]').forEach((b) => {
+        b.onclick = () => emit('rotrst.start', b.dataset.minutes);
+    });
+
+    $('#btn-custom-toggle').onclick = () => {
+        const w = $('#custom-wrap');
+        w.hidden = !w.hidden;
+    };
+    $('#btn-custom-min').onclick = () => {
+        const m = parseInt($('#custom-min').value, 10);
+        if (m > 0) emit('rotrst.start', m);
+    };
+    $('#btn-schedule').onclick = () => {
+        const t = $('#schedule-time').value.trim();
+        if (t) emit('rotrst.schedule', t);
+    };
+    $('#btn-cancel-pending').onclick = () => emit('rotrst.cancel', '1');
+    $('#btn-close').onclick = () => emit('rotrst.close', '1');
+    $('#btn-close-x').onclick = () => emit('rotrst.close', '1');
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && $('#app').style.display === 'flex') emit('rotrst.close', '1');
+    });
+
+    if (cef && typeof cef.on === 'function') {
+        cef.on('rotrst.state', (players, uptimeSec, pendingSec, schedStr) => {
+            const up = Number(uptimeSec) || 0;
+            const h = Math.floor(up / 3600);
+            const m = Math.floor((up % 3600) / 60);
+            $('#status-line').textContent = `ผู้เล่นออนไลน์: ${players} คน`;
+            $('#uptime-line').textContent = `เปิดเซิร์ฟเวอร์: ${h} ชม. ${m} นาที`;
+            $('#scheduled-line').textContent = `ตั้งเวลา: ${schedStr || '-'}`;
+            const p = Number(pendingSec) || 0;
+            $('#pending-line').textContent = p > 0 ? `กำลังรีสตาร์ทใน: ${p} วินาที` : 'ไม่มีการรีสตาร์ทที่รออยู่';
+        });
+        cef.on('rotrst.open', () => showApp(true));
+        cef.on('rotrst.close', () => showApp(false));
+        emit('rotrst.ready', '1');
+    }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ROT CITY - เทรดระหว่างผู้เล่น (SECURE ATOMIC ESCROW)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../rotcity-shared/commerce.css">
+</head>
+<body class="blue-theme">
+  <!-- Cyber Background FX -->
+  <div class="cyber-bg-grid"></div>
+  <div class="cyber-ambient-glow"></div>
+
+  <!-- Main Trade Window -->
+  <div class="trade-window animate-entrance" id="trade-container" data-state="loading">
+    <!-- Header -->
+    <header class="trade-header">
+      <div class="header-branding">
+        <div class="badge-icon-wrapper">
+          <img src="../rotcity-shared/assets/icons/trade.png" alt="Trade" class="header-icon pulse-glow">
+        </div>
+        <div class="header-text">
+          <div class="title-row">
+            <h1>สัญญาแลกเปลี่ยนปลอดภัย</h1>
+            
+          </div>
+          <p class="subtitle">
+            คู่ค้า: <strong id="partner-name" class="highlight-cyan">กำลังโหลด...</strong> 
+            (ID: <span id="partner-id">-1</span>) 
+            • ค่าธรรมเนียมเปิดสัญญา: <span id="trade-fee" class="fee-badge">2 CP</span>
+          </p>
+        </div>
+      </div>
+
+      <button class="btn-close" id="btn-cancel" title="ยกเลิกการเทรด [ESC]">✕</button>
+    </header>
+
+    <!-- Anti-Scam Security Banner -->
+    <div id="security-banner" class="security-banner hidden">
+      <span class="alert-icon">⚠️</span>
+      <span id="security-alert-text">คำเตือน: มีการเปลี่ยนแปลงข้อเสนอ ระบบได้ทำการปลดล็อกอัตโนมัติเพื่อความปลอดภัย</span>
+    </div>
+
+
+    <section id="trade-lobby" class="trade-lobby" hidden>
+      <p>ยืนใกล้คู่ค้าไม่เกิน 4 เมตรในเขตปลอดภัย</p>
+      <div id="trade-invite" class="asset-form" hidden>
+        <strong id="trade-invite-name"></strong>
+        <button type="button" id="trade-accept">ยอมรับ</button>
+        <button type="button" id="trade-deny">ปฏิเสธ</button>
+      </div>
+      <div id="trade-outgoing" class="asset-form" hidden>
+        <span>ส่งคำขอแล้ว กำลังรอคู่ค้า</span>
+        <button type="button" id="trade-withdraw">ถอนคำขอ</button>
+      </div>
+      <form id="trade-request" class="asset-form">
+        <label>ผู้เล่นใกล้ตัว<select id="trade-target" aria-label="เลือกผู้เล่นใกล้ตัว"></select></label>
+        <button type="submit" id="trade-send" disabled>ส่งคำขอ</button>
+        <button type="button" id="trade-refresh">รีเฟรชรายชื่อ</button>
+      </form>
+      <details id="trade-audit" hidden>
+        <summary>ตรวจประวัติการเทรด</summary>
+        <form id="trade-log-form" class="asset-form">
+          <label>ID ผู้เล่น<input id="trade-log-target" required type="number" min="0" step="1"></label>
+          <button type="submit">ค้นหา</button>
+        </form>
+        <ol id="trade-log-results" aria-live="polite"></ol>
+      </details>
+    </section>
+
+    <!-- Trade Main Grid (2 Sides + Center Escrow) -->
+    <main class="trade-body">
+      <!-- Left: My Offer -->
+      <section class="trade-side my-side">
+        <div class="side-header">
+          <div class="side-title">
+            <span class="side-tag tag-you">ข้อเสนอของคุณ</span>
+          </div>
+          <span id="my-lock-badge" class="badge-status status-unlocked">🔓 ยังไม่ล็อก</span>
+        </div>
+
+        <!-- 6 Item Slots -->
+        <div class="slots-section">
+          <div class="slots-grid" id="my-slots-grid">
+            <div class="trade-slot empty" data-slot="0"><div class="slot-idx">1</div><div class="slot-label">ว่าง</div></div>
+            <div class="trade-slot empty" data-slot="1"><div class="slot-idx">2</div><div class="slot-label">ว่าง</div></div>
+            <div class="trade-slot empty" data-slot="2"><div class="slot-idx">3</div><div class="slot-label">ว่าง</div></div>
+            <div class="trade-slot empty" data-slot="3"><div class="slot-idx">4</div><div class="slot-label">ว่าง</div></div>
+            <div class="trade-slot empty" data-slot="4"><div class="slot-idx">5</div><div class="slot-label">ว่าง</div></div>
+            <div class="trade-slot empty" data-slot="5"><div class="slot-idx">6</div><div class="slot-label">ว่าง</div></div>
+          </div>
+        </div>
+
+        <form id="item-offer" class="asset-form">
+          <label>ช่อง<select id="item-slot" aria-label="ช่องข้อเสนอ"></select></label>
+          <label>ไอเทม<select id="item-id" required aria-label="ไอเทมในกระเป๋า"></select></label>
+          <label>จำนวน<input id="item-qty" type="number" min="1" value="1" required></label>
+          <button type="submit">วางไอเทม</button>
+          <button type="button" id="item-remove">นำออก</button>
+        </form>
+        <form id="vehicle-offer" class="asset-form">
+          <label>รถในครอบครอง<select id="vehicle-id"><option value="0">ไม่เสนอรถ</option></select></label>
+          <button type="submit">บันทึกรถ</button>
+        </form>
+        <p id="my-vehicle" class="asset-summary"></p>
+
+        <!-- Currencies Offer Inputs -->
+        <div class="currency-offer-panel">
+          <div class="curr-input-row">
+            <div class="curr-label">
+              <img src="../rotcity-shared/assets/icons/merit.png" alt="Merit" class="curr-mini-icon">
+              <span>แต้มผลงาน:</span>
+            </div>
+            <div class="input-with-balance">
+              <input type="number" id="input-my-bc" min="0" placeholder="0" value="0">
+              <small class="balance-hint">มี: <span id="my-bc-bal">0</span> แต้ม</small>
+            </div>
+          </div>
+
+          <div class="curr-input-row">
+            <div class="curr-label">
+              <img src="../rotcity-shared/assets/icons/biocore.png" alt="CP" class="curr-mini-icon">
+              <span>ไบโอคอร์:</span>
+            </div>
+            <div class="input-with-balance">
+              <input type="number" id="input-my-cp" min="0" placeholder="0" value="0">
+              <small class="balance-hint">มี: <span id="my-cp-bal">0</span> CP</small>
+            </div>
+          </div>
+
+          <button class="btn-update-curr" id="btn-update-curr">บันทึกแต้มและไบโอคอร์</button>
+        </div>
+      </section>
+
+      <!-- Center: Escrow Status และ Countdown Spinner -->
+      <section class="trade-center">
+        <div class="center-connector">
+          <div class="escrow-shield-icon">
+            <img src="../rotcity-shared/assets/icons/shield.png" alt="Escrow" class="shield-img">
+          </div>
+          <div class="exchange-flow-line">
+            <span class="flow-dot"></span>
+          </div>
+        </div>
+
+        <div id="countdown-box" class="countdown-card hidden">
+          <div class="radar-spinner"></div>
+          <div class="countdown-val" id="countdown-val">5</div>
+          <div class="countdown-desc">นับถอยหลังตรวจทานข้อเสนอ</div>
+        </div>
+
+        <div class="escrow-audit-pill">
+          <span class="audit-dot"></span>
+          <small>ระบบค้ำประกัน Escrow พร้อมทำงาน</small>
+        </div>
+      </section>
+
+      <!-- Right: Partner Offer -->
+      <section class="trade-side partner-side">
+        <div class="side-header">
+          <div class="side-title">
+            <span class="side-tag tag-partner">ข้อเสนอของคู่ค้า</span>
+          </div>
+          <span id="partner-lock-badge" class="badge-status status-unlocked">🔓 ยังไม่ล็อก</span>
+        </div>
+
+        <!-- 6 Item Slots -->
+        <div class="slots-section">
+          <div class="slots-grid" id="partner-slots-grid">
+            <div class="trade-slot empty" data-slot="0"><div class="slot-idx">1</div><div class="slot-label">ว่าง</div></div>
+            <div class="trade-slot empty" data-slot="1"><div class="slot-idx">2</div><div class="slot-label">ว่าง</div></div>
+            <div class="trade-slot empty" data-slot="2"><div class="slot-idx">3</div><div class="slot-label">ว่าง</div></div>
+            <div class="trade-slot empty" data-slot="3"><div class="slot-idx">4</div><div class="slot-label">ว่าง</div></div>
+            <div class="trade-slot empty" data-slot="4"><div class="slot-idx">5</div><div class="slot-label">ว่าง</div></div>
+            <div class="trade-slot empty" data-slot="5"><div class="slot-idx">6</div><div class="slot-label">ว่าง</div></div>
+          </div>
+        </div>
+
+        <!-- Partner Currencies Summary -->
+        <p id="partner-vehicle" class="asset-summary"></p>
+        <div class="currency-offer-panel readonly">
+          <div class="curr-display-row">
+            <div class="curr-label">
+              <img src="../rotcity-shared/assets/icons/merit.png" alt="Merit" class="curr-mini-icon">
+              <span>แต้มผลงานที่จะได้รับ:</span>
+            </div>
+            <span class="curr-received-val highlight-gold" id="partner-bc-val">0 แต้ม</span>
+          </div>
+
+          <div class="curr-display-row">
+            <div class="curr-label">
+              <img src="../rotcity-shared/assets/icons/biocore.png" alt="CP" class="curr-mini-icon">
+              <span>ไบโอคอร์ที่จะได้รับ:</span>
+            </div>
+            <span class="curr-received-val highlight-cyan" id="partner-cp-val">0 CP</span>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer Actions -->
+    <footer class="trade-footer">
+      <div class="footer-tips">
+        <span class="tip-dot"></span>
+        <span>หากฝ่ายใดแก้ไขข้อเสนอ ระบบจะปลดล็อกอัตโนมัติ และเริ่มตรวจทานใหม่ทันที</span>
+      </div>
+      <div class="footer-actions">
+        <button class="btn-action btn-lock" id="btn-lock">🔒 ล็อกข้อเสนอ</button>
+        <button class="btn-action btn-confirm disabled" id="btn-confirm" disabled>✔ ยืนยันการแลกเปลี่ยน</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../rotcity-shared/item-icons.js"></script>
+  <script src="../rotcity-shared/cef-thai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

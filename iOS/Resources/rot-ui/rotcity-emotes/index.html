@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>ROTCITY EMOTES</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+  html, body { width: 100%; height: 100%; background: transparent !important; font-family: 'Kanit', sans-serif; color: #e0f2fe; overflow: hidden; }
+  .wrap {
+    position: fixed; right: 10px; top: 50%; transform: translateY(-50%);
+    width: min(390px, 43vw); height: min(84vh, 540px);
+    background: rgba(6, 15, 34, 0.90);
+    border: 1px solid rgba(56, 189, 248, 0.42);
+    border-radius: 14px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.72), 0 0 22px rgba(14, 165, 233, 0.22);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .hdr {
+    padding: 7px 10px;
+    background: linear-gradient(180deg, rgba(14, 116, 144, 0.34), rgba(8, 22, 48, 0.45));
+    border-bottom: 1px solid rgba(56, 189, 248, 0.24);
+    display: flex; align-items: center; flex-wrap: wrap; gap: 5px; flex-shrink: 0;
+  }
+  .hdr-title { font-size: 14px; font-weight: 700; color: #38bdf8; white-space: nowrap; }
+  .hdr-count { font-size: 11px; color: #94a3b8; white-space: nowrap; margin-right: auto; }
+  .tgl {
+    padding: 4px 9px; border-radius: 7px; font-family: inherit; font-size: 11px; font-weight: 600;
+    border: 1px solid rgba(56, 189, 248, 0.32); background: rgba(15, 42, 84, 0.65); color: #94a3b8; cursor: pointer; white-space: nowrap;
+  }
+  .tgl.on { background: linear-gradient(135deg, #2563eb, #0ea5e9); color: #fff; border-color: #7dd3fc; }
+  .btn-top {
+    border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 7px;
+    padding: 4px 10px; font-family: inherit; font-size: 11px; font-weight: 600;
+    cursor: pointer; background: rgba(15, 42, 84, 0.9); color: #e0f2fe; white-space: nowrap;
+  }
+  .btn-stop { background: rgba(185, 28, 28, 0.88); border-color: rgba(248, 113, 113, 0.55); color: #fff; }
+  .btn-close { background: rgba(30, 41, 59, 0.92); color: #cbd5e1; }
+
+  .body { flex: 1; display: flex; min-height: 0; }
+
+  .sidebar {
+    width: 118px; flex-shrink: 0;
+    border-right: 1px solid rgba(56, 189, 248, 0.2);
+    background: rgba(4, 11, 26, 0.55);
+    overflow-y: auto; padding: 5px;
+    display: flex; flex-direction: column; gap: 3px;
+    scrollbar-width: thin; scrollbar-color: rgba(56,189,248,0.35) transparent;
+  }
+  .cat {
+    width: 100%; text-align: left;
+    padding: 6px 8px; border-radius: 8px; font-family: inherit; font-size: 11px; font-weight: 600;
+    background: transparent; border: 1px solid transparent; color: #bae6fd; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; gap: 4px;
+  }
+  .cat:hover { background: rgba(15, 42, 84, 0.6); }
+  .cat.active { background: linear-gradient(135deg, #0284c7, #2563eb); border-color: #7dd3fc; color: #fff; }
+  .cat-num { font-size: 10px; opacity: 0.78; }
+
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .search-bar {
+    padding: 7px 9px; border-bottom: 1px solid rgba(56, 189, 248, 0.16);
+    display: flex; gap: 6px; flex-shrink: 0;
+  }
+  .search {
+    flex: 1; min-width: 0; background: rgba(4, 12, 28, 0.92); color: #f8fafc;
+    border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px;
+    padding: 6px 10px; font-family: inherit; font-size: 12px; outline: none;
+  }
+  .search:focus { border-color: #38bdf8; }
+
+  .list {
+    flex: 1; overflow-y: auto; padding: 6px 8px;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px; align-content: start;
+    scrollbar-width: thin; scrollbar-color: rgba(56,189,248,0.4) transparent;
+  }
+  @media (max-width: 960px) {
+    .list { grid-template-columns: 1fr; }
+  }
+  .item {
+    background: rgba(10, 26, 56, 0.80); border: 1px solid rgba(56, 189, 248, 0.22);
+    border-radius: 8px; padding: 7px 8px; cursor: pointer; text-align: left;
+    display: flex; align-items: center; justify-content: space-between; gap: 6px;
+    transition: border-color 0.12s, background 0.12s;
+  }
+  .item:hover, .item:active { border-color: #38bdf8; background: rgba(14, 58, 108, 0.88); }
+  .item.playing { border-color: #38bdf8; background: rgba(14, 116, 144, 0.6); box-shadow: 0 0 10px rgba(56,189,248,0.35); }
+  .item-info { min-width: 0; flex: 1; }
+  .item-name { font-size: 12px; font-weight: 600; color: #f0f9ff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .item-meta { font-size: 10px; color: #7dd3fc; opacity: 0.82; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .fav {
+    font-size: 14px; color: #475569; padding: 2px 4px; border-radius: 4px; flex-shrink: 0;
+  }
+  .fav.on { color: #facc15; }
+
+  .ftr {
+    padding: 5px 12px; font-size: 10.5px; color: #94a3b8; flex-shrink: 0;
+    border-top: 1px solid rgba(56, 189, 248, 0.18);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-title">EMOTES</div>
+    <div class="hdr-count" id="countInfo">...</div>
+    <button class="tgl on" id="btnLoop" onclick="toggleLoop()">วนซ้ำ</button>
+    <button class="tgl" id="btnLock" onclick="toggleLock()">ล็อก</button>
+    <button class="btn-top btn-stop" onclick="stopAnim()">หยุดท่า</button>
+    <button class="btn-top btn-close" onclick="closeUi()">ปิด</button>
+  </div>
+  <div class="body">
+    <div class="sidebar" id="cats"></div>
+    <div class="main">
+      <div class="search-bar">
+        <input class="search" id="q" type="text" placeholder="ค้นหาชื่อท่า / bank / เลข..." oninput="renderList()" />
+      </div>
+      <div class="list" id="list"></div>
+    </div>
+  </div>
+  <div class="ftr">
+    <span>/anim หรือ /e • /stopanim หยุดท่า</span>
+    <span id="activeName">พร้อมใช้งาน</span>
+  </div>
+</div>
+<script src="catalog.js"></script>
+<script>
+(function() {
+  const DATA = Array.isArray(window.ROT_EMOTES_CATALOG) ? window.ROT_EMOTES_CATALOG : [];
+  let activeCat = 'โพส / ท่าทาง';
+  let loopOn = true;
+  let lockOn = false;
+  let activeId = 0;
+  let favs = [];
+  try { favs = JSON.parse(localStorage.getItem('rot_emote_favs') || '[]'); } catch (e) {}
+
+  function emitServer(ev, payload) {
+    const data = String(payload);
+    if (window.cef && typeof window.cef.emit === 'function') {
+      try { window.cef.emit(ev, data); return; } catch (e) {}
+    }
+    if (window.DiamondUi && typeof window.DiamondUi.emit === 'function') {
+      try { window.DiamondUi.emit(ev, data); } catch (e) {}
+    }
+  }
+
+  const catCounts = {};
+  DATA.forEach(d => { if (d.cat) catCounts[d.cat] = (catCounts[d.cat] || 0) + 1; });
+  const catOrder = [
+    '★ รายการโปรด', 'ทั้งหมด', 'โพส / ท่าทาง', 'เต้น TikTok', 'เต้น หมวด 1', 'เต้น หมวด 3', 'เต้น หมวด 4',
+    'ท่านั่ง', 'ท่าคู่ / ท่าร่วม', 'ท่าพร้อมอุปกรณ์', 'Custom ท่ารวม', 'ชุดมอดอื่นๆ', 'แอนิเมชันวัตถุ', 'เกมพื้นฐาน'
+  ];
+  const catSet = catOrder.filter(c => c === '★ รายการโปรด' || c === 'ทั้งหมด' || catCounts[c]);
+  Object.keys(catCounts).forEach(c => { if (!catSet.includes(c)) catSet.push(c); });
+  if (!catCounts[activeCat]) activeCat = 'ทั้งหมด';
+
+  function renderCats() {
+    const el = document.getElementById('cats');
+    el.innerHTML = '';
+    catSet.forEach(c => {
+      const b = document.createElement('button');
+      b.className = 'cat' + (c === activeCat ? ' active' : '');
+      const cnt = c === 'ทั้งหมด' ? DATA.length : (c === '★ รายการโปรด' ? favs.length : (catCounts[c] || 0));
+      b.innerHTML = `<span>${c}</span><span class="cat-num">${cnt}</span>`;
+      b.onclick = () => { activeCat = c; renderCats(); renderList(); };
+      el.appendChild(b);
+    });
+  }
+
+  window.renderList = function() {
+    const q = (document.getElementById('q').value || '').trim().toLowerCase();
+    const filtered = DATA.filter(d => {
+      if (activeCat === '★ รายการโปรด' && !favs.includes(d.id)) return false;
+      else if (activeCat !== 'ทั้งหมด' && activeCat !== '★ รายการโปรด' && d.cat !== activeCat) return false;
+      if (!q) return true;
+      return d.label.toLowerCase().includes(q) ||
+             d.anim.toLowerCase().includes(q) ||
+             d.bank.toLowerCase().includes(q) ||
+             String(d.id) === q;
+    });
+    document.getElementById('countInfo').textContent = `${filtered.length} / ${DATA.length} ท่า`;
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+    const maxShow = (activeCat === 'ทั้งหมด' && !q) ? Math.min(filtered.length, 300) : Math.min(filtered.length, 500);
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < maxShow; i++) {
+      const d = filtered[i];
+      const isFav = favs.includes(d.id);
+      const card = document.createElement('div');
+      card.className = 'item' + (d.id === activeId ? ' playing' : '');
+      card.innerHTML = `<div class="item-info"><div class="item-name">#${d.id} ${esc(d.label)}</div><div class="item-meta">${esc(d.bank)} • ${esc(d.anim)}</div></div><span class="fav ${isFav ? 'on' : ''}">${isFav ? '★' : '☆'}</span>`;
+      card.onclick = (e) => {
+        if (e.target && e.target.classList.contains('fav')) {
+          e.stopPropagation();
+          toggleFav(d.id);
+          return;
+        }
+        playEmote(d);
+      };
+      frag.appendChild(card);
+    }
+    list.appendChild(frag);
+  };
+
+  function toggleFav(id) {
+    const idx = favs.indexOf(id);
+    if (idx >= 0) favs.splice(idx, 1);
+    else favs.push(id);
+    try { localStorage.setItem('rot_emote_favs', JSON.stringify(favs)); } catch (e) {}
+    renderCats();
+    renderList();
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function playEmote(d) {
+    activeId = d.id;
+    document.getElementById('activeName').textContent = d.label;
+    emitServer('emotes:action', `play|${d.bank}|${d.anim}|${loopOn ? 1 : 0}|${lockOn ? 1 : 0}`);
+    renderList();
+  }
+
+  window.stopAnim = function() {
+    activeId = 0;
+    document.getElementById('activeName').textContent = 'หยุดแล้ว';
+    emitServer('emotes:action', 'stop|0');
+    renderList();
+  };
+
+  window.closeUi = function() {
+    emitServer('emotes:action', 'close|0');
+  };
+
+  window.toggleLoop = function() {
+    loopOn = !loopOn;
+    document.getElementById('btnLoop').classList.toggle('on', loopOn);
+  };
+
+  window.toggleLock = function() {
+    lockOn = !lockOn;
+    document.getElementById('btnLock').classList.toggle('on', lockOn);
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') window.closeUi();
+  });
+
+  renderCats();
+  renderList();
+})();
+</script>
+</body>
+</html>

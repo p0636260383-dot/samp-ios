@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ROT CITY - ร้านค้าเสบียงปลอดภัย (SAFEZONE MERCHANT)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../rotcity-shared/commerce.css">
+</head>
+<body class="blue-theme">
+  <!-- Cyber Background FX -->
+  <div class="cyber-bg-grid"></div>
+  <div class="cyber-ambient-glow"></div>
+
+  <!-- Main Shop Window -->
+  <div class="shop-window animate-entrance">
+    <!-- Header -->
+    <header class="shop-header">
+      <div class="header-branding">
+        <div class="badge-icon-wrapper">
+          <img src="../rotcity-shared/assets/icons/shop.png" alt="Shop" class="header-icon pulse-glow">
+        </div>
+        <div class="header-text">
+          <div class="title-row">
+            <h1>ร้านค้าเสบียงปลอดภัย</h1>
+
+          </div>
+          <p class="subtitle">ใช้แต้มผลงานซื้อเสบียง หรือขายวัตถุดิบจากกระเป๋า</p>
+        </div>
+      </div>
+
+      <!-- Player Asset Bar -->
+      <div class="header-wallet">
+        <div class="wallet-pill merit-pill" title="แต้มผลงานของคุณ">
+          <img src="../rotcity-shared/assets/icons/merit.png" alt="Merit" class="wallet-icon">
+          <div class="wallet-data">
+            <span class="label">แต้มผลงาน</span>
+            <span class="val" id="player-merit">0</span>
+          </div>
+        </div>
+
+        <div class="wallet-pill biocore-pill" title="ไบโอคอร์ (CP)">
+          <img src="../rotcity-shared/assets/icons/biocore.png" alt="Bio-Core" class="wallet-icon">
+          <div class="wallet-data">
+            <span class="label">ไบโอคอร์</span>
+            <span class="val" id="player-biocore">0</span>
+          </div>
+        </div>
+
+        <div class="wallet-pill bag-pill" title="ความจุกระเป๋า">
+          <div class="wallet-data">
+            <span class="label">กระเป๋า</span>
+            <span class="val" id="player-bag">0/20000 g</span>
+          </div>
+        </div>
+
+        <button class="btn-close" id="btn-close" title="ปิดหน้าต่าง [ESC]">✕</button>
+      </div>
+    </header>
+
+    <!-- Nav Bar และ Category Filters -->
+    <nav class="shop-navigation">
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="buy" id="tab-buy">
+          <span class="tab-icon">🛒</span> ซื้อเสบียง (BUY)
+        </button>
+        <button class="nav-tab" data-tab="sell" id="tab-sell">
+          <span class="tab-icon">💰</span> ขายไอเทมในตัว (SELL)
+        </button>
+      </div>
+
+      <div class="nav-controls">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="ค้นหาชื่อไอเทม..." autocomplete="off">
+        </div>
+      </div>
+    </nav>
+
+    <!-- Category Filter Bar (Only in Buy Tab) -->
+    <div class="category-bar" id="category-bar">
+      <button class="cat-pill active" data-cat="all">ทั้งหมด</button>
+      <button class="cat-pill" data-cat="0">🥫 อาหาร และ น้ำ</button>
+      <button class="cat-pill" data-cat="1">💉 ยา และ การแพทย์</button>
+      <button class="cat-pill" data-cat="2">🔩 วัตถุดิบ และ อุปกรณ์</button>
+
+
+    </div>
+
+    <!-- Main Content Area: Products Grid -->
+    <main class="shop-body">
+      <div class="items-grid" id="items-grid">
+        <!-- Dynamically rendered item cards with PNGs -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state hidden" id="empty-state">
+        <div class="empty-icon">📦</div>
+        <h3>ไม่พบรายการไอเทม</h3>
+        <p>ไม่มีไอเทมที่ตรงกับการค้นหา หรือคุณไม่มีไอเทมที่สามารถขายได้ในขณะนี้</p>
+      </div>
+    </main>
+
+    <!-- Footer Bar -->
+    <footer class="shop-footer">
+      <div class="footer-tip">
+        <span class="tip-dot"></span>
+        <span id="footer-status-text">คลิกที่ปุ่มเพื่อซื้อหรือขายเสบียง • ราคารับซื้อปรับตามเสถียรภาพเศรษฐกิจ</span>
+      </div>
+      <div class="footer-actions">
+        <button class="btn-secondary" id="btn-refresh">🔄 รีเฟรชข้อมูล</button>
+        <button class="btn-primary" id="btn-exit">ปิดหน้าร้านค้า</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Purchase / Sell Quantity Modal -->
+  <div class="action-modal-overlay hidden" id="action-modal">
+    <div class="action-modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">ยืนยันรายการ</h3>
+        <button class="modal-close" id="modal-cancel-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-item-preview">
+          <img src="" id="modal-item-img" alt="Item" class="modal-img">
+          <div class="modal-item-details">
+            <h4 id="modal-item-name">-</h4>
+            <p id="modal-item-desc">-</p>
+          </div>
+        </div>
+
+        <div class="qty-control-section">
+          <label>ระบุจำนวนที่ต้องการ:</label>
+          <div class="qty-counter">
+            <button class="btn-qty" id="btn-qty-minus">-</button>
+            <input type="number" id="input-qty" min="1" max="99" value="1">
+            <button class="btn-qty" id="btn-qty-plus">+</button>
+            <button class="btn-qty-max" id="btn-qty-max">MAX</button>
+          </div>
+        </div>
+
+        <div class="modal-calc-box">
+          <div class="calc-row">
+            <span>ราคาต่อหน่วย:</span>
+            <strong id="modal-unit-price">0 แต้ม</strong>
+          </div>
+          <div class="calc-row total-row">
+            <span>ยอดรวมทั้งหมด:</span>
+            <strong class="highlight-blue" id="modal-total-price">0 แต้ม</strong>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-modal-cancel" id="modal-close-action">ยกเลิก</button>
+        <button class="btn-modal-confirm" id="modal-confirm-btn">ยืนยันทำรายการ</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../rotcity-shared/item-icons.js"></script>
+  <script src="../rotcity-shared/cef-thai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

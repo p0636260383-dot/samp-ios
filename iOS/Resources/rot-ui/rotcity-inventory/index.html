@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ROT CITY Inventory v2.7</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="notice" class="hotbar-toast" style="position:fixed;top:12%;left:50%;transform:translateX(-50%);z-index:300;"></div>
+
+  <div id="toxicFog" class="toxic-fog" aria-hidden="true"><i></i><i></i><i></i></div>
+  <!-- small green toxic hud removed in favor of rotcity-toxic big UI -->
+
+  <div id="infectionShield" class="infection-shield">
+    <span>SHIELD</span>
+    <div class="infection-shield-track"><div id="infectionShieldFill"></div></div>
+    <b id="infectionShieldValue">100%</b>
+  </div>
+
+  <div id="inventoryShell" class="inv-shell">
+    <div class="frame-rivets"><i></i><i></i><i></i><i></i></div>
+    <div class="canvas-strap"></div>
+    <div class="grunge-overlay"></div>
+
+    <header class="topbar">
+      <div class="crest">◇</div>
+      <div class="headcopy">
+        <small>ROT CITY // SURVIVOR LOADOUT</small>
+        <h1>กระเป๋าผู้รอดชีวิต</h1>
+      </div>
+      <div class="header-end">
+        <div class="pulse"><i></i>SECURE INVENTORY</div>
+        <button type="button" class="xbtn" id="closeBtn" title="ปิด">×</button>
+      </div>
+    </header>
+
+    <section class="status">
+      <div class="stat stat-weight">
+        <span class="stat-icon">▣</span>
+        <label>น้ำหนัก</label>
+        <div class="meter"><div class="fill" id="weightBar" style="width:0%"></div></div>
+        <strong id="weight">0.0 / 35.0 กก.</strong>
+      </div>
+      <div class="stat short">
+        <span class="stat-icon">🍽</span>
+        <label>ความหิว</label>
+        <strong id="hunger">100%</strong>
+      </div>
+      <div class="stat short">
+        <span class="stat-icon stat-drop">💧</span>
+        <label>น้ำดื่ม</label>
+        <strong id="thirst">100%</strong>
+      </div>
+      <div class="stat short">
+        <span class="stat-icon">◎</span>
+        <label>จำนวนชิ้น</label>
+        <strong id="capacity">0/50</strong>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="items-pane">
+        <div class="section-title">
+          <strong><span class="bag-mark">▣</span>รายการสัมภาระและอาวุธ</strong>
+          <label id="gridHint">ลากไอเทมเพื่อสลับช่อง • แสดงเฉพาะของที่มี</label>
+        </div>
+        <div class="tabs" id="tabs">
+          <button type="button" class="tab active" data-category="all"><span>◆</span>ทั้งหมด</button>
+          <button type="button" class="tab" data-category="0"><span>🍖</span>อาหาร</button>
+          <button type="button" class="tab" data-category="1"><span>💧</span>เครื่องดื่ม</button>
+          <button type="button" class="tab" data-category="2"><span>✚</span>ยารักษา</button>
+          <button type="button" class="tab" data-category="3"><span>⚙</span>วัสดุ</button>
+          <button type="button" class="tab" data-category="4"><span>🧰</span>อุปกรณ์</button>
+          <button type="button" class="tab" data-category="5"><span>⚔</span>อาวุธ</button>
+          <button type="button" class="tab" data-category="6"><span>▣</span>กระสุน</button>
+        </div>
+        <div class="grid-deck">
+          <div class="quarantine-stencil"><span>☣</span><small>QUARANTINE<br>SURVIVAL SUPPLIES</small></div>
+          <div class="bloody-palm">🖐</div>
+          <div class="grid" id="inventoryGrid"></div>
+        </div>
+      </section>
+
+      <aside class="detail">
+        <div class="inspector-head"><span class="detail-eyebrow">ITEM INSPECTOR</span></div>
+        <div class="dogtag">☣</div>
+        <div class="detail-icon" id="detailIcon">🎒</div>
+        <h2 id="detailName">เลือกไอเทม</h2>
+        <p class="detail-key" id="detailKey">NO ITEM SELECTED</p>
+        <p class="detail-text" id="detailInfo">เลือกไอเทมทางซ้าย</p>
+        <div class="detail-row"><span>ในกระเป๋า</span><b id="detailQty">—</b></div>
+        <div class="detail-row"><span>น้ำหนัก / ชิ้น</span><b id="detailWeight">—</b></div>
+        <p id="catalogDetails" hidden></p>
+
+        <button type="button" class="action primary" id="useBtn" disabled>ใช้งานไอเทม</button>
+        <button type="button" class="action secondary" id="dropBtn" disabled>ทิ้งลงพื้น 1 ชิ้น</button>
+
+        <div class="quick-assign">
+          <b>ผูกไอเทมกับช่องลัด</b>
+          <div class="bind-slots" id="bindSlots">
+            <button type="button" class="bind-button" data-slot="0">1</button>
+            <button type="button" class="bind-button" data-slot="1">2</button>
+            <button type="button" class="bind-button" data-slot="2">3</button>
+            <button type="button" class="bind-button" data-slot="3">4</button>
+            <button type="button" class="bind-button" data-slot="4">5</button>
+          </div>
+          <small>เลือกไอเทมที่ใช้งานได้ แล้วกดช่อง 1–5</small>
+        </div>
+
+        <div class="give-panel">
+          <b>ให้ไอเทมผู้เล่นใกล้ตัว</b>
+          <div class="give-controls">
+            <label>Player ID
+              <input id="giveTarget" type="text" placeholder="ID ผู้รับ" autocomplete="off" />
+            </label>
+            <label>จำนวน
+              <input id="giveAmount" type="number" min="1" value="1" />
+            </label>
+          </div>
+          <button type="button" class="action give-action" id="giveBtn" disabled>» ส่งไอเทม</button>
+        </div>
+
+        <div id="adminSetPanel" class="admin-set-panel" hidden>
+          <b>ADMIN SET ITEM</b>
+          <p>กำหนดจำนวนไอเทมให้ผู้เล่น (แค็ตตาล็อก)</p>
+          <div class="admin-set-fields">
+            <label>Target ID
+              <input id="adminSetTarget" type="number" min="0" value="0" />
+            </label>
+            <label>Amount
+              <input id="adminSetAmount" type="number" min="0" value="1" />
+            </label>
+          </div>
+          <button type="button" class="action primary" id="adminSetSubmit" disabled>ตั้งค่าไอเทม</button>
+          <small id="adminSetNotice" class="admin-set-notice"></small>
+        </div>
+
+        <p class="detail-note">ข้อมูลไอเทมบันทึกตามตัวละครใน MySQL</p>
+      </aside>
+    </div>
+
+    <footer>
+      <div>กด H หรือ ESC เพื่อปิดกระเป๋า</div>
+      <span id="inventoryVersion">ROT CITY • INVENTORY v2.7</span>
+    </footer>
+  </div>
+
+  <div id="hotbar" class="hotbar" hidden>
+    <div class="hotbar-slots" id="quickbarSlots"></div>
+    <div class="hotbar-toast" id="hotbarToast"></div>
+  </div>
+
+<script src="../rotcity-shared/item-icons.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

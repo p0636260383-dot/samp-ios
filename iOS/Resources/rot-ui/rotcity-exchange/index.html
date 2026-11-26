@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ศูนย์แลกเปลี่ยน · ROT CITY</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="exchange">
+    <header>
+      <h1>ศูนย์แลกเปลี่ยน</h1>
+      <button type="button" class="close" id="close" aria-label="ปิด">×</button>
+    </header>
+    <div class="balances">
+      <div><span>ไบโอคอร์</span><strong id="core">—</strong></div>
+      <div><span>แต้มผลงาน</span><strong id="merit">—</strong></div>
+    </div>
+    <p class="rate" id="rate">กำลังอ่านอัตราแลกเปลี่ยน</p>
+    <form id="exchange-form">
+      <h2>แลกไบโอคอร์เป็นแต้มผลงาน</h2>
+      <label for="amount">จำนวนที่ใช้แลก</label>
+      <input id="amount" type="number" min="1" step="1" required>
+      <output id="preview" for="amount">ระบุจำนวนเพื่อดูยอดที่จะได้รับ</output>
+      <button type="submit" id="submit" disabled>ยืนยันการแลก</button>
+      <p role="status" id="status"></p>
+    </form>
+
+    <section id="withdraw-panel" hidden>
+      <h2>คำนวณยอดรับ</h2>
+      <label for="withdraw-amount">ไบโอคอร์ที่ต้องการถอน</label>
+      <input id="withdraw-amount" type="number" min="1" step="1" placeholder="จำนวน CP">
+      <output id="withdraw-preview" for="withdraw-amount">ระบุจำนวนเพื่อคำนวณยอดรับ</output>
+      <button type="button" id="withdraw-submit" disabled>เลือกช่องทางรับเงิน</button>
+      <button type="button" id="withdraw-history">ประวัติและจัดการคำขอ</button>
+    </section>
+    <section class="cashout" id="cashout-link">
+      <div><h2>ถอนเงินบาท</h2><p id="cashout-terms">ยื่นคำขอและตรวจสอบสถานะการถอน</p></div>
+      <button type="button" id="cashout" disabled>เปิดเมนูถอนเงิน</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ROT CITY - ตลาดกลางผู้รอดชีวิต (SURVIVOR MARKETPLACE)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../rotcity-shared/commerce.css">
+</head>
+<body class="blue-theme">
+  <!-- Cyber Background FX -->
+  <div class="cyber-bg-grid"></div>
+  <div class="cyber-ambient-glow"></div>
+
+  <!-- Main Market Window -->
+  <div class="market-window animate-entrance">
+    <!-- Header -->
+    <header class="market-header">
+      <div class="header-branding">
+        <div class="badge-icon-wrapper">
+          <img src="../rotcity-shared/assets/icons/market.png" alt="Market" class="header-icon pulse-glow">
+        </div>
+        <div class="header-text">
+          <div class="title-row">
+            <h1>ตลาดกลางผู้รอดชีวิต</h1>
+
+          </div>
+          <p class="subtitle">ตั้งราคาด้วยแต้มผลงาน หรือระบุไอเทมที่ต้องการแลก</p>
+        </div>
+      </div>
+
+      <!-- Player Asset Bar -->
+      <div class="header-wallet">
+        <div class="wallet-pill merit-pill" title="แต้มผลงานของคุณ">
+          <img src="../rotcity-shared/assets/icons/merit.png" alt="Merit" class="wallet-icon">
+          <div class="wallet-data">
+            <span class="label">แต้มผลงาน</span>
+            <span class="val" id="player-merit">0</span>
+          </div>
+        </div>
+
+        <div class="wallet-pill biocore-pill" title="ไบโอคอร์ (CP)">
+          <img src="../rotcity-shared/assets/icons/biocore.png" alt="Bio-Core" class="wallet-icon">
+          <div class="wallet-data">
+            <span class="label">ไบโอคอร์</span>
+            <span class="val" id="player-biocore">0</span>
+          </div>
+        </div>
+
+        <!-- Pending Earnings Pill -->
+        <div class="wallet-pill earnings-pill" id="earnings-pill" title="รายได้จากการขายที่ยังไม่ได้กดรับ">
+          <div class="wallet-data">
+            <span class="label">รายได้รอรับ</span>
+            <span class="val highlight-green" id="pending-earnings">0 แต้ม</span>
+          </div>
+          <button class="btn-claim-earnings" id="btn-claim-earnings">รับรายได้และของคืน</button>
+        </div>
+
+        <button class="btn-close" id="btn-close" title="ปิดหน้าต่าง [ESC]">✕</button>
+      </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="market-navigation">
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="browse" id="tab-browse">
+          <span class="tab-icon">🌐</span> รายการขายในตลาด
+        </button>
+        <button class="nav-tab" data-tab="create" id="tab-create">
+          <span class="tab-icon">➕</span> ลงขายไอเทมใหม่
+        </button>
+        <button class="nav-tab" data-tab="my-stalls" id="tab-my-stalls">
+          <span class="tab-icon">🏷️</span> รายการของฉัน
+        </button>
+      </div>
+
+      <div class="nav-controls">
+        <div class="filter-dropdown-box">
+          <select id="filter-currency">
+            <option value="all">การชำระเงิน: ทั้งหมด</option>
+            <option value="money">เฉพาะแต้มผลงาน</option>
+            <option value="barter">เฉพาะแลกไอเทม</option>
+          </select>
+        </div>
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="ค้นหาไอเทมหรือชื่อผู้ขาย..." autocomplete="off">
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="market-body">
+      <!-- 1. Market Browse Grid -->
+      <div class="market-grid-container" id="browse-container">
+        <div class="market-grid" id="market-grid">
+          <!-- Dynamic Listing Cards -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state hidden" id="empty-state">
+          <div class="empty-icon">🏪</div>
+          <h3>ไม่มีรายการไอเทมในตลาด</h3>
+          <p>ยังไม่มีผู้รอดชีวิตนำไอเทมมาวางขาย หรือไม่พบไอเทมตามที่คุณค้นหา</p>
+        </div>
+      </div>
+
+      <!-- 2. Create Listing Form Tab -->
+      <div class="create-listing-container hidden" id="create-container">
+        <div class="create-card">
+          <div class="create-card-header">
+            <h3>📦 ลงขายไอเทมในตลาดกลาง</h3>
+            <p>เลือกไอเทมจากกระเป๋าของคุณเพื่อตั้งขายในตลาดกลาง</p>
+          </div>
+
+          <div class="create-form-grid">
+            <!-- Left: Select item from bag -->
+            <div class="form-column">
+              <label>1. เลือกไอเทมในกระเป๋าของคุณ:</label>
+              <div class="inventory-selector" id="inv-item-list">
+                <!-- Dynamically rendered inventory items with PNGs -->
+              </div>
+            </div>
+
+            <!-- Right: Set Price และ Currency -->
+            <div class="form-column">
+              <div class="selected-preview-card" id="selected-preview-box">
+                <img src="../rotcity-shared/assets/items/item_001.png" alt="Preview" id="preview-img" class="preview-item-img">
+                <div class="preview-meta">
+                  <h4 id="preview-name">ยังไม่ได้เลือกไอเทม</h4>
+                  <p id="preview-owned">มีในตัว: 0 ชิ้น</p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>2. จำนวนที่ต้องการลงขาย:</label>
+                <div class="input-qty-row">
+                  <input type="number" id="create-qty" min="1" max="99" value="1">
+                  <button class="btn-sub-action" id="btn-create-max">ขายหมด</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>3. รูปแบบการรับชำระเงิน:</label>
+                <div class="radio-pill-group">
+                  <label class="radio-pill active" id="pill-curr-money">
+                    <input type="radio" name="currency_type" value="0" checked>
+                    <span>🪙 แต้มผลงาน</span>
+                  </label>
+                  <label class="radio-pill" id="pill-curr-barter">
+                    <input type="radio" name="currency_type" value="1">
+                    <span>🔄 แลกเปลี่ยนไอเทม</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Money Price Input -->
+              <div class="form-group" id="group-money-price">
+                <label>ราคาขายรวม (แต้มผลงาน):</label>
+                <div class="input-icon-box">
+                  <img src="../rotcity-shared/assets/icons/merit.png" alt="Merit" class="input-icon">
+                  <input type="number" id="create-price-money" min="1" placeholder="เช่น 500">
+                </div>
+
+              </div>
+
+              <!-- Barter Item Selector -->
+              <div class="form-group hidden" id="group-barter-price">
+                <label>ต้องการแลกเปลี่ยนกับไอเทม:</label>
+                <select id="create-barter-item">
+                  <!-- Populated dynamically -->
+                </select>
+                <label style="margin-top: 8px;">จำนวนที่ต้องการแลก:</label>
+                <input type="number" id="create-barter-qty" min="1" value="1">
+              </div>
+
+              <button class="btn-submit-listing" id="btn-submit-listing">
+                ✨ ยืนยันการวางขายไอเทม
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer Bar -->
+    <footer class="market-footer">
+      <div class="footer-tip">
+        <span class="tip-dot"></span>
+        <span id="market-footer-status">ตลาดกลาง ROT CITY มีระบบ Escrow คุ้มครองความปลอดภัย 100%</span>
+      </div>
+      <div class="footer-actions">
+        <button class="btn-secondary" id="btn-refresh">🔄 รีเฟรชตลาด</button>
+        <button class="btn-primary" id="btn-exit">ปิดหน้าต่าง</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../rotcity-shared/item-icons.js"></script>
+  <script src="../rotcity-shared/cef-thai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

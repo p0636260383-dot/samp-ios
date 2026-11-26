@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ROT CITY • Survivor PDA</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="backdrop">
+    <main class="pda-shell" role="dialog" aria-label="Survivor PDA">
+      <div class="scanline"></div>
+
+      <header class="topbar">
+        <div class="brand">
+          <div class="emblem-wrap">
+            <img src="assets/pda_emblem.png" alt="ROT PDA" class="emblem-img" />
+          </div>
+          <div>
+            <div class="eyebrow">ROT CITY OS v2.4 • CYBER-BLUE TACTICAL PDA</div>
+            <h1>แท็บเล็ตผู้รอดชีวิต &amp; อันดับเซิร์ฟเวอร์</h1>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button id="btnRefresh" class="icon-btn" title="รีเฟรชข้อมูล">↻</button>
+          <button id="btnClose" class="icon-btn close" title="ปิดแท็บเล็ต (ESC)">✕</button>
+        </div>
+      </header>
+
+      <nav class="tabs" role="tablist">
+        <button class="tab active" data-tab="profile">
+          <span class="tab-dot"></span>ข้อมูลส่วนตัว
+        </button>
+        <button class="tab" data-tab="leaderboard">
+          <span class="tab-dot"></span>อันดับ Top 10
+        </button>
+        <button class="tab" data-tab="guide">
+          <span class="tab-dot"></span>คู่มือ &amp; ปุ่มกด
+        </button>
+        <button class="tab" data-tab="settings">
+          <span class="tab-dot"></span>ตั้งค่า &amp; ทางลัด
+        </button>
+      </nav>
+
+      <div class="content-scroll">
+        <!-- TAB 1: PROFILE -->
+        <section id="tab-profile" class="panel">
+          <div class="hero-card">
+            <div class="hero-left">
+              <div class="avatar-ring">
+                <img src="assets/pda_emblem.png" alt="Survivor" />
+              </div>
+              <div>
+                <div class="status-pill"><span class="pulse"></span>SURVIVOR ONLINE</div>
+                <h2 id="pName">Survivor</h2>
+                <p id="pGuild" class="sub">กิลด์: ไม่มีกิลด์</p>
+              </div>
+            </div>
+            <div class="level-box">
+              <span>LEVEL</span>
+              <strong id="pLevel">1</strong>
+              <small id="pExp">0 EXP</small>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">ซอมบี้ที่สังหาร</div>
+              <div id="pKills" class="stat-val cyan">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">บอสโลกที่โค่น</div>
+              <div id="pBossKills" class="stat-val purple">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">เงินสดในตัว</div>
+              <div id="pMoney" class="stat-val green">$0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Bio-Core (CP)</div>
+              <div id="pPoints" class="stat-val gold">0 CP</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">พลังชีวิต (HP)</div>
+              <div id="pHp" class="stat-val red">100</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">จำนวนครั้งที่ล้ม/ตาย</div>
+              <div id="pDeaths" class="stat-val muted">0</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 2: TOP 10 LEADERBOARD -->
+        <section id="tab-leaderboard" class="panel" hidden>
+          <div class="sub-tabs">
+            <button class="sub-tab active" data-rank="kills">💀 นักฆ่าซอมบี้</button>
+            <button class="sub-tab" data-rank="levels">⚡ เลเวลสูงสุด</button>
+            <button class="sub-tab" data-rank="money">💰 มหาเศรษฐี</button>
+            <button class="sub-tab" data-rank="guilds">🛡️ กิลด์อันดับ 1</button>
+          </div>
+          <div id="rankList" class="rank-list"></div>
+        </section>
+
+        <!-- TAB 3: GUIDE & KEYBINDS -->
+        <section id="tab-guide" class="panel" hidden>
+          <div class="guide-grid">
+            <div class="key-card">
+              <kbd>Y</kbd>
+              <div>
+                <h3>ชุบชีวิต / ยืนยัน</h3>
+                <p>กดค้างใกล้เพื่อนที่ล้มบาดเจ็บเพื่อชุบชีวิต หรือกดยืนยันคำขอ</p>
+              </div>
+            </div>
+            <div class="key-card">
+              <kbd>N</kbd>
+              <div>
+                <h3>โต้ตอบระบบทั้งหมด</h3>
+                <p>เปิดร้านค้า, ตลาดกลาง, โต๊ะคราฟต์, คลัง, เควส, โรงรถ และป้ายระบบ</p>
+              </div>
+            </div>
+            <div class="key-card">
+              <kbd>H</kbd>
+              <div>
+                <h3>ยอมแพ้ (ตอนล้มบาดเจ็บ)</h3>
+                <p>ใช้เมื่อไม่มีเพื่อนช่วยชุบ เพื่อกลับไปเกิดใหม่</p>
+              </div>
+            </div>
+            <div class="key-card">
+              <kbd>B</kbd>
+              <div>
+                <h3>พูดไมโครโฟนใกล้ตัว</h3>
+                <p>กดปุ่ม B ค้างเพื่อสื่อสารด้วยเสียงกับผู้รอดชีวิตในระยะ 40 เมตร</p>
+              </div>
+            </div>
+            <div class="key-card">
+              <kbd>/pda</kbd>
+              <div>
+                <h3>เปิดแท็บเล็ตผู้รอดชีวิต</h3>
+                <p>ใช้คำสั่ง /pda หรือ /tablet ได้ทุกที่เพื่อเช็คอันดับและตั้งค่า</p>
+              </div>
+            </div>
+            <div class="key-card">
+              <kbd>/services</kbd>
+              <div>
+                <h3>ศูนย์บริการ ROT CITY</h3>
+                <p>เข้าถึงเมนูหลักทุกอย่างของเซิร์ฟเวอร์อย่างรวดเร็ว</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 4: SETTINGS & SHORTCUTS -->
+        <section id="tab-settings" class="panel" hidden>
+          <div class="settings-list">
+            <div class="setting-row">
+              <div>
+                <h3>แสดงผล HUD หน้าจอหลัก</h3>
+                <p>เปิดหรือซ่อนแถบ HP / ความหิว / น้ำ / ช่องลัด</p>
+              </div>
+              <button id="btnToggleHud" class="btn btn-cyan">สลับ HUD</button>
+            </div>
+            <div class="setting-row">
+              <div>
+                <h3>แสดงผลป้ายลอย UI โต้ตอบ</h3>
+                <p>เปิดหรือซ่อนหน้าต่างป้ายโต้ตอบชั่วคราว</p>
+              </div>
+              <button id="btnToggleSigns" class="btn btn-cyan">สลับป้าย</button>
+            </div>
+          </div>
+
+          <h3 class="sec-title">ทางลัดเปิดระบบด่วน</h3>
+          <div class="shortcut-grid">
+            <button class="btn btn-ghost" data-act="open_services">ศูนย์บริการกลาง</button>
+            <button class="btn btn-ghost" data-act="open_raid">World Boss &amp; Raid</button>
+            <button class="btn btn-ghost" data-act="open_skills">ผังทักษะ &amp; เรดาร์</button>
+            <button class="btn btn-ghost" data-act="open_guild">กองกำลังกิลด์</button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

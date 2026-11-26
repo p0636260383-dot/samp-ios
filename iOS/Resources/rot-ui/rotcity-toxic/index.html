@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>สถานะเขตพิษ | ROT CITY</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="panel" class="panel" hidden>
+    <header class="heading">
+      <div class="hazard" aria-hidden="true">☣</div>
+      <div class="title">
+        <span class="eyebrow">ROT CITY / เขตอันตราย</span>
+        <h1>พื้นที่ปนเปื้อน</h1>
+      </div>
+      <span class="live"><i></i> LIVE</span>
+    </header>
+    <section class="zone">
+      <div class="zone-copy">
+        <span>ระดับสารพิษ</span>
+        <strong>LV. <b id="level">1</b></strong>
+      </div>
+      <div class="levels" id="levels" aria-label="ระดับสารพิษ">
+        <i></i><i></i><i></i><i></i><i></i>
+      </div>
+    </section>
+    <section class="filter">
+      <div class="mask-icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64">
+          <path d="M17 13 32 8l15 5 6 13-4 18-17 12-17-12-4-18z"/>
+          <path d="M18 29h11l3 5 3-5h11M21 21l5 4m17-4-5 4M25 42h14"/>
+          <circle cx="32" cy="34" r="4"/>
+        </svg>
+      </div>
+      <div class="filter-info">
+        <div class="filter-heading">
+          <div>
+            <span class="eyebrow">อุปกรณ์ป้องกัน</span>
+            <strong id="mask-name">ยังไม่ได้สวมหน้ากาก</strong>
+          </div>
+          <span id="mask-level" class="level-chip">—</span>
+        </div>
+        <div class="durability-label">
+          <span>ความทนไส้กรอง</span>
+          <strong id="durability-text">0%</strong>
+        </div>
+        <div class="durability-track"><i id="durability-bar"></i></div>
+        <div id="protection" class="protection">ไม่ได้ป้องกัน</div>
+      </div>
+    </section>
+    <footer class="warning">
+      <span class="warning-icon" aria-hidden="true">!</span>
+      <span id="damage">เสียเลือด 1 HP / 5 วินาที</span>
+    </footer>
+  </main>
+  <script src="toxic.js"></script>
+</body>
+</html>

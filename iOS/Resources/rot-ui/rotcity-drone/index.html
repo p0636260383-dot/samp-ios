@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>ROT CITY — Tactical Drone</title>
+<style>
+:root{
+  --acc:#38bdf8;
+  --good:#34d399;
+  --warn:#fbbf24;
+  --bad:#f87171;
+  --bg:rgba(7,12,20,.72);
+  --bd:rgba(56,189,248,.35);
+}
+*{box-sizing:border-box;user-select:none;-webkit-user-select:none;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:'Segoe UI',Tahoma,sans-serif;color:#e6f2ff}
+.hidden{display:none!important}
+
+/* Visual Filters */
+#fx-layer{
+  position:fixed;inset:0;pointer-events:none;z-index:1;
+  transition:background .2s, box-shadow .2s;
+}
+body.mode-nv #fx-layer{
+  background:radial-gradient(circle at center,rgba(16,185,129,.12) 0%,rgba(6,78,59,.42) 85%,rgba(2,20,14,.72) 100%);
+  box-shadow:inset 0 0 110px rgba(16,185,129,.35);
+}
+body.mode-nv #scanlines{opacity:.38}
+body.mode-th #fx-layer{
+  background:radial-gradient(circle at center,rgba(249,115,22,.16) 0%,rgba(124,45,18,.38) 65%,rgba(30,27,75,.68) 100%);
+  box-shadow:inset 0 0 120px rgba(239,68,68,.38);
+}
+body.mode-th #scanlines{opacity:.28}
+#scanlines{
+  position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.14;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0px,rgba(255,255,255,.04) 1px,transparent 1px,transparent 3px);
+}
+
+/* Frame Corners */
+.corner{position:fixed;width:36px;height:36px;border:2px solid var(--acc);pointer-events:none;z-index:4;opacity:.85}
+.c-tl{top:16px;left:16px;border-right:none;border-bottom:none}
+.c-tr{top:16px;right:16px;border-left:none;border-bottom:none}
+.c-bl{bottom:16px;left:16px;border-right:none;border-top:none}
+.c-br{bottom:16px;right:16px;border-left:none;border-top:none}
+
+/* Center Reticle */
+#reticle{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:110px;height:110px;pointer-events:none;z-index:4;
+}
+#reticle::before,#reticle::after{
+  content:"";position:absolute;background:rgba(56,189,248,.65);
+}
+#reticle::before{left:50%;top:0;width:1px;height:100%;transform:translateX(-.5px)}
+#reticle::after{top:50%;left:0;height:1px;width:100%;transform:translateY(-.5px)}
+.ret-ring{
+  position:absolute;inset:22px;border:1.5px solid rgba(56,189,248,.7);border-radius:50%;
+}
+.ret-dot{
+  position:absolute;top:50%;left:50%;width:5px;height:5px;border-radius:50%;
+  background:#f87171;transform:translate(-50%,-50%);box-shadow:0 0 8px #f87171;
+}
+
+/* Top Telemetry Bar */
+#top-bar{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10;
+  display:flex;align-items:center;gap:14px;padding:8px 16px;border-radius:10px;
+  background:var(--bg);border:1px solid var(--bd);backdrop-filter:blur(6px);
+  font-size:12px;letter-spacing:.4px;
+}
+.badge{
+  padding:3px 8px;border-radius:6px;font-weight:700;font-size:11px;
+  background:rgba(56,189,248,.18);border:1px solid rgba(56,189,248,.45);color:var(--acc);
+}
+.badge.t2{background:rgba(251,191,36,.18);border-color:rgba(251,191,36,.5);color:var(--warn)}
+.stat{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.stat b{color:#fff;font-variant-numeric:tabular-nums}
+.bat-wrap{width:54px;height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden}
+.bat-fill{height:100%;background:var(--good);width:100%;transition:width .25s,background .25s}
+
+/* Warning Banner */
+#warn-banner{
+  position:fixed;top:74px;left:50%;transform:translateX(-50%);z-index:11;
+  padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;
+  background:rgba(220,38,38,.85);border:1px solid #fca5a5;color:#fff;
+  animation:pulse 1s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+
+/* Left Scan Panel */
+#scan-panel{
+  position:fixed;top:76px;left:22px;width:275px;max-height:54vh;z-index:10;
+  background:var(--bg);border:1px solid var(--bd);border-radius:10px;
+  padding:10px 12px;display:flex;flex-direction:column;gap:8px;backdrop-filter:blur(6px);
+}
+.panel-hdr{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;font-weight:700;color:var(--acc);border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:6px;
+}
+#scan-list{overflow-y:auto;display:flex;flex-direction:column;gap:6px;max-height:42vh;font-size:11.5px}
+.scan-item{
+  padding:6px 8px;border-radius:7px;background:rgba(255,255,255,.05);
+  border-left:3px solid var(--acc);display:flex;justify-content:space-between;align-items:center;gap:6px;
+}
+.scan-item.boss{border-left-color:#c084fc;background:rgba(168,85,247,.14)}
+.scan-item.zombie{border-left-color:var(--bad)}
+.scan-item.player{border-left-color:var(--good)}
+.scan-item.veh{border-left-color:var(--warn)}
+.scan-meta{font-size:10.5px;color:#94a3b8}
+
+/* Right Soundboard Drawer */
+#sound-panel{
+  position:fixed;top:76px;right:22px;width:270px;max-height:56vh;z-index:10;
+  background:var(--bg);border:1px solid var(--bd);border-radius:10px;
+  padding:10px 12px;display:flex;flex-direction:column;gap:8px;backdrop-filter:blur(6px);
+}
+#sound-list{overflow-y:auto;display:flex;flex-direction:column;gap:5px;max-height:44vh}
+.snd-btn{
+  text-align:left;padding:7px 9px;border-radius:7px;border:1px solid rgba(56,189,248,.25);
+  background:rgba(15,23,42,.75);color:#e2e8f0;font-size:11.5px;cursor:pointer;
+}
+.snd-btn:hover,.snd-btn:active{background:rgba(56,189,248,.22);border-color:var(--acc)}
+
+/* Bottom Action Toolbar */
+#toolbar{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:12;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:8px 10px;
+  background:var(--bg);border:1px solid var(--bd);border-radius:12px;backdrop-filter:blur(6px);
+  max-width:94vw;
+}
+.tbtn{
+  padding:7px 11px;border-radius:8px;border:1px solid rgba(148,163,184,.35);
+  background:rgba(15,23,42,.82);color:#e2e8f0;font-size:11.5px;font-weight:600;
+  cursor:pointer;display:flex;align-items:center;gap:5px;
+}
+.tbtn:hover{border-color:var(--acc);color:#fff}
+.tbtn.on{background:rgba(56,189,248,.25);border-color:var(--acc);color:#fff}
+.tbtn.danger{border-color:rgba(248,113,113,.5);color:#fecaca}
+.tbtn.danger:hover{background:rgba(220,38,38,.35)}
+.tbtn.lock{opacity:.42;cursor:not-allowed}
+
+/* Touch / On-screen Flight Controls (Mobile & Mouse) */
+#pad-left{
+  position:fixed;bottom:84px;left:22px;z-index:12;
+  display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:5px;
+}
+#pad-right{
+  position:fixed;bottom:84px;right:22px;z-index:12;
+  display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:5px;
+}
+.pad-btn{
+  width:44px;height:44px;border-radius:10px;border:1px solid rgba(56,189,248,.4);
+  background:rgba(7,12,20,.72);color:#e0f2fe;font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:none;
+}
+.pad-btn:active,.pad-btn.active{background:rgba(56,189,248,.38);border-color:#7dd3fc}
+.pad-empty{pointer-events:none}
+
+/* Keybind Help Hint (Desktop) */
+#hint{
+  position:fixed;bottom:72px;left:50%;transform:translateX(-50%);z-index:9;
+  font-size:11px;color:rgba(226,232,240,.78);background:rgba(7,12,20,.55);
+  padding:4px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;
+}
+@media (max-width:980px), (max-height:560px){
+  .corner{width:24px;height:24px}
+  .c-tl{top:8px;left:8px}.c-tr{top:8px;right:8px}.c-bl{bottom:8px;left:8px}.c-br{bottom:8px;right:8px}
+  #top-bar{
+    top:6px;gap:8px;padding:4px 10px;font-size:10.5px;max-width:96vw;
+    flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+  }
+  .badge{padding:2px 6px;font-size:9.5px}
+  .bat-wrap{width:38px;height:6px}
+  #warn-banner{top:42px;padding:4px 10px;font-size:10.5px}
+  #hint{display:none}
+  #toolbar{
+    bottom:6px;padding:4px 6px;gap:4px;max-width:98vw;border-radius:9px;
+  }
+  .tbtn{padding:5px 8px;font-size:10px;border-radius:6px;white-space:nowrap}
+  #pad-left{
+    bottom:52px;left:10px;
+    grid-template-columns:repeat(3,38px);grid-template-rows:repeat(3,38px);gap:4px;
+  }
+  #pad-right{
+    bottom:52px;right:10px;
+    grid-template-columns:repeat(3,38px);grid-template-rows:repeat(3,38px);gap:4px;
+  }
+  .pad-btn{width:38px;height:38px;font-size:11px;border-radius:8px}
+  #scan-panel,#sound-panel{
+    width:210px;top:42px;max-height:calc(100vh - 230px);padding:7px 9px;gap:5px;
+  }
+  #scan-panel{left:10px}
+  #sound-panel{right:10px}
+  #scan-list,#sound-list{max-height:calc(100vh - 275px);font-size:10.5px}
+  .snd-btn{padding:5px 7px;font-size:10.5px}
+}
+</style>
+</head>
+<body>
+<div id="fx-layer"></div>
+<div id="scanlines"></div>
+
+<div class="corner c-tl"></div>
+<div class="corner c-tr"></div>
+<div class="corner c-bl"></div>
+<div class="corner c-br"></div>
+
+<div id="reticle">
+  <div class="ret-ring"></div>
+  <div class="ret-dot"></div>
+</div>
+
+<div id="top-bar">
+  <span id="tier-badge" class="badge">RECON DRONE</span>
+  <div class="stat">ทิศ: <b id="v-dir">N</b></div>
+  <div class="stat">สูง: <b id="v-alt">0m</b></div>
+  <div class="stat">ระยะ: <b id="v-dist">0/220m</b></div>
+  <div class="stat">ซูม: <b id="v-zoom">1.0x</b></div>
+  <div class="stat">
+    แบต: <b id="v-bat">100%</b>
+    <div class="bat-wrap"><div id="bat-fill" class="bat-fill"></div></div>
+  </div>
+</div>
+
+<div id="warn-banner" class="hidden">SIGNAL WEAK</div>
+
+<div id="scan-panel" class="hidden">
+  <div class="panel-hdr">
+    <span>RADAR SCANNER</span>
+    <span id="scan-count" style="color:#94a3b8;font-weight:400">0 เป้าหมาย</span>
+  </div>
+  <div id="scan-list"></div>
+</div>
+
+<div id="sound-panel" class="hidden">
+  <div class="panel-hdr">
+    <span>SOUNDBOARD (50m)</span>
+    <button class="tbtn" style="padding:2px 7px;font-size:10px" onclick="toggleSoundPanel(false)">ปิด</button>
+  </div>
+  <div id="sound-list"></div>
+</div>
+
+<div id="pad-left">
+  <div class="pad-empty"></div>
+  <button class="pad-btn" data-key="w">W</button>
+  <div class="pad-empty"></div>
+  <button class="pad-btn" data-key="a">A</button>
+  <button class="pad-btn" data-key="stop">■</button>
+  <button class="pad-btn" data-key="d">D</button>
+  <div class="pad-empty"></div>
+  <button class="pad-btn" data-key="s">S</button>
+  <div class="pad-empty"></div>
+</div>
+
+<div id="pad-right">
+  <button class="pad-btn" data-key="up">ขึ้น</button>
+  <button class="pad-btn" data-key="lup">▲</button>
+  <button class="pad-btn" data-key="dn">ลง</button>
+  <button class="pad-btn" data-key="ll">◀</button>
+  <button class="pad-btn" onclick="doScan()">สแกน</button>
+  <button class="pad-btn" data-key="lr">▶</button>
+  <button class="pad-btn" onclick="doZoom(-1)">-</button>
+  <button class="pad-btn" data-key="ldn">▼</button>
+  <button class="pad-btn" onclick="doZoom(1)">+</button>
+</div>
+
+<div id="hint">W/S หน้า-หลัง | A/D เลี้ยวซ้าย-ขวา | E/Q ขึ้น-ลง | ลูกศร กล้อง | Scroll ซูม | R กลางคืน | F ความร้อน | G ไฟฉาย | V สแกน | B เสียง | F7 ปล่อยค้าง | ESC ออก</div>
+
+<div id="toolbar">
+  <button id="btn-nv" class="tbtn" onclick="toggleAction('nv')">[R] Nightvision</button>
+  <button id="btn-th" class="tbtn" onclick="toggleAction('th')">[F] Thermal</button>
+  <button id="btn-light" class="tbtn" onclick="toggleAction('light')">[G] Spotlight</button>
+  <button id="btn-scan" class="tbtn" onclick="doScan()">[V] Scan</button>
+  <button id="btn-snd" class="tbtn" onclick="toggleSoundPanel()">[B] Soundboard</button>
+  <button id="btn-rel" class="tbtn" onclick="doRelease()">[F7] ปล่อยค้าง</button>
+  <button class="tbtn danger" onclick="doExit()">[ESC] เก็บโดรน</button>
+</div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const cef = window.cef || null;
+
+  const SOUNDS = [
+    { text: "Pull the car over", file: "car_over.ogg" },
+    { text: "LSPD! Pull your car over immediately", file: "pull_imm.ogg" },
+    { text: "San Andreas Highway Patrol, stop the car", file: "sahp_stop.ogg" },
+    { text: "Last Chance! Stop the car", file: "last_chance.ogg" },
+    { text: "Los Santos Police Department, stop the vehicle", file: "los_santos.ogg" },
+    { text: "Turn off the engine in your vehicle", file: "engine_off.ogg" },
+    { text: "Stop of the vehicle and get out", file: "get_out.ogg" },
+    { text: "Freeze! LSPD", file: "freeze_lspd.ogg" },
+    { text: "You are not getting away that easy", file: "away_easy.ogg" },
+    { text: "Stop! Warning shot", file: "bullet_ass.ogg" },
+    { text: "You can't hide, we will track you down", file: "cant_hide_boi.ogg" },
+    { text: "Stop! Give yourself up", file: "dont_make_me.ogg" },
+    { text: "LSPD! Give up", file: "give_up.ogg" },
+    { text: "This is the LSPD, disperse now", file: "disperse_now.ogg" },
+    { text: "Get out of here now!", file: "get_out_of_here_now.ogg" },
+    { text: "Clear the area now!", file: "clear_the_area.ogg" },
+    { text: "Move along people!", file: "move_along_people.ogg" },
+    { text: "Go away now or there will be trouble", file: "this_is_the_lspd.ogg" }
+  ];
+
+  const state = {
+    tier: 1,
+    nv: false,
+    th: false,
+    light: false,
+    zoom: 1.0,
+    keys: { w:0, s:0, a:0, d:0, up:0, dn:0, ll:0, lr:0, lup:0, ldn:0 },
+    audio: null
+  };
+
+  function emit(ev, val) {
+    if (cef && typeof cef.emit === 'function') cef.emit(ev, String(val !== undefined && val !== null ? val : '1'));
+  }
+
+  function sendInput() {
+    const k = state.keys;
+    const mask =
+      (k.w ? 1 : 0) | (k.s ? 2 : 0) | (k.a ? 4 : 0) | (k.d ? 8 : 0) |
+      (k.up ? 16 : 0) | (k.dn ? 32 : 0) | (k.ll ? 64 : 0) | (k.lr ? 128 : 0) |
+      (k.lup ? 256 : 0) | (k.ldn ? 512 : 0);
+    Object.keys(k).forEach((name) => {
+      const btn = document.querySelector(`.pad-btn[data-key="${name}"]`);
+      if (btn) btn.classList.toggle('active', !!k[name]);
+    });
+    emit('rotdrone.input', mask);
+  }
+
+  function setVisualMode() {
+    document.body.classList.toggle('mode-nv', state.nv);
+    document.body.classList.toggle('mode-th', state.th);
+    $('#btn-nv').classList.toggle('on', state.nv);
+    $('#btn-th').classList.toggle('on', state.th);
+    $('#btn-light').classList.toggle('on', state.light);
+  }
+
+  window.toggleAction = (type) => {
+    if (type === 'th' && state.tier < 2) return;
+    if (type === 'nv') { state.nv = !state.nv; if (state.nv) state.th = false; }
+    if (type === 'th') { state.th = !state.th; if (state.th) state.nv = false; }
+    if (type === 'light') { state.light = !state.light; emit('rotdrone.light', state.light ? 1 : 0); }
+    setVisualMode();
+    emit('rotdrone.vision', state.th ? 2 : (state.nv ? 1 : 0));
+  };
+
+  window.doZoom = (delta) => {
+    state.zoom = Math.max(1.0, Math.min(3.0, Math.round((state.zoom + delta * 0.5) * 10) / 10));
+    $('#v-zoom').textContent = state.zoom.toFixed(1) + 'x';
+    emit('rotdrone.zoom', Math.round(state.zoom * 10));
+  };
+
+  window.doScan = () => {
+    $('#scan-panel').classList.remove('hidden');
+    $('#scan-list').innerHTML = '<div class="scan-item"><div>กำลังสแกนพื้นที่...</div></div>';
+    emit('rotdrone.scan', '1');
+  };
+
+  window.toggleSoundPanel = (force) => {
+    if (state.tier < 2) return;
+    const p = $('#sound-panel');
+    const show = typeof force === 'boolean' ? force : p.classList.contains('hidden');
+    p.classList.toggle('hidden', !show);
+  };
+
+  window.doRelease = () => {
+    if (state.tier < 2) return;
+    emit('rotdrone.release', '1');
+  };
+
+  window.doExit = () => emit('rotdrone.exit', '1');
+
+  function playLocalSound(file) {
+    try {
+      if (state.audio) { state.audio.pause(); state.audio = null; }
+      const a = new Audio('sounds/' + file);
+      a.volume = 0.75;
+      a.play().catch(() => {});
+      state.audio = a;
+    } catch (e) {}
+  }
+
+  // Build Soundboard list
+  const sndList = $('#sound-list');
+  SOUNDS.forEach((s, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'snd-btn';
+    btn.textContent = `${idx + 1}. ${s.text}`;
+    btn.onclick = () => {
+      playLocalSound(s.file);
+      emit('rotdrone.sound', s.file);
+    };
+    sndList.appendChild(btn);
+  });
+
+  // Bind touch / mouse hold pads
+  document.querySelectorAll('.pad-btn[data-key]').forEach((el) => {
+    const key = el.dataset.key;
+    const down = (e) => {
+      e.preventDefault();
+      if (key === 'stop') {
+        Object.keys(state.keys).forEach(k => state.keys[k] = 0);
+        sendInput();
+        return;
+      }
+      el.classList.add('active');
+      state.keys[key] = 1;
+      sendInput();
+    };
+    const up = (e) => {
+      e.preventDefault();
+      el.classList.remove('active');
+      if (key !== 'stop') { state.keys[key] = 0; sendInput(); }
+    };
+    el.addEventListener('pointerdown', down);
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointerleave', up);
+    el.addEventListener('pointercancel', up);
+  });
+
+  const CODE_MAP = {
+    KeyW: 'w', KeyS: 's', KeyA: 'a', KeyD: 'd',
+    KeyE: 'up', KeyQ: 'dn',
+    ArrowLeft: 'll', ArrowRight: 'lr', ArrowUp: 'lup', ArrowDown: 'ldn'
+  };
+  const KC_MAP = {
+    87: 'w', 83: 's', 65: 'a', 68: 'd',
+    69: 'up', 81: 'dn',
+    37: 'll', 39: 'lr', 38: 'lup', 40: 'ldn'
+  };
+  const CHAR_MAP = {
+    w: 'w', s: 's', a: 'a', d: 'd', e: 'up', q: 'dn',
+    'ไ': 'w', 'ห': 's', 'ฟ': 'a', 'ด': 'd', 'ำ': 'up', 'ๆ': 'dn'
+  };
+
+  function resolveMoveKey(ev) {
+    if (ev.code && CODE_MAP[ev.code]) return CODE_MAP[ev.code];
+    if (ev.keyCode && KC_MAP[ev.keyCode]) return KC_MAP[ev.keyCode];
+    const k = ev.key ? String(ev.key).toLowerCase() : '';
+    return CHAR_MAP[k] || null;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.repeat) return;
+    const mk = resolveMoveKey(e);
+    if (mk) {
+      e.preventDefault();
+      state.keys[mk] = 1;
+      sendInput();
+      return;
+    }
+    const kc = e.keyCode || 0;
+    if (e.code === 'Space' || kc === 32) { e.preventDefault(); Object.keys(state.keys).forEach(k => state.keys[k] = 0); sendInput(); }
+    else if (e.code === 'KeyR' || kc === 82) toggleAction('nv');
+    else if (e.code === 'KeyF' || kc === 70) toggleAction('th');
+    else if (e.code === 'KeyG' || kc === 71) toggleAction('light');
+    else if (e.code === 'KeyV' || kc === 86) doScan();
+    else if (e.code === 'KeyB' || kc === 66) toggleSoundPanel();
+    else if (e.code === 'F7' || kc === 118) { e.preventDefault(); doRelease(); }
+    else if (e.code === 'Equal' || e.code === 'NumpadAdd' || kc === 187 || kc === 107) doZoom(1);
+    else if (e.code === 'Minus' || e.code === 'NumpadSubtract' || kc === 189 || kc === 109) doZoom(-1);
+    else if (e.code === 'Escape' || kc === 27) doExit();
+  });
+
+  window.addEventListener('keyup', (e) => {
+    const mk = resolveMoveKey(e);
+    if (mk) {
+      state.keys[mk] = 0;
+      sendInput();
+    }
+  });
+
+  try { window.focus(); } catch (e) {}
+
+  window.addEventListener('wheel', (e) => {
+    doZoom(e.deltaY < 0 ? 1 : -1);
+  }, { passive: true });
+
+  if (cef && typeof cef.on === 'function') {
+    cef.on('rotdrone.init', (tier, maxRange, maxBat) => {
+      state.tier = Number(tier) || 1;
+      state.nv = false; state.th = false; state.light = false; state.zoom = 1.0;
+      setVisualMode();
+      $('#tier-badge').textContent = state.tier >= 2 ? 'TACTICAL DRONE' : 'RECON DRONE';
+      $('#tier-badge').classList.toggle('t2', state.tier >= 2);
+      $('#btn-th').classList.toggle('lock', state.tier < 2);
+      $('#btn-snd').classList.toggle('lock', state.tier < 2);
+      $('#btn-rel').classList.toggle('lock', state.tier < 2);
+      $('#v-dist').textContent = `0/${Math.round(Number(maxRange) || 220)}m`;
+      $('#v-bat').textContent = '100%';
+      $('#bat-fill').style.width = '100%';
+      $('#scan-panel').classList.add('hidden');
+      $('#sound-panel').classList.add('hidden');
+    });
+
+    cef.on('rotdrone.telemetry', (dir, alt, dist, maxRange, batPct, warn) => {
+      $('#v-dir').textContent = String(dir || 'N');
+      $('#v-alt').textContent = `${Math.round(Number(alt) || 0)}m`;
+      $('#v-dist').textContent = `${Math.round(Number(dist) || 0)}/${Math.round(Number(maxRange) || 220)}m`;
+      const bp = Math.max(0, Math.min(100, Number(batPct) || 0));
+      $('#v-bat').textContent = `${bp}%`;
+      const bf = $('#bat-fill');
+      bf.style.width = `${bp}%`;
+      bf.style.background = bp > 40 ? 'var(--good)' : (bp > 18 ? 'var(--warn)' : 'var(--bad)');
+      const wb = $('#warn-banner');
+      if (warn) { wb.textContent = String(warn); wb.classList.remove('hidden'); }
+      else wb.classList.add('hidden');
+    });
+
+    cef.on('rotdrone.scanBegin', () => {
+      $('#scan-panel').classList.remove('hidden');
+      $('#scan-list').innerHTML = '';
+      $('#scan-count').textContent = '0 เป้าหมาย';
+    });
+
+    cef.on('rotdrone.scanItem', (kind, title, meta) => {
+      const list = $('#scan-list');
+      const div = document.createElement('div');
+      div.className = `scan-item ${kind}`;
+      div.innerHTML = `<div><b>${title}</b><div class="scan-meta">${meta}</div></div>`;
+      list.appendChild(div);
+    });
+
+    cef.on('rotdrone.scanEnd', (count) => {
+      const n = Number(count) || 0;
+      $('#scan-count').textContent = `${n} เป้าหมาย`;
+      if (n === 0) {
+        $('#scan-list').innerHTML = '<div class="scan-item"><div>ไม่พบเป้าหมายในระยะสแกน</div></div>';
+      }
+    });
+
+    cef.on('rotdrone.playSound', (file) => {
+      playLocalSound(String(file || ''));
+    });
+
+    emit('rotdrone.ready', '1');
+  }
+})();
+</script>
+</body>
+</html>

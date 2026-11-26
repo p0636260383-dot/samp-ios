@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ROT CITY — ศูนย์บัญชาการกิลด์ & ปาร์ตี้</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="guild-overlay" class="guild-overlay hidden">
+    <div class="guild-window">
+      <!-- Top Cyber-Blue Header -->
+      <header class="guild-header">
+        <div class="header-brand">
+          <div class="brand-badge">🛡️</div>
+          <div class="brand-titles">
+            <span class="brand-kicker">ROT CITY TACTICAL NETWORK // SYNDICATE OS</span>
+            <h1 class="brand-title">ศูนย์บัญชาการกิลด์ &amp; ปาร์ตี้</h1>
+          </div>
+        </div>
+
+        <div class="header-wallets">
+          <div class="wallet-chip">
+            <span class="wallet-label">แต้มผลงาน</span>
+            <span id="my-merit" class="wallet-val cyan">0</span>
+          </div>
+          <div class="wallet-chip">
+            <span class="wallet-label">ไบโอคอร์ (CP)</span>
+            <span id="my-cp" class="wallet-val blue">0</span>
+          </div>
+          <button id="btn-refresh" class="icon-btn" title="รีเฟรชข้อมูล">↻</button>
+          <button id="btn-close" class="close-btn" title="ปิดหน้าต่าง (ESC)">✕</button>
+        </div>
+      </header>
+
+      <!-- Navigation Tabs -->
+      <nav class="guild-tabs">
+        <button class="tab-btn active" data-tab="overview">🏛️ ข้อมูลกิลด์ &amp; กองทุน</button>
+        <button class="tab-btn" data-tab="members">👥 สมาชิกกิลด์ (<span id="tab-mem-count">0</span>)</button>
+        <button class="tab-btn" data-tab="party">⚡ ปาร์ตี้ด่วน &amp; เชิญผู้เล่น</button>
+        <button class="tab-btn" data-tab="directory">🏆 ทำเนียบกิลด์ในเมือง</button>
+      </nav>
+
+      <!-- Toast Notice Banner -->
+      <div id="guild-toast" class="guild-toast hidden"></div>
+
+      <!-- Main Body -->
+      <main class="guild-body">
+        <!-- TAB 1: OVERVIEW (CREATE OR DASHBOARD) -->
+        <section id="tab-overview" class="tab-pane active">
+          <!-- View when player has NO guild -->
+          <div id="no-guild-view" class="no-guild-grid">
+            <div class="cyber-card create-card">
+              <div class="card-header">
+                <span class="card-tag">NEW SYNDICATE</span>
+                <h2>ก่อตั้งกองกำลังกิลด์ใหม่</h2>
+              </div>
+              <p class="card-desc">
+                สร้างกิลด์ถาวรเพื่อเปิดระบบคลังกองทุนกิลด์, แชร์ประตูฐานทัพและรถร่วมกับสมาชิก, ป้องกันการยิงพวกเดียวกัน (Friendly Fire) และชุบชีวิตเพื่อนร่วมกิลด์เร็วขึ้น 2 เท่า!
+              </p>
+              <div class="form-row">
+                <div class="form-group small">
+                  <label>ตัวย่อกิลด์ (TAG 2-6 ตัว)</label>
+                  <input id="input-guild-tag" type="text" maxlength="6" placeholder="เช่น RTC">
+                </div>
+                <div class="form-group flex-1">
+                  <label>ชื่อกิลด์อย่างเป็นทางการ (3-32 ตัวอักษร)</label>
+                  <input id="input-guild-name" type="text" maxlength="32" placeholder="เช่น กองกำลังพิทักษ์เมืองร้าง">
+                </div>
+              </div>
+              <div class="cost-banner">
+                <span>ค่าธรรมเนียมก่อตั้งกิลด์ถาวร:</span>
+                <strong>5,000 แต้มผลงาน</strong>
+              </div>
+              <button id="btn-create-guild" class="cyber-btn primary full">⚡ ยืนยันก่อตั้งกิลด์ใหม่</button>
+            </div>
+
+            <div class="cyber-card invite-card">
+              <div class="card-header">
+                <span class="card-tag">PENDING INVITATION</span>
+                <h2>คำเชิญเข้าร่วมกิลด์ / ปาร์ตี้</h2>
+              </div>
+              <div id="invite-box-empty" class="invite-empty">
+                <div class="empty-icon">📡</div>
+                <p>ยังไม่มีสัญญาณคำเชิญเข้ากิลด์หรือปาร์ตี้ในขณะนี้</p>
+                <span>คุณสามารถกดแท็บ "ปาร์ตี้ด่วน &amp; เชิญผู้เล่น" เพื่อชวนเพื่อนร่วมทีมได้ทันที</span>
+              </div>
+              <div id="invite-box-active" class="invite-active hidden">
+                <div class="invite-badge">คำเชิญใหม่!</div>
+                <h3 id="invite-title-text">-</h3>
+                <div class="btn-row">
+                  <button id="btn-accept-invite" class="cyber-btn success flex-1">✔ ตอบรับเข้าร่วม</button>
+                  <button id="btn-deny-invite" class="cyber-btn danger flex-1">✕ ปฏิเสธ</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- View when player HAS a guild -->
+          <div id="has-guild-view" class="has-guild-grid hidden">
+            <!-- Left Column: Guild Identity & Tactical Controls -->
+            <div class="cyber-card guild-info-card">
+              <div class="guild-banner-top">
+                <div class="guild-emblem" id="guild-tag-badge">TAG</div>
+                <div class="guild-meta">
+                  <div class="guild-lv-row">
+                    <span id="guild-level-pill" class="lv-pill">LEVEL 1</span>
+                    <span id="guild-role-pill" class="role-pill">สมาชิก</span>
+                  </div>
+                  <h2 id="guild-name-title">ชื่อกิลด์</h2>
+                  <p class="guild-leader-line">ผู้บัญชาการสูงสุด: <strong id="guild-leader-name">-</strong></p>
+                </div>
+              </div>
+
+              <div class="exp-bar-wrap">
+                <div class="exp-bar-labels">
+                  <span>ค่าประสบการณ์กิลด์ (Guild EXP)</span>
+                  <span id="guild-exp-text">0 / 500 EXP</span>
+                </div>
+                <div class="exp-bar-track">
+                  <div id="guild-exp-fill" class="exp-bar-fill" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div class="notice-box">
+                <label>📢 ประกาศประจำกิลด์</label>
+                <div class="notice-input-row">
+                  <input id="input-guild-notice" type="text" maxlength="100" placeholder="ตั้งข้อความประกาศถึงสมาชิกกิลด์...">
+                  <button id="btn-save-notice" class="cyber-btn secondary">บันทึก</button>
+                </div>
+              </div>
+
+              <div class="tactical-toggles">
+                <div class="toggle-item">
+                  <div>
+                    <strong>โหมดป้องกันยิงพวกเดียวกัน (Friendly Fire)</strong>
+                    <p id="ff-status-desc">สถานะ: ปิดดาเมจพวกเดียวกัน (ปลอดภัย)</p>
+                  </div>
+                  <button id="btn-toggle-ff" class="cyber-btn outline">สลับสถานะ</button>
+                </div>
+              </div>
+
+              <div class="radio-chat-box">
+                <label>📻 ส่งวิทยุสื่อสารกิลด์ด่วน (/g)</label>
+                <div class="notice-input-row">
+                  <input id="input-guild-chat" type="text" maxlength="90" placeholder="พิมพ์ข้อความวิทยุถึงสมาชิกกิลด์...">
+                  <button id="btn-send-chat" class="cyber-btn primary">ส่งวิทยุ</button>
+                </div>
+              </div>
+
+              <div class="footer-actions">
+                <button id="btn-upgrade-guild" class="cyber-btn primary flex-1">⬆️ อัปเกรดเลเวลกิลด์</button>
+                <button id="btn-leave-guild" class="cyber-btn danger">ออกจากกิลด์ / ยุบกิลด์</button>
+              </div>
+            </div>
+
+            <!-- Right Column: Guild Treasury / Bank -->
+            <div class="cyber-card guild-bank-card">
+              <div class="card-header">
+                <span class="card-tag">SYNDICATE TREASURY</span>
+                <h2>คลังกองทุนกิลด์ส่วนกลาง</h2>
+              </div>
+
+              <div class="treasury-balances">
+                <div class="treasury-stat">
+                  <span class="t-label">กองทุนแต้มผลงาน</span>
+                  <strong id="bank-mp-val" class="t-val cyan">0</strong>
+                  <small>ใช้สำหรับอัปเกรดเลเวลกิลด์ &amp; สวัสดิการสมาชิก</small>
+                </div>
+                <div class="treasury-stat">
+                  <span class="t-label">กองทุนไบโอคอร์ (CP)</span>
+                  <strong id="bank-cp-val" class="t-val blue">0</strong>
+                  <small>เหรียญยุทธศาสตร์สำรองของกิลด์</small>
+                </div>
+              </div>
+
+              <div class="bank-section">
+                <label>🪙 จัดการกองทุนแต้มผลงาน (Merit Points)</label>
+                <div class="bank-action-row">
+                  <input id="input-bank-mp" type="number" min="1" value="1000" placeholder="จำนวนแต้ม">
+                  <button id="btn-deposit-mp" class="cyber-btn success">ฝากเข้ากิลด์</button>
+                  <button id="btn-withdraw-mp" class="cyber-btn outline">เบิกกองทุน</button>
+                </div>
+              </div>
+
+              <div class="bank-section">
+                <label>💠 จัดการกองทุนไบโอคอร์ (Bio-Core CP)</label>
+                <div class="bank-action-row">
+                  <input id="input-bank-cp" type="number" min="1" value="10" placeholder="จำนวน CP">
+                  <button id="btn-deposit-cp" class="cyber-btn success">ฝาก CP</button>
+                  <button id="btn-withdraw-cp" class="cyber-btn outline">เบิก CP</button>
+                </div>
+              </div>
+
+              <div class="guild-perks-summary">
+                <h3>⚡ สิทธิพิเศษของสมาชิกกิลด์</h3>
+                <ul>
+                  <li>✔ ชุบชีวิตเพื่อนในกิลด์/ปาร์ตี้ที่ล้มบาดเจ็บเร็วขึ้น <strong>2 เท่า</strong></li>
+                  <li>✔ เปิด/ปิดประตูฐานทัพและช่วยซ่อมแซมฐานของเพื่อนร่วมกิลด์ได้</li>
+                  <li>✔ ขับและล็อก/ปลดล็อกยานพาหนะของเพื่อนร่วมกิลด์ได้</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 2: MEMBERS -->
+        <section id="tab-members" class="tab-pane">
+          <div class="cyber-card full-height">
+            <div class="card-header-between">
+              <div>
+                <span class="card-tag">ROSTER MANAGEMENT</span>
+                <h2>รายชื่อสมาชิกกิลด์</h2>
+              </div>
+              <span class="sub-hint">หัวหน้ากิลด์สามารถแต่งตั้งรองหัวหน้า หรือจัดการสมาชิกได้</span>
+            </div>
+            <div class="table-scroll">
+              <table class="cyber-table">
+                <thead>
+                  <tr>
+                    <th>ชื่อตัวละคร</th>
+                    <th>ตำแหน่ง</th>
+                    <th>สถานะ</th>
+                    <th class="right">การจัดการ</th>
+                  </tr>
+                </thead>
+                <tbody id="members-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 3: QUICK PARTY & ONLINE PLAYERS -->
+        <section id="tab-party" class="tab-pane">
+          <div class="cyber-card full-height">
+            <div class="card-header-between">
+              <div>
+                <span class="card-tag">TACTICAL SQUAD &amp; RECRUITMENT</span>
+                <h2>ผู้รอดชีวิตออนไลน์ (เชิญเข้ากิลด์ / ปาร์ตี้ด่วน)</h2>
+              </div>
+              <div class="btn-row">
+                <button id="btn-accept-party-top" class="cyber-btn success">✔ ตอบรับคำเชิญล่าสุด</button>
+                <button id="btn-leave-party" class="cyber-btn danger">ออกจากปาร์ตี้ด่วน</button>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table class="cyber-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>ชื่อผู้รอดชีวิต</th>
+                    <th>สังกัดกิลด์</th>
+                    <th>สถานะทีม</th>
+                    <th class="right">ส่งคำเชิญ</th>
+                  </tr>
+                </thead>
+                <tbody id="players-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 4: GUILD DIRECTORY -->
+        <section id="tab-directory" class="tab-pane">
+          <div class="cyber-card full-height">
+            <div class="card-header-between">
+              <div>
+                <span class="card-tag">ROT CITY LEADERBOARD</span>
+                <h2>ทำเนียบกองกำลังกิลด์ในเซิร์ฟเวอร์</h2>
+              </div>
+              <span class="sub-hint">จัดอันดับตามระดับเลเวลและจำนวนสมาชิก</span>
+            </div>
+            <div class="table-scroll">
+              <table class="cyber-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>ตัวย่อ</th>
+                    <th>ชื่อกิลด์</th>
+                    <th>เลเวล</th>
+                    <th>สมาชิก</th>
+                    <th>หัวหน้ากิลด์</th>
+                  </tr>
+                </thead>
+                <tbody id="directory-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="../rotcity-shared/cef-thai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

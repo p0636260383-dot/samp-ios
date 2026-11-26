@@ -1,0 +1,358 @@
+/* ==========================================================================
+   ROT CITY - AIRDROP SUPPLY CRATE SYSTEM (TOP-CENTER CEF HUD)
+   Custom Cyber-Military Air Drop Banner HUD
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  -webkit-user-drag: none;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", Tahoma, "Noto Sans Thai", -apple-system, sans-serif;
+  
+  --cyan-bright: #00e5ff;
+  --cyan-glow: #0284c7;
+  --red-warn: #ff334b;
+  --green-success: #00e676;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* ==========================================================================
+   1. TOP-CENTER CONTAINER
+   ========================================================================== */
+.airdrop-root {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* บนสุด ตรงกลาง */
+  padding-top: 12px;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   2. MAIN BANNER CARD
+   ========================================================================== */
+.airdrop-banner {
+  position: relative;
+  width: 557px;
+  height: 313px;
+  pointer-events: auto;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 20px rgba(0, 229, 255, 0.35));
+  animation: bannerSlideDown 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: scale(0.70);
+  transform-origin: top center;
+}
+
+@keyframes bannerSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%) scale(0.65);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(0.70);
+  }
+}
+
+.airdrop-banner.slide-up {
+  animation: bannerSlideUp 0.4s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+@keyframes bannerSlideUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.70);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-110%) scale(0.65);
+  }
+}
+
+.banner-bg-img {
+  width: 557px;
+  height: 313px;
+  display: block;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   3. DYNAMIC MAIN TITLE OVERLAY
+   ========================================================================== */
+.banner-title {
+  position: absolute;
+  left: 172px;
+  top: 118px;
+  width: 365px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 27px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow: 0 0 16px rgba(0, 229, 255, 0.95), 0 2px 4px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* ==========================================================================
+   4. DYNAMIC SUBTITLE OVERLAY
+   ========================================================================== */
+.banner-subtitle {
+  position: absolute;
+  left: 172px;
+  top: 168px;
+  width: 365px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #e2e8f0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   5. DYNAMIC LOCATION / LOOTING PILL
+   ========================================================================== */
+.location-pill {
+  position: absolute;
+  left: 188px;
+  top: 224px;
+  width: 206px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.loc-normal-view {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.loc-pin {
+  font-size: 14px;
+  filter: drop-shadow(0 0 6px var(--cyan-bright));
+}
+
+.loc-text b {
+  color: var(--cyan-bright);
+}
+
+/* Looting mode with slim progress bar inside pill */
+.loc-loot-view {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+}
+
+.loot-gear {
+  font-size: 15px;
+  color: var(--cyan-bright);
+  animation: gearSpin 3s linear infinite;
+}
+
+@keyframes gearSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loot-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.mini-bar-track {
+  flex: 1;
+  height: 10px;
+  background: rgba(4, 16, 28, 0.85);
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 229, 255, 0.4);
+}
+
+.mini-bar-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #0284c7 0%, #00e5ff 100%);
+  box-shadow: 0 0 10px var(--cyan-bright);
+  transition: width 0.3s ease;
+}
+
+.mini-bar-pct {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--cyan-bright);
+  min-width: 32px;
+  text-align: right;
+}
+
+/* ==========================================================================
+   6. DYNAMIC TIMER BOX (RIGHT SIDE)
+   ========================================================================== */
+.timer-box {
+  position: absolute;
+  left: 406px;
+  top: 210px;
+  width: 108px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.timer-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.3px;
+  margin-bottom: 2px;
+}
+
+.timer-val {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--cyan-bright);
+  text-shadow: 0 0 12px var(--cyan-bright), 0 2px 4px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.8px;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease;
+}
+
+/* ==========================================================================
+   7. INTERRUPTED STATE (WHEN HIT BY ZOMBIE)
+   ========================================================================== */
+.airdrop-banner.interrupted {
+  animation: bannerShake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  filter: drop-shadow(0 0 35px rgba(255, 30, 50, 0.85));
+}
+
+.airdrop-banner.interrupted .banner-title {
+  color: #ff334b;
+  text-shadow: 0 0 16px #ff334b;
+}
+
+.airdrop-banner.interrupted .timer-val {
+  color: #ff334b;
+  text-shadow: 0 0 12px #ff334b;
+}
+
+.airdrop-banner.interrupted .mini-bar-fill {
+  background: linear-gradient(90deg, #b71c1c 0%, #ff1744 100%);
+  box-shadow: 0 0 10px #ff1744;
+}
+
+@keyframes bannerShake {
+  10%, 90% { transform: translate3d(-4px, 0, 0); }
+  20%, 80% { transform: translate3d(5px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+/* ==========================================================================
+   8. SUCCESS STATE (WHEN OPENED 100%)
+   ========================================================================== */
+.airdrop-banner.success {
+  filter: drop-shadow(0 0 40px rgba(0, 230, 118, 0.85));
+}
+
+.airdrop-banner.success .banner-title {
+  color: var(--green-success);
+  text-shadow: 0 0 16px var(--green-success);
+}
+
+.airdrop-banner.success .timer-val {
+  color: var(--green-success);
+  text-shadow: 0 0 12px var(--green-success);
+}
+
+.airdrop-banner.success .mini-bar-fill {
+  background: linear-gradient(90deg, #00b0ff 0%, #00e676 100%);
+  box-shadow: 0 0 10px var(--green-success);
+}
+
+/* ==========================================================================
+   9. FLOATING STATUS BADGE
+   ========================================================================== */
+.status-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 24px;
+  border-radius: 8px;
+  background: rgba(4, 18, 30, 0.95);
+  border: 2px solid var(--cyan-bright);
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 50;
+  animation: popupScale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popupScale {
+  0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.status-popup.success {
+  border-color: var(--green-success);
+  box-shadow: 0 0 30px rgba(0, 230, 118, 0.8);
+}
+.status-popup.success .status-text {
+  color: var(--green-success);
+  text-shadow: 0 0 10px var(--green-success);
+}
+
+.status-popup.interrupted {
+  border-color: var(--red-warn);
+  box-shadow: 0 0 30px rgba(255, 51, 75, 0.8);
+}
+.status-popup.interrupted .status-text {
+  color: var(--red-warn);
+  text-shadow: 0 0 10px var(--red-warn);
+}
+
+.status-icon {
+  font-size: 20px;
+}
+
+.status-text {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}

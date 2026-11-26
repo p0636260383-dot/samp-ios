@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>AIR DROP | ROT CITY</title>
+  <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+  <!-- Centered at the VERY TOP of the screen -->
+  <div id="airdropRoot" class="airdrop-root" style="display: none;">
+    <div id="airdropBanner" class="airdrop-banner">
+      <!-- High-Resolution Graphic Frame (Cleaned plate, no baked-in text) -->
+      <img src="airdrop_incoming_banner_clean.png" class="banner-bg-img" alt="Air Drop Supply Crate" draggable="false">
+
+      <!-- 1. Dynamic Main Title Overlay -->
+      <div id="bannerTitle" class="banner-title">แอร์ดรอปกำลังมา!</div>
+
+      <!-- 2. Dynamic Subtitle Overlay -->
+      <div id="bannerSubtitle" class="banner-subtitle">กล่องเสบียงพิเศษจากทางการ</div>
+
+      <!-- 3. Dynamic Location / Looting Progress Pill -->
+      <div id="locationPill" class="location-pill">
+        <div id="locNormalView" class="loc-normal-view">
+          <span class="loc-pin">📍</span>
+          <span class="loc-text">ตำแหน่ง : <b id="locNameVal">แบบสุ่มในแผนที่</b></span>
+        </div>
+        <div id="locLootView" class="loc-loot-view" style="display: none;">
+          <span class="loot-gear">⚙</span>
+          <span class="loot-label">ค้นหา :</span>
+          <div class="mini-bar-track">
+            <div id="miniBarFill" class="mini-bar-fill"></div>
+          </div>
+          <span id="miniBarPct" class="mini-bar-pct">0%</span>
+        </div>
+      </div>
+
+      <!-- 4. Dynamic Timer Box (Right Side) -->
+      <div id="timerBox" class="timer-box">
+        <span id="timerLabel" class="timer-label">กำลังมาถึง</span>
+        <span id="timerVal" class="timer-val">03:00</span>
+      </div>
+
+      <!-- 5. Floating Status Badge (Success / Interrupted) -->
+      <div id="statusPopup" class="status-popup" style="display: none;">
+        <span id="statusIcon" class="status-icon">🔓</span>
+        <span id="statusText" class="status-text">UNLOCKED!</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="airdrop.js?v=3"></script>
+</body>
+</html>

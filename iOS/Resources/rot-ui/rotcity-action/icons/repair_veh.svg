@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 92 92" width="92" height="92">
+  <defs>
+    <linearGradient id="wrenchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00e5ff"/>
+      <stop offset="50%" stop-color="#0077ff"/>
+      <stop offset="100%" stop-color="#0033aa"/>
+    </linearGradient>
+    <filter id="wrenchGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#00aaff" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <g filter="url(#wrenchGlow)" transform="translate(46,46) rotate(-45) translate(-46,-46)">
+    <!-- Main Wrench Shaft -->
+    <rect x="42" y="24" width="8" height="44" rx="2" fill="url(#wrenchGrad)" stroke="#00ffff" stroke-width="1.2"/>
+    <rect x="44" y="32" width="4" height="28" rx="1" fill="#001a33"/>
+    <!-- Top Open Head -->
+    <path d="M 33 26 C 33 16, 59 16, 59 26 L 53 26 C 53 22, 39 22, 39 26 Z" fill="url(#wrenchGrad)" stroke="#00ffff" stroke-width="1.2"/>
+    <path d="M 39 18 L 46 25 L 53 18" stroke="#00ffff" stroke-width="1.5" fill="none"/>
+    <!-- Bottom Ring Head -->
+    <circle cx="46" cy="72" r="9" fill="url(#wrenchGrad)" stroke="#00ffff" stroke-width="1.2"/>
+    <circle cx="46" cy="72" r="4.5" fill="#081018"/>
+  </g>
+</svg>

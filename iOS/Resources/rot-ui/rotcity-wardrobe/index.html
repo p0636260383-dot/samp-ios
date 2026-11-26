@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ROTCITY - Modular Body & Clothing</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+  html, body {
+    width: 100vw; height: 100vh; overflow: hidden;
+    background: transparent !important;
+    font-family: 'Kanit', sans-serif; color: #e0f2fe;
+  }
+  .backdrop-glow {
+    position: fixed; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(4, 15, 34, 0.82) 0%, rgba(4, 15, 34, 0.0) 27%, rgba(4, 15, 34, 0.0) 73%, rgba(4, 15, 34, 0.85) 100%);
+  }
+
+  /* Center drag zone for 360 character rotation */
+  .center-drag-zone {
+    position: fixed; top: 0; bottom: 80px; left: 340px; right: 360px;
+    cursor: grab; z-index: 1;
+  }
+  .center-drag-zone:active { cursor: grabbing; }
+  .drag-hint {
+    position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
+    background: rgba(8, 22, 46, 0.88); border: 1px solid rgba(56, 189, 248, 0.45);
+    padding: 5px 16px; border-radius: 999px; font-size: 12px; color: #bae6fd;
+    pointer-events: none; z-index: 5; letter-spacing: 0.3px;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.22);
+  }
+
+  /* Sidebars */
+  .sidebar-left, .sidebar-right {
+    position: fixed; top: 14px; bottom: 14px;
+    width: 330px; display: flex; flex-direction: column; gap: 8px;
+    z-index: 10; overflow-y: auto; padding-right: 4px;
+  }
+  .sidebar-left { left: 16px; }
+  .sidebar-right { right: 16px; width: 350px; }
+  .sidebar-left::-webkit-scrollbar, .sidebar-right::-webkit-scrollbar { width: 5px; }
+  .sidebar-left::-webkit-scrollbar-thumb, .sidebar-right::-webkit-scrollbar-thumb {
+    background: rgba(56, 189, 248, 0.5); border-radius: 6px;
+  }
+
+  .panel-header {
+    background: linear-gradient(135deg, rgba(10, 28, 60, 0.95), rgba(7, 20, 44, 0.95));
+    border: 1px solid rgba(56, 189, 248, 0.5);
+    border-radius: 10px; padding: 10px 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.48);
+  }
+  .panel-header h2 {
+    font-size: 15px; font-weight: 700; color: #38bdf8;
+    letter-spacing: 0.6px; text-transform: uppercase;
+  }
+  .panel-header p { font-size: 11px; color: #94a3b8; margin-top: 1px; }
+
+  .card {
+    background: rgba(8, 22, 46, 0.92);
+    border: 1px solid rgba(59, 130, 246, 0.34);
+    border-radius: 10px; padding: 9px 11px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.42);
+    transition: border-color 0.15s;
+  }
+  .card:hover { border-color: rgba(56, 189, 248, 0.68); }
+  .card-body-part {
+    border-color: rgba(96, 165, 250, 0.45);
+    background: rgba(10, 28, 58, 0.94);
+  }
+  .card-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .card-title {
+    font-size: 12px; font-weight: 600; color: #7dd3fc;
+    letter-spacing: 0.3px;
+  }
+  .card-body-part .card-title { color: #93c5fd; }
+  .card-count {
+    font-size: 11px; color: #dbeafe;
+    background: rgba(29, 78, 216, 0.42);
+    padding: 1px 7px; border-radius: 99px;
+  }
+
+  .stepper-row {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-step {
+    width: 30px; height: 28px; border-radius: 6px;
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    background: rgba(15, 42, 84, 0.88); color: #7dd3fc;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.12s;
+  }
+  .btn-step:hover { background: #0ea5e9; color: #ffffff; }
+  .input-num {
+    flex: 1; height: 28px; border-radius: 6px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    background: rgba(4, 12, 28, 0.92); color: #f8fafc;
+    text-align: center; font-family: 'Kanit', sans-serif;
+    font-size: 13px; font-weight: 600; outline: none;
+  }
+  .input-num:focus { border-color: #38bdf8; }
+
+  .item-label {
+    font-size: 11px; color: #94a3b8; text-align: center;
+    margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .sub-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 5px; margin-top: 6px; padding-top: 6px;
+    border-top: 1px solid rgba(56, 189, 248, 0.16);
+  }
+  .sub-label { font-size: 11px; color: #bae6fd; min-width: 44px; white-space: nowrap; }
+  .btn-mini {
+    height: 23px; padding: 0 8px; border-radius: 5px;
+    border: 1px solid rgba(56, 189, 248, 0.38);
+    background: rgba(15, 42, 84, 0.82); color: #e0f2fe;
+    font-family: 'Kanit', sans-serif; font-size: 11px; cursor: pointer;
+    transition: all 0.12s;
+  }
+  .btn-mini:hover, .btn-mini.active {
+    background: linear-gradient(135deg, #2563eb, #0ea5e9); color: #ffffff; border-color: #7dd3fc; font-weight: 600;
+  }
+
+  .swatches {
+    display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: flex-end; max-width: 100%;
+  }
+  .swatch {
+    width: 15px; height: 15px; border-radius: 50%; flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.28); cursor: pointer;
+    transition: transform 0.12s, border-color 0.12s;
+  }
+  .swatch.active {
+    transform: scale(1.22); border-color: #ffffff;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.95);
+  }
+  .swatch-picker {
+    width: 24px; height: 18px; padding: 0; border: 1.5px solid rgba(56, 189, 248, 0.7);
+    border-radius: 6px; background: transparent; cursor: pointer; flex-shrink: 0;
+  }
+  .swatch-picker.active {
+    border-color: #ffffff; box-shadow: 0 0 8px rgba(56, 189, 248, 0.95); transform: scale(1.12);
+  }
+
+  .cam-tabs, .sex-tabs {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
+  }
+  .sex-tabs { grid-template-columns: repeat(2, 1fr); margin-bottom: 6px; }
+  .quick-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 5px;
+  }
+
+  .preset-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 4px 0; border-bottom: 1px solid rgba(56, 189, 248, 0.14);
+    font-size: 12px;
+  }
+  .preset-row:last-child { border-bottom: none; }
+
+  /* Bottom Bar */
+  .bottom-bar {
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(8, 22, 46, 0.95);
+    border: 1px solid rgba(56, 189, 248, 0.5);
+    border-radius: 12px; padding: 8px 14px;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.6);
+    z-index: 20;
+  }
+  .btn-action {
+    height: 34px; padding: 0 15px; border-radius: 8px;
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    background: rgba(15, 42, 84, 0.92); color: #e0f2fe;
+    font-family: 'Kanit', sans-serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.14s;
+  }
+  .btn-action:hover { background: #0ea5e9; color: #ffffff; }
+  .btn-save {
+    background: linear-gradient(135deg, #2563eb, #0284c7);
+    color: #ffffff; border-color: #60a5fa; font-weight: 700;
+  }
+  .btn-save:hover { filter: brightness(1.12); }
+  .btn-cancel {
+    background: rgba(127, 29, 29, 0.85);
+    border-color: rgba(248, 113, 113, 0.5); color: #fecaca;
+  }
+  .btn-cancel:hover { background: #b91c1c; color: #fff; }
+
+  @media (max-width: 1050px), (max-height: 580px) {
+    .sidebar-left, .sidebar-right {
+      width: clamp(200px, 28vw, 265px);
+      top: 8px; bottom: 8px; gap: 6px;
+    }
+    .sidebar-left { left: 8px; }
+    .sidebar-right { right: 8px; width: clamp(205px, 29vw, 275px); }
+    .center-drag-zone {
+      left: clamp(210px, 29vw, 275px);
+      right: clamp(215px, 30vw, 285px);
+      bottom: 52px;
+      touch-action: none;
+    }
+    .drag-hint {
+      top: 8px; padding: 3px 10px; font-size: 10px;
+      max-width: 38vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .panel-header { padding: 7px 10px; border-radius: 8px; }
+    .panel-header h2 { font-size: 13px; }
+    .panel-header p { font-size: 10px; }
+    .card { padding: 7px 8px; border-radius: 8px; }
+    .card-title { font-size: 11px; }
+    .card-count { font-size: 10px; padding: 1px 6px; }
+    .btn-step { width: 26px; height: 25px; font-size: 13px; }
+    .input-num { height: 25px; font-size: 12px; }
+    .btn-mini { padding: 3px 5px; font-size: 10.5px; }
+    .swatch { width: 17px; height: 17px; }
+    .bottom-bar { bottom: 8px; padding: 5px 8px; gap: 5px; border-radius: 10px; }
+    .btn-action { padding: 5px 9px; font-size: 11px; border-radius: 6px; }
+    .card-cam-sticky { position: sticky; top: 0; z-index: 6; background: rgba(7, 20, 44, 0.97); }
+  }
+</style>
+</head>
+<body>
+<div class="backdrop-glow"></div>
+<div class="drag-hint">คลิกค้างกลางจอเพื่อหมุนตัวละคร 360° • ROTCITY แต่ง Body & เสื้อผ้าแยกครบ 12 ส่วน</div>
+<div class="center-drag-zone" id="dragZone"></div>
+
+<!-- LEFT SIDEBAR: BODY PARTS (HEAD, TORSO/ARMS, LEGS, FEET) + ACCESSORIES + SAVED OUTFITS -->
+<div class="sidebar-left">
+  <div class="panel-header">
+    <h2>ROTCITY BODY &amp; GEAR</h2>
+    <p>ปรับแต่งร่างกาย ใบหน้า ลำตัว แขน ขา เท้า &amp; เครื่องประดับ</p>
+  </div>
+
+  <!-- Sex & Body Mode -->
+  <div class="card card-body-part">
+    <div class="card-top">
+      <span class="card-title">เพศ &amp; โหมดร่างกาย ROTCITY (SKIN #289)</span>
+      <span class="card-count" id="sexBadge">ชาย (BOY)</span>
+    </div>
+    <div class="sex-tabs">
+      <button class="btn-mini active" id="btnSexBoy" onclick="setSex(0)">ชาย (BOY Body)</button>
+      <button class="btn-mini" id="btnSexGirl" onclick="setSex(1)">หญิง (GIRL Body)</button>
+    </div>
+    <div class="quick-grid">
+      <button class="btn-mini" onclick="applyStarterSet()">เซ็ตเริ่มต้น</button>
+      <button class="btn-mini" onclick="stripToBody()">เหลือแต่หุ่น</button>
+      <button class="btn-mini" onclick="randomizeOutfit()">สุ่มชุดเท่ๆ</button>
+    </div>
+  </div>
+
+  <!-- Slot 1: HEAD (ใบหน้า) -->
+  <div class="card card-body-part" id="card-slot-1"></div>
+  <!-- Slot 2: BODY_TORSO (ลำตัว & แขน) -->
+  <div class="card card-body-part" id="card-slot-2"></div>
+  <!-- Slot 4: BODY_LEGS (ขา) -->
+  <div class="card card-body-part" id="card-slot-4"></div>
+  <!-- Slot 6: BODY_FEET (เท้า) -->
+  <div class="card card-body-part" id="card-slot-6"></div>
+
+  <!-- Slot 8: GLASSES (แว่นตา) -->
+  <div class="card" id="card-slot-8"></div>
+  <!-- Slot 10: ACCESSORY (สร้อยคอ / นาฬิกา / เครื่องประดับ) -->
+  <div class="card" id="card-slot-10"></div>
+  <!-- Slot 11: BAG (กระเป๋า) -->
+  <div class="card" id="card-slot-11"></div>
+
+  <!-- Saved Outfits -->
+  <div class="card">
+    <div class="card-top">
+      <span class="card-title">SAVED OUTFITS (ชุดโปรด 3 สล็อต)</span>
+    </div>
+    <div class="preset-row">
+      <span id="preset-name-0">ชุดที่ 1</span>
+      <div>
+        <button class="btn-mini" onclick="savePreset(0)">เซฟ</button>
+        <button class="btn-mini" onclick="loadPreset(0)">ใส่</button>
+      </div>
+    </div>
+    <div class="preset-row">
+      <span id="preset-name-1">ชุดที่ 2</span>
+      <div>
+        <button class="btn-mini" onclick="savePreset(1)">เซฟ</button>
+        <button class="btn-mini" onclick="loadPreset(1)">ใส่</button>
+      </div>
+    </div>
+    <div class="preset-row">
+      <span id="preset-name-2">ชุดที่ 3</span>
+      <div>
+        <button class="btn-mini" onclick="savePreset(2)">เซฟ</button>
+        <button class="btn-mini" onclick="loadPreset(2)">ใส่</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT SIDEBAR: CAMERA + HAIR + CLOTHING (TORSO, UNDERSHIRT, LEGS, SHOES) -->
+<div class="sidebar-right">
+  <div class="panel-header">
+    <h2>ROTCITY CLOTHING</h2>
+    <p>ทรงผม เสื้อนอก เสื้อใน กางเกง รองเท้า ย้อมสี &amp; แยกชิ้นอิสระ</p>
+  </div>
+
+  <!-- Camera View Tabs -->
+  <div class="card card-cam-sticky">
+    <div class="cam-tabs">
+      <button class="btn-mini active" id="cam-0" onclick="setCam(0)">ทั้งตัว</button>
+      <button class="btn-mini" id="cam-1" onclick="setCam(1)">หัว/หน้า</button>
+      <button class="btn-mini" id="cam-2" onclick="setCam(2)">เสื้อ/ตัว</button>
+      <button class="btn-mini" id="cam-3" onclick="setCam(3)">กางเกง/ขา</button>
+      <button class="btn-mini" id="cam-4" onclick="setCam(4)">รองเท้า</button>
+    </div>
+  </div>
+
+  <!-- Slot 0: HAIR (ทรงผม) -->
+  <div class="card" id="card-slot-0"></div>
+  <!-- Slot 3: TORSO (เสื้อนอก / แจ็คเก็ต) -->
+  <div class="card" id="card-slot-3"></div>
+  <!-- Slot 9: UNDERSHIRT (เสื้อซับใน) -->
+  <div class="card" id="card-slot-9"></div>
+  <!-- Slot 5: LEGS (กางเกง / กระโปรง) -->
+  <div class="card" id="card-slot-5"></div>
+  <!-- Slot 7: SHOES (รองเท้า) -->
+  <div class="card" id="card-slot-7"></div>
+
+  <!-- Optional Classic SA-MP Skin switcher -->
+  <div class="card">
+    <div class="card-top">
+      <span class="card-title">โหมดสกินพื้นฐาน / SKIN ID</span>
+      <span class="card-count" id="skinModeLabel">ROTCITY #289</span>
+    </div>
+    <div style="display:flex; gap:5px; margin-bottom:6px;">
+      <button class="btn-mini active" id="btnModeZero" style="flex:1;" onclick="setZeroMode(1)">โหมดแยกชิ้น ROTCITY (#289)</button>
+      <button class="btn-mini" id="btnModeClassic" style="flex:1;" onclick="setZeroMode(0)">สกิน GTA ปกติ</button>
+    </div>
+    <div class="stepper-row">
+      <button class="btn-step" onclick="stepClassicSkin(-1)">‹</button>
+      <input type="number" class="input-num" id="classicSkinInput" value="289" min="0" max="311" onchange="onClassicSkinInput(this.value)" />
+      <button class="btn-step" onclick="stepClassicSkin(1)">›</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <button class="btn-action" onclick="rotateChar(-25)">◀ หมุนซ้าย</button>
+  <button class="btn-action" onclick="rotateChar(25)">หมุนขวา ▶</button>
+  <button class="btn-action btn-save" onclick="saveAndClose()">บันทึกชุด (Save)</button>
+  <button class="btn-action btn-cancel" onclick="cancelAndClose()">ยกเลิก (ESC)</button>
+</div>
+
+<script>
+  const cef = window.cef || null;
+  function emitServer(ev, payload) {
+    if (cef && typeof cef.emit === 'function') {
+      try { cef.emit(ev, String(payload)); } catch (e) {}
+    }
+  }
+  function emitClient(ev, payload) {
+    if (cef && typeof cef.emit === 'function') {
+      try { cef.emit(ev, payload); } catch (e) {}
+    }
+  }
+
+  // Exact RotClient.asi + ROTCITY 13-slot definition (0..12)
+  const SLOTS = [
+    { id: 0,  key: 'hair',       title: 'HAIR (ทรงผม ROT)',              boyMax: 180,  girlMax: 215,  texMax: 10, hasColor: true,  isBody: false },
+    { id: 1,  key: 'head',       title: 'HEAD (ใบหน้า ROT)',             boyMax: 342,  girlMax: 798,  texMax: 10, hasColor: true,  isBody: true  },
+    { id: 2,  key: 'body_torso', title: 'BODY TORSO (ลำตัว & แขน)',       boyMax: 12,   girlMax: 34,   texMax: 10, hasColor: true,  isBody: true  },
+    { id: 3,  key: 'torso',      title: 'TORSO (เสื้อนอก / แจ็คเก็ต)',     boyMax: 96,   girlMax: 143,  texMax: 15, hasColor: true,  isBody: false },
+    { id: 4,  key: 'body_legs',  title: 'BODY LEGS (ขา ROT)',             boyMax: 10,   girlMax: 18,   texMax: 10, hasColor: true,  isBody: true  },
+    { id: 5,  key: 'legs',       title: 'LEGS (กางเกง / กระโปรง)',         boyMax: 60,   girlMax: 86,   texMax: 15, hasColor: true,  isBody: false },
+    { id: 6,  key: 'body_feet',  title: 'BODY FEET (เท้า ROT)',           boyMax: 8,    girlMax: 14,   texMax: 10, hasColor: true,  isBody: true  },
+    { id: 7,  key: 'shoes',      title: 'SHOES (รองเท้า ROT)',            boyMax: 116,  girlMax: 80,   texMax: 15, hasColor: true,  isBody: false },
+    { id: 8,  key: 'glasses',    title: 'GLASSES (แว่นตา ROT)',           boyMax: 65,   girlMax: 67,   texMax: 10, hasColor: true,  isBody: false },
+    { id: 9,  key: 'undershirt', title: 'UNDERSHIRT (เสื้อซับใน)',         boyMax: 33,   girlMax: 26,   texMax: 15, hasColor: true,  isBody: false },
+    { id: 10, key: 'accessory',  title: 'ACCESSORY (หมวก/สร้อย/เครื่องประดับ)', boyMax: 187, girlMax: 182, texMax: 10, hasColor: true, isBody: false },
+    { id: 11, key: 'bag',        title: 'BAG (กระเป๋า ROT)',              boyMax: 50,   girlMax: 50,   texMax: 10, hasColor: true,  isBody: false },
+    { id: 12, key: 'armor',      title: 'ARMOR (เกราะ ROT)',              boyMax: 3,    girlMax: 6,    texMax: 15, hasColor: true,  isBody: false }
+  ];
+
+  // Exact RotClient.asi 0x1014AB60 palette indices (0..119) & 255=original
+  const DYE_COLORS = [
+    { id: 255, hex: '#334155', name: 'สีเดิม (Original)' },
+    { id: 35,  hex: '#050201', name: 'ดำเข้ม (Black)' },
+    { id: 0,   hex: '#FFFFFF', name: 'ขาวสว่าง (White)' },
+    { id: 24,  hex: '#BC8348', name: 'น้ำตาล (Brown)' },
+    { id: 12,  hex: '#FAEA9E', name: 'บลอนด์ (Blonde)' },
+    { id: 42,  hex: '#C73827', name: 'แดง (Red)' },
+    { id: 51,  hex: '#DE6B2E', name: 'ส้ม (Orange)' },
+    { id: 101, hex: '#F5CC38', name: 'ทอง (Gold)' },
+    { id: 94,  hex: '#61BA33', name: 'เขียว (Green)' },
+    { id: 80,  hex: '#3AC3D4', name: 'ฟ้าคราม (Cyan)' },
+    { id: 72,  hex: '#3371D4', name: 'น้ำเงิน (Blue)' },
+    { id: 65,  hex: '#7048BA', name: 'ม่วง (Purple)' },
+    { id: 57,  hex: '#CC458C', name: 'ชมพู (Pink)' }
+  ];
+
+  const state = {
+    sex: 0, // 0 = boy, 1 = girl
+    useZero: 1,
+    skinId: 289,
+    baseSkinId: 21,
+    models: [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+    texs:   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    colors: [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255],
+    presets: [null, null, null]
+  };
+
+  function getSlotMeta(slotId) {
+    return SLOTS.find(s => s.id === slotId);
+  }
+  function getSlotMax(slotId) {
+    const meta = getSlotMeta(slotId);
+    if (!meta) return 0;
+    return state.sex === 1 ? meta.girlMax : meta.boyMax;
+  }
+
+  // Build cards for all 12 slots
+  function buildSlotCards() {
+    SLOTS.forEach(meta => {
+      const container = document.getElementById('card-slot-' + meta.id);
+      if (!container) return;
+      let html = `
+        <div class="card-top">
+          <span class="card-title">${meta.title}</span>
+          <span class="card-count" id="cnt-${meta.id}">0/0</span>
+        </div>
+        <div class="stepper-row">
+          <button class="btn-step" onclick="stepModel(${meta.id}, -1)">‹</button>
+          <input type="number" class="input-num" id="inp-m-${meta.id}" value="0" min="0" onchange="setModel(${meta.id}, this.value)" />
+          <button class="btn-step" onclick="stepModel(${meta.id}, 1)">›</button>
+        </div>
+        <div class="item-label" id="lbl-${meta.id}">ไม่ได้ใส่ (None)</div>
+        <div class="sub-row">
+          <span class="sub-label">ลาย/สี (Tex):</span>
+          <button class="btn-mini" onclick="stepTex(${meta.id}, -1)">‹</button>
+          <span style="font-size:12px;font-weight:600;min-width:34px;text-align:center;" id="lbl-t-${meta.id}">0</span>
+          <button class="btn-mini" onclick="stepTex(${meta.id}, 1)">›</button>
+          <button class="btn-mini" onclick="setModel(${meta.id}, 0)">ถอด</button>
+        </div>
+      `;
+      if (meta.hasColor) {
+        html += `<div class="sub-row"><span class="sub-label">ย้อมสี:</span><div class="swatches" id="swatches-${meta.id}">`;
+        DYE_COLORS.forEach(c => {
+          html += `<div class="swatch" id="sw-${meta.id}-${c.id}" style="background:${c.hex}" title="${c.name}" onclick="setColor(${meta.id}, ${c.id})"></div>`;
+        });
+        html += `<input type="color" class="swatch-picker" id="cp-${meta.id}" value="#38bdf8" title="เลือกสีอิสระ (Custom)" oninput="setCustomColor(${meta.id}, this.value)" onchange="setCustomColor(${meta.id}, this.value)" />`;
+        html += `</div></div>`;
+      }
+      container.innerHTML = html;
+    });
+  }
+
+  function syncSlotToClient(slotId) {
+    const m = Number(state.models[slotId]) || 0;
+    const t = Number(state.texs[slotId]) || 0;
+    const c = state.colors[slotId] !== undefined ? Number(state.colors[slotId]) : 255;
+    emitClient('skin:previewPart', `${slotId},0,${m}`);
+    if (m > 0) {
+      emitClient('skin:previewPart', `${slotId},1,${t}`);
+      emitClient('skin:previewPart', `${slotId},2,${c}`);
+    }
+  }
+
+  function syncAllSlotsToClient() {
+    emitClient('skin:beginPreview', String(state.sex));
+    emitClient('skin:changeSex', Number(state.sex));
+    for (let s = 0; s < SLOTS.length; s++) {
+      syncSlotToClient(s);
+    }
+  }
+
+  function updateUI() {
+    document.getElementById('sexBadge').textContent = state.sex === 1 ? 'หญิง (GIRL)' : 'ชาย (BOY)';
+    document.getElementById('btnSexBoy').classList.toggle('active', state.sex === 0);
+    document.getElementById('btnSexGirl').classList.toggle('active', state.sex === 1);
+
+    document.getElementById('btnModeZero').classList.toggle('active', state.useZero === 1);
+    document.getElementById('btnModeClassic').classList.toggle('active', state.useZero === 0);
+    document.getElementById('skinModeLabel').textContent = state.useZero === 1 ? 'ROTCITY #289' : ('Skin #' + state.skinId);
+    document.getElementById('classicSkinInput').value = state.useZero === 1 ? 289 : state.skinId;
+
+    const sexPrefix = state.sex === 1 ? 'girl' : 'boy';
+    SLOTS.forEach(meta => {
+      const s = meta.id;
+      const max = getSlotMax(s);
+      const m = Math.max(0, Math.min(max, Number(state.models[s]) || 0));
+      state.models[s] = m;
+      const t = Math.max(0, Math.min(meta.texMax, Number(state.texs[s]) || 0));
+      state.texs[s] = t;
+
+      const cntEl = document.getElementById('cnt-' + s);
+      if (cntEl) cntEl.textContent = `${m}/${max}`;
+      const inpEl = document.getElementById('inp-m-' + s);
+      if (inpEl) { inpEl.max = max; inpEl.value = m; }
+      const lblEl = document.getElementById('lbl-' + s);
+      if (lblEl) {
+        const pad = m < 10 ? ('0' + m) : String(m);
+        lblEl.textContent = m > 0 ? `${meta.key}_${sexPrefix}_${pad} (Tex #${t})` : 'ไม่ได้ใส่ / ซ่อน (None)';
+      }
+      const texEl = document.getElementById('lbl-t-' + s);
+      if (texEl) texEl.textContent = String(t);
+
+      if (meta.hasColor) {
+        const curC = state.colors[s] !== undefined ? Number(state.colors[s]) : 255;
+        DYE_COLORS.forEach(c => {
+          const sw = document.getElementById(`sw-${s}-${c.id}`);
+          if (sw) sw.classList.toggle('active', curC === c.id);
+        });
+        const cp = document.getElementById(`cp-${s}`);
+        if (cp) {
+          const isCustom = (curC >= 120 && curC < 245);
+          cp.classList.toggle('active', isCustom);
+          if (isCustom) {
+            const idx = curC - 120;
+            const lv = [0, 64, 128, 192, 255];
+            const h2 = (n) => lv[n].toString(16).padStart(2, '0');
+            cp.value = '#' + h2(Math.floor(idx / 25)) + h2(Math.floor(idx / 5) % 5) + h2(idx % 5);
+          }
+        }
+      }
+    });
+
+    for (let i = 0; i < 3; i++) {
+      const p = state.presets[i];
+      const el = document.getElementById('preset-name-' + i);
+      if (el) {
+        const has = p && Array.isArray(p.models) && p.models.some(v => Number(v) > 0);
+        el.textContent = `ชุดที่ ${i + 1} (${has ? (p.sex === 1 ? 'หญิง ROTCITY' : 'ชาย ROTCITY') : 'ว่าง'})`;
+      }
+    }
+  }
+
+  function ensureZeroSkinMode() {
+    if (state.useZero !== 1) {
+      state.useZero = 1;
+      state.skinId = 289;
+      emitServer('wardrobe:action', 'zero|1');
+    }
+  }
+
+  window.setSex = function(newSex) {
+    state.sex = Number(newSex) ? 1 : 0;
+    ensureZeroSkinMode();
+    // Ensure base body slots (head=1, body_torso=2, body_legs=4, body_feet=6) are visible
+    [1, 2, 4, 6].forEach(s => {
+      if (!state.models[s] || state.models[s] <= 0) state.models[s] = 1;
+      const max = getSlotMax(s);
+      if (state.models[s] > max) state.models[s] = 1;
+    });
+    SLOTS.forEach(meta => {
+      const max = getSlotMax(meta.id);
+      if (state.models[meta.id] > max) state.models[meta.id] = max;
+    });
+    updateUI();
+    syncAllSlotsToClient();
+    emitServer('wardrobe:action', `sex|${state.sex}`);
+  };
+
+  window.stepModel = function(slotId, delta) {
+    ensureZeroSkinMode();
+    const max = getSlotMax(slotId);
+    let m = (Number(state.models[slotId]) || 0) + delta;
+    if (m < 0) m = max;
+    if (m > max) m = 0;
+    state.models[slotId] = m;
+    state.texs[slotId] = 0;
+    updateUI();
+    syncSlotToClient(slotId);
+    emitServer('wardrobe:action', `part|${slotId}|${m}|0|${state.colors[slotId]}`);
+  };
+
+  window.setModel = function(slotId, val) {
+    ensureZeroSkinMode();
+    const max = getSlotMax(slotId);
+    let m = parseInt(val, 10);
+    if (isNaN(m)) m = 0;
+    m = Math.max(0, Math.min(max, m));
+    state.models[slotId] = m;
+    state.texs[slotId] = 0;
+    updateUI();
+    syncSlotToClient(slotId);
+    emitServer('wardrobe:action', `part|${slotId}|${m}|0|${state.colors[slotId]}`);
+  };
+
+  window.stepTex = function(slotId, delta) {
+    const meta = getSlotMeta(slotId);
+    if (!meta) return;
+    if ((Number(state.models[slotId]) || 0) <= 0) return;
+    let t = (Number(state.texs[slotId]) || 0) + delta;
+    if (t < 0) t = meta.texMax;
+    if (t > meta.texMax) t = 0;
+    state.texs[slotId] = t;
+    updateUI();
+    syncSlotToClient(slotId);
+    emitServer('wardrobe:action', `part|${slotId}|${state.models[slotId]}|${t}|${state.colors[slotId]}`);
+  };
+
+  window.setColor = function(slotId, colorId) {
+    state.colors[slotId] = Number(colorId);
+    updateUI();
+    syncSlotToClient(slotId);
+    emitServer('wardrobe:action', `part|${slotId}|${state.models[slotId]}|${state.texs[slotId]}|${state.colors[slotId]}`);
+  };
+
+  window.setCustomColor = function(slotId, hex) {
+    if (!hex || hex[0] !== '#' || hex.length < 7) return;
+    const r = parseInt(hex.slice(1, 3), 16) || 0;
+    const g = parseInt(hex.slice(3, 5), 16) || 0;
+    const b = parseInt(hex.slice(5, 7), 16) || 0;
+    const q = (v) => Math.max(0, Math.min(4, Math.round(v / 63.75)));
+    const code = 120 + q(r) * 25 + q(g) * 5 + q(b);
+    window.setColor(slotId, code);
+  };
+
+  window.applyStarterSet = function() {
+    ensureZeroSkinMode();
+    state.models = [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0];
+    state.texs =   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    state.colors = [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255];
+    updateUI();
+    syncAllSlotsToClient();
+    emitServer('wardrobe:action', buildBulkSyncPayload('sync'));
+  };
+
+  window.stripToBody = function() {
+    ensureZeroSkinMode();
+    // Keep head(1), body_torso(2), body_legs(4), body_feet(6), remove clothes
+    state.models[1] = state.models[1] || 1;
+    state.models[2] = state.models[2] || 1;
+    state.models[4] = state.models[4] || 1;
+    state.models[6] = state.models[6] || 1;
+    [3, 5, 7, 8, 9, 10, 11].forEach(s => { state.models[s] = 0; state.texs[s] = 0; });
+    updateUI();
+    syncAllSlotsToClient();
+    emitServer('wardrobe:action', buildBulkSyncPayload('sync'));
+  };
+
+  window.randomizeOutfit = function() {
+    ensureZeroSkinMode();
+    const rand = (max) => Math.floor(Math.random() * max) + 1;
+    state.models[1] = rand(getSlotMax(1)); // head
+    state.models[2] = rand(getSlotMax(2)); // body_torso
+    state.models[4] = rand(getSlotMax(4)); // body_legs
+    state.models[6] = rand(getSlotMax(6)); // body_feet
+    state.models[0] = rand(getSlotMax(0)); // hair
+    state.models[3] = rand(getSlotMax(3)); // torso
+    state.models[5] = rand(getSlotMax(5)); // legs
+    state.models[7] = rand(getSlotMax(7)); // shoes
+    state.models[8] = Math.random() > 0.5 ? rand(getSlotMax(8)) : 0;
+    state.models[9] = Math.random() > 0.4 ? rand(getSlotMax(9)) : 0;
+    state.models[10] = Math.random() > 0.5 ? rand(getSlotMax(10)) : 0;
+    state.models[11] = Math.random() > 0.6 ? rand(getSlotMax(11)) : 0;
+    state.texs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    updateUI();
+    syncAllSlotsToClient();
+    emitServer('wardrobe:action', buildBulkSyncPayload('sync'));
+  };
+
+  window.setZeroMode = function(flag) {
+    state.useZero = Number(flag) ? 1 : 0;
+    if (state.useZero === 1) {
+      state.skinId = 289;
+      emitServer('wardrobe:action', 'zero|1');
+      syncAllSlotsToClient();
+    } else {
+      for (let s = 0; s < SLOTS.length; s++) emitClient('skin:previewPart', `${s},0,0`);
+      state.skinId = state.baseSkinId || 21;
+      emitServer('wardrobe:action', `skin|${state.skinId}`);
+    }
+    updateUI();
+  };
+
+  window.stepClassicSkin = function(delta) {
+    state.useZero = 0;
+    let sk = (Number(state.skinId) || 21) + delta;
+    if (sk < 0) sk = 311;
+    if (sk > 311) sk = 0;
+    if (sk === 289) sk += (delta >= 0 ? 1 : -1);
+    state.skinId = sk;
+    state.baseSkinId = sk;
+    for (let s = 0; s < SLOTS.length; s++) emitClient('skin:previewPart', `${s},0,0`);
+    updateUI();
+    emitServer('wardrobe:action', `skin|${sk}`);
+  };
+
+  window.onClassicSkinInput = function(val) {
+    let sk = parseInt(val, 10);
+    if (isNaN(sk)) sk = 21;
+    sk = Math.max(0, Math.min(311, sk));
+    if (sk === 289) {
+      window.setZeroMode(1);
+      return;
+    }
+    state.useZero = 0;
+    state.skinId = sk;
+    state.baseSkinId = sk;
+    for (let s = 0; s < SLOTS.length; s++) emitClient('skin:previewPart', `${s},0,0`);
+    updateUI();
+    emitServer('wardrobe:action', `skin|${sk}`);
+  };
+
+  window.setCam = function(idx) {
+    for (let i = 0; i < 5; i++) {
+      const b = document.getElementById('cam-' + i);
+      if (b) b.classList.toggle('active', i === idx);
+    }
+    emitServer('wardrobe:action', `cam|${idx}`);
+  };
+
+  window.rotateChar = function(deg) {
+    emitClient('skin:rotate', Number(deg));
+    emitServer('wardrobe:action', `rot|${deg}`);
+  };
+
+  function buildBulkSyncPayload(cmd) {
+    // cmd|sex|useZero|skinId|m0,m1..m11|t0,t1..t11|c0,c1..c11
+    return `${cmd}|${state.sex}|${state.useZero}|${state.skinId}|${state.models.join(',')}|${state.texs.join(',')}|${state.colors.join(',')}`;
+  }
+
+  window.savePreset = function(idx) {
+    state.presets[idx] = {
+      sex: state.sex,
+      models: [...state.models],
+      texs: [...state.texs],
+      colors: [...state.colors]
+    };
+    updateUI();
+    emitServer('wardrobe:action', buildBulkSyncPayload(`preset_save_${idx}`));
+  };
+
+  window.loadPreset = function(idx) {
+    const p = state.presets[idx];
+    if (!p || !Array.isArray(p.models)) return;
+    state.useZero = 1;
+    state.skinId = 289;
+    state.sex = Number(p.sex) ? 1 : 0;
+    for (let s = 0; s < SLOTS.length; s++) {
+      state.models[s] = Number(p.models[s]) || 0;
+      state.texs[s] = (p.texs && Number(p.texs[s])) || 0;
+      state.colors[s] = (p.colors && p.colors[s] !== undefined) ? Number(p.colors[s]) : 255;
+    }
+    updateUI();
+    syncAllSlotsToClient();
+    emitServer('wardrobe:action', buildBulkSyncPayload(`preset_load_${idx}`));
+  };
+
+  window.saveAndClose = function() {
+    if (state.useZero === 1) {
+      emitClient('skin:finishPreview', '1');
+    } else {
+      emitClient('skin:finishPreview', '0');
+    }
+    emitServer('wardrobe:action', buildBulkSyncPayload('save'));
+  };
+
+  window.cancelAndClose = function() {
+    emitClient('skin:finishPreview', '0');
+    emitServer('wardrobe:action', 'cancel|0');
+  };
+
+  // Mouse & touch drag rotation on center area
+  (function initDragRotate() {
+    const zone = document.getElementById('dragZone');
+    let dragging = false, lastX = 0;
+    zone.addEventListener('mousedown', (e) => {
+      dragging = true; lastX = e.clientX;
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - lastX;
+      lastX = e.clientX;
+      if (Math.abs(dx) > 0) {
+        emitClient('skin:rotate', dx * 0.85);
+      }
+    });
+    window.addEventListener('mouseup', () => { dragging = false; });
+
+    let touchAccum = 0, lastTouchEmit = 0;
+    zone.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        dragging = true; lastX = e.touches[0].clientX; touchAccum = 0;
+      }
+    }, { passive: true });
+    zone.addEventListener('touchmove', (e) => {
+      if (!dragging || !e.touches || e.touches.length === 0) return;
+      const dx = e.touches[0].clientX - lastX;
+      lastX = e.touches[0].clientX;
+      if (Math.abs(dx) > 0) {
+        emitClient('skin:rotate', dx * 0.85);
+        touchAccum += dx * 0.85;
+        const now = Date.now();
+        if (Math.abs(touchAccum) >= 6 && now - lastTouchEmit >= 70) {
+          emitServer('wardrobe:action', `rot|${touchAccum.toFixed(1)}`);
+          touchAccum = 0;
+          lastTouchEmit = now;
+        }
+      }
+    }, { passive: true });
+    zone.addEventListener('touchend', () => {
+      if (dragging && Math.abs(touchAccum) >= 1) {
+        emitServer('wardrobe:action', `rot|${touchAccum.toFixed(1)}`);
+        touchAccum = 0;
+      }
+      dragging = false;
+    });
+    zone.addEventListener('touchcancel', () => { dragging = false; });
+  })();
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.cancelAndClose();
+    }
+  });
+
+  buildSlotCards();
+  updateUI();
+
+  if (cef && typeof cef.on === 'function') {
+    cef.on('wardrobe:open', (jsonStr) => {
+      try {
+        const d = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;
+        if (!d) return;
+        state.sex = Number(d.sex) ? 1 : 0;
+        state.useZero = d.useZero !== undefined ? (Number(d.useZero) ? 1 : 0) : 1;
+        state.skinId = Number(d.skin) || 289;
+        state.baseSkinId = (state.skinId !== 289) ? state.skinId : 21;
+
+        if (Array.isArray(d.models)) {
+          for (let s = 0; s < SLOTS.length; s++) state.models[s] = Number(d.models[s]) || 0;
+        }
+        if (Array.isArray(d.texs)) {
+          for (let s = 0; s < SLOTS.length; s++) state.texs[s] = Number(d.texs[s]) || 0;
+        }
+        if (Array.isArray(d.colors)) {
+          for (let s = 0; s < SLOTS.length; s++) state.colors[s] = d.colors[s] !== undefined ? Number(d.colors[s]) : 255;
+        }
+        // Ensure body parts default to 1 if all body parts are 0 in Zero mode
+        if (state.useZero === 1 && !state.models[1] && !state.models[2] && !state.models[4] && !state.models[6]) {
+          state.models[1] = 1; // head
+          state.models[2] = 1; // body_torso
+          state.models[4] = 1; // body_legs
+          state.models[6] = 1; // body_feet
+          if (!state.models[0]) state.models[0] = 1; // hair
+          if (!state.models[3]) state.models[3] = 1; // torso
+          if (!state.models[5]) state.models[5] = 1; // legs
+          if (!state.models[7]) state.models[7] = 1; // shoes
+        }
+        if (Array.isArray(d.presets)) {
+          state.presets = d.presets;
+        }
+        updateUI();
+        if (state.useZero === 1) {
+          syncAllSlotsToClient();
+        }
+      } catch (e) {}
+    });
+  }
+
+  setTimeout(() => { emitServer('wardrobe:ready', '1'); }, 80);
+</script>
+</body>
+</html>

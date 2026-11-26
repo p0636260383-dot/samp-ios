@@ -1,0 +1,6 @@
+* text=auto
+*.swift text eol=lf
+*.yml text eol=lf
+*.mjs text eol=lf
+# The imported Android UI must retain byte-identical hashes on every platform.
+iOS/Resources/** -text

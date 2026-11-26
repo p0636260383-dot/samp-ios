@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>ACTION PROGRESS | ROT CITY</title>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <div id="actionRoot" class="action-root" style="display: none;">
+    <div id="actionBar" class="action-bar">
+      <!-- 1. Background Clean Metallic Panel (1024 x 341 px) -->
+      <img src="action_bar_bg_clean.png" class="action-bg-img" alt="Action Frame" draggable="false">
+
+      <!-- 2. Left Circular Icon Container -->
+      <div id="iconSlot" class="icon-slot">
+        <img id="actionIcon" src="icons/medkit.png" alt="Action Icon" draggable="false">
+      </div>
+
+      <!-- 3. Dynamic Action Title -->
+      <div id="actionTitle" class="action-title">/// กำลังเก็บไอเทม...</div>
+
+      <!-- 4. Dynamic Subtitle (Item Name, Qty, Details) -->
+      <div id="actionSubtitle" class="action-subtitle">
+        <span id="subPrefix" class="sub-prefix">[+]</span>
+        <span id="subText" class="sub-text">ไอเทม: ชุดปฐมพยาบาล  |  จำนวน: x5</span>
+      </div>
+
+      <!-- 5. Blue Progress Bar Groove & Fill -->
+      <div class="progress-track">
+        <div id="barFill" class="bar-fill" style="width: 0%;"></div>
+      </div>
+
+      <!-- 6. Percentage Badge (Right Side) -->
+      <div id="actionPct" class="action-pct">0%</div>
+    </div>
+  </div>
+
+  <script src="action.js?v=1"></script>
+</body>
+</html>

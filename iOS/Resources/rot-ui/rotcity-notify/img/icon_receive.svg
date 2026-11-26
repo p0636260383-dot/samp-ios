@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="recGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ffff"/>
+      <stop offset="100%" stop-color="#00e676"/>
+    </linearGradient>
+  </defs>
+  <!-- Open Box with Arrow In -->
+  <path d="M 8 20 L 24 10 L 40 20 L 40 36 L 24 44 L 8 36 Z" fill="none" stroke="url(#recGrad)" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 24 10 L 24 44 M 8 20 L 24 28 L 40 20" stroke="url(#recGrad)" stroke-width="2" stroke-linejoin="round" fill="none"/>
+  <!-- Down Arrow -->
+  <path d="M 24 4 L 24 22 M 18 16 L 24 22 L 30 16" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

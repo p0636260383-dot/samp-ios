@@ -1,0 +1,63 @@
+
+/* Shared commerce surfaces */
+body.blue-theme {
+  --primary-blue: #a7efd0;
+  --primary-deep: #2b7d68;
+  --primary-glow: #a7efd029;
+  --blue-card-bg: #192a35;
+  --blue-card-hover: #203741;
+  --blue-border: #2c4654;
+  --blue-border-active: #79bcab;
+  --text-main: #eef9f8;
+  --text-muted: #a8bec8;
+  --text-dim: #9ab2bc;
+  --gold-accent: #edc58d;
+  --success-green: #a7efd0;
+  font-family: "Noto Sans Thai", Tahoma, sans-serif;
+  background: #070d1377;
+}
+.cyber-bg-grid, .cyber-ambient-glow { display: none; }
+.shop-window, .market-window, .trade-window {
+  width: min(1040px, 94vw);
+  height: min(650px, 90vh);
+  max-height: 90vh;
+  margin: auto;
+  background: #121f28;
+  border-radius: 14px;
+  border-color: #2c4654;
+  box-shadow: 0 24px 90px #000a;
+}
+.shop-header, .market-header, .trade-header { flex-wrap: nowrap; gap: 10px; padding: 10px 16px; align-items: center; }
+.header-text h1 { font-family: inherit; letter-spacing: 0; color: #eef9f8; text-shadow: none; font-size: clamp(16px, 2.5vw, 24px); }
+.shop-body, .market-body, .trade-body { min-height: 0; overflow: auto; }
+.wallet-pill, .asset-form { background: #192a35; border-color: #2c4654; }
+.shop-window button:focus-visible, .market-window button:focus-visible, .trade-window button:focus-visible,
+.asset-form select:focus-visible, .asset-form input:focus-visible {
+  outline: 2px solid #a7efd0;
+  outline-offset: 2px;
+}
+.asset-form { display: flex; flex-wrap: wrap; align-items: end; gap: 6px; padding: 6px; margin: 4px 0; border: 1px solid #2c4654; border-radius: 8px; }
+.asset-form label { display: grid; gap: 4px; font-size: 11px; flex: 1 1 65px; min-width: 0; }
+.asset-form select, .asset-form input, .asset-form button {
+  font: inherit; min-width: 0; max-width: 100%; padding: 4px 8px; color: #eef9f8;
+  background: #0e1921; border: 1px solid #38535f; border-radius: 6px;
+}
+.asset-form input { width: 100%; }
+.asset-form button { background: #a7efd0; color: #10271e; cursor: pointer; }
+.asset-summary { min-height: 18px; color: #a8bec8; font-size: 12px; }
+@media (max-width: 750px) {
+  .shop-window, .market-window, .trade-window { width: min(1040px, 94vw); height: min(650px, 90vh); max-height: 90vh; margin: auto; }
+  .shop-header, .market-header, .trade-header { padding: 8px 12px; }
+  .header-wallet, .market-navigation, .nav-controls, .nav-tabs { flex-wrap: nowrap; }
+  .create-form-grid { grid-template-columns: minmax(0, 1fr); }
+  .trade-body { display: grid; grid-template-columns: minmax(0, 1.25fr) 100px minmax(0, 1.25fr); }
+  .trade-center { grid-column: 2; order: unset; }
+  .slots-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-entrance, .pulse-glow { animation: none; }
+}
+
+.trade-window { --primary-blue: #74c4ff; --primary-deep: #1765c0; --primary-glow: #439bff4d; --blue-card-bg: #132948; --blue-border: #294e7f; background: #0b1830; }
+.trade-window .asset-form button { background: #77c4ff; color: #061b39; }
+.trade-window .asset-form, .trade-window .wallet-pill { background: #132948; border-color: #294e7f; }

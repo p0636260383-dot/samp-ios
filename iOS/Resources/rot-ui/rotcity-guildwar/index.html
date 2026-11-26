@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>ROT CITY • Guild Territory War &amp; Bank</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="backdrop">
+    <main class="shell" role="dialog" aria-label="Guild War &amp; Bank">
+      <header class="topbar">
+        <div class="brand">
+          <div class="badge">GW</div>
+          <div>
+            <div class="eyebrow">CYBER-BLUE GUILD COMMAND</div>
+            <h1>สงครามยึดพื้นที่กิลด์ &amp; คลังกลางกิลด์</h1>
+          </div>
+        </div>
+        <div class="top-right">
+          <div class="pill">กิลด์: <strong id="guildName">-</strong></div>
+          <div class="pill">คลังกิลด์: <strong id="bankMerit">0</strong> แต้ม</div>
+          <button id="btnRefresh" class="icon-btn">↻</button>
+          <button id="btnClose" class="icon-btn close">✕</button>
+        </div>
+      </header>
+
+      <div id="toast" class="toast" hidden></div>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="zones">โซนยึดพื้นที่กิลด์</button>
+        <button class="tab" data-tab="bank">คลังกลางกิลด์</button>
+      </nav>
+
+      <section id="tab-zones" class="panel">
+        <div id="zoneList" class="grid"></div>
+      </section>
+
+      <section id="tab-bank" class="panel" hidden>
+        <div class="bank-controls">
+          <div class="bank-box">
+            <h3>แต้มผลงานกิลด์ (Merit Bank)</h3>
+            <p class="sub">ของคุณ: <strong id="playerMerit">0</strong> • ในคลังกิลด์: <strong id="bankMerit2">0</strong></p>
+            <div class="btn-row">
+              <button class="btn btn-primary" data-act="deposit_mp:500">ฝาก 500</button>
+              <button class="btn btn-primary" data-act="deposit_mp:2000">ฝาก 2,000</button>
+              <button class="btn btn-amber" data-act="withdraw_mp:500">ถอน 500</button>
+              <button class="btn btn-amber" data-act="withdraw_mp:2000">ถอน 2,000</button>
+            </div>
+          </div>
+        </div>
+        <div class="bank-split">
+          <div>
+            <h4>ไอเทมในคลังกลางกิลด์</h4>
+            <div id="bankItems" class="item-list"></div>
+          </div>
+          <div>
+            <h4>กระเป๋าของคุณ (กดฝากเข้ากิลด์)</h4>
+            <div id="bagItems" class="item-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

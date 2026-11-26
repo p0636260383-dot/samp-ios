@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>หน้าปัดรถ ROT CITY</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="speedo" class="" role="status" aria-label="หน้าปัดรถ ROT CITY">
+  <!-- Two independent, cut-from-source black wings. Both physically slide from behind the gauge. -->
+  <div class="slide-shell shell-left" aria-hidden="true"></div>
+  <div class="slide-shell shell-right" aria-hidden="true"></div>
+
+  <!-- Engine ON: both dark body wings slide out from behind the dial. -->
+  <section class="vehicle-wing left-wing" aria-label="สภาพรถ">
+    <div class="wing-body"></div>
+    <svg class="side-meter" viewBox="0 0 120 120" aria-hidden="true">
+      <circle class="meter-track" cx="60" cy="60" r="47" />
+      <circle id="damage-meter-progress" class="meter-progress" cx="60" cy="60" r="47" pathLength="100" />
+    </svg>
+    <img class="wing-icon" src="img/ico_wrench.png" alt="">
+    <div class="side-caption" id="damage-label">100%</div>
+    <div class="wing-title">สภาพรถ</div>
+  </section>
+  <section class="vehicle-wing right-wing" aria-label="น้ำมัน">
+    <div class="wing-body"></div>
+    <svg class="side-meter" viewBox="0 0 120 120" aria-hidden="true">
+      <circle class="meter-track" cx="60" cy="60" r="47" />
+      <circle id="fuel-meter-progress" class="meter-progress" cx="60" cy="60" r="47" pathLength="100" />
+    </svg>
+    <img id="fuel-icon" class="wing-icon" src="img/ico_fuel.png" alt="">
+    <div class="side-caption" id="fuel-label">--</div>
+    <div class="wing-title">น้ำมัน</div>
+  </section>
+
+  <!-- Clocklike circular speedometer stays visible with engine ON or OFF. -->
+  <div class="dial-backlight"></div>
+  <img class="dial-image" src="img/ring_base.png" alt="">
+  <svg class="speed-ring" viewBox="0 0 300 300" aria-hidden="true">
+    <path class="speed-ring-track" d="M58.075 227.135 A120 120 0 1 1 241.925 227.135"/>
+    <path id="speed-ring-halo" class="speed-ring-halo" d="M58.075 227.135 A120 120 0 1 1 241.925 227.135" pathLength="100"/>
+    <path id="speed-ring-progress" class="speed-ring-progress" d="M58.075 227.135 A120 120 0 1 1 241.925 227.135" pathLength="100"/>
+  </svg>
+  <div class="readout"><div id="speed-value">0</div><div class="unit">กม./ชม.</div></div>
+  <div class="gear-pill" id="gear-value">N</div>
+
+  <!-- In the video, when the engine is off the wings collapse and a small power icon remains over the dial. -->
+  <div id="standby-power" aria-hidden="true"><img src="img/ico_power.png" alt=""></div>
+
+  <div class="footer-panel">
+    <div class="footer-row">
+      <span class="indicator" id="lock-icon"><img src="img/ico_lock.png" alt=""> </span>
+      <span class="indicator arrow" id="left-signal">◀</span>
+      <span class="indicator" id="signal-icon"><img src="img/ico_signal.png" alt=""></span>
+      <span class="indicator arrow" id="right-signal">▶</span>
+      <span class="indicator" id="headlight-icon"><img src="img/ico_headlight.png" alt=""></span>
+    </div>
+    <div class="location-line"><img src="img/ico_pin.png" alt=""><span id="zone-label">Los Santos</span></div>
+  </div>
+  <img id="warning-icon" src="img/ico_warning.png" alt="" aria-hidden="true">
+  <div class="engine-status" id="engine-status">เครื่องยนต์ติด</div>
+
+  <!-- The floating radial menu rises above the circular gauge when N is pressed. -->
+  <div id="control-layer" class="control-layer" aria-hidden="true"></div>
+  <div id="status-toast" class="status-toast" role="status" aria-live="polite"></div>
+</main>
+<script src="speedo.js"></script>
+</body>
+</html>

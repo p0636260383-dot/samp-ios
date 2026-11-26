@@ -1,0 +1,288 @@
+/* ==========================================================================
+   ROT CITY - UNIVERSAL ACTION PROGRESS BAR (CEF HUD)
+   Universal Looting, Farming, Crafting, and Repair HUD
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  -webkit-user-drag: none;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", Tahoma, "Noto Sans Thai", -apple-system, sans-serif;
+  
+  /* Deep Neon Blue Theme */
+  --blue-bright: #00d2ff;
+  --blue-primary: #0077ff;
+  --blue-deep: #0044ee;
+  --blue-glow: rgba(0, 140, 255, 0.85);
+  --cyan-ring: #00f0ff;
+  --red-warn: #ff334b;
+  --green-success: #00e676;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* ==========================================================================
+   1. SCREEN CONTAINER - BOTTOM CENTER (ABOVE INVENTORY / RADAR)
+   ========================================================================== */
+.action-root {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 95px;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   2. MAIN ACTION CARD (Native Frame 1024 x 341 px, Scaled to 65%)
+   ========================================================================== */
+.action-bar {
+  position: relative;
+  width: 1024px;
+  height: 341px;
+  pointer-events: auto;
+  filter: drop-shadow(0 12px 36px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 25px rgba(0, 110, 255, 0.35));
+  transform-origin: bottom center;
+  transform: scale(0.65);
+  animation: actionSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes actionSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(60px) scale(0.60);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(0.65);
+  }
+}
+
+.action-bar.slide-down {
+  animation: actionSlideDown 0.3s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+@keyframes actionSlideDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.65);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(80px) scale(0.60);
+  }
+}
+
+.action-bg-img {
+  width: 1024px;
+  height: 341px;
+  display: block;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   3. LEFT CIRCULAR ICON CONTAINER (Center 134, 176)
+   ========================================================================== */
+.icon-slot {
+  position: absolute;
+  left: 88px;
+  top: 130px;
+  width: 92px;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+.icon-slot img {
+  max-width: 80px;
+  max-height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.7));
+}
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(0, 200, 255, 0.6)); }
+  50% { transform: scale(1.05); filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.95)); }
+}
+
+/* ==========================================================================
+   4. DYNAMIC ACTION TITLE
+   ========================================================================== */
+.action-title {
+  position: absolute;
+  left: 224px;
+  top: 104px;
+  width: 520px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 34px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow: 0 0 18px rgba(0, 180, 255, 0.9), 0 2px 4px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   5. DYNAMIC SUBTITLE
+   ========================================================================== */
+.action-subtitle {
+  position: absolute;
+  left: 224px;
+  top: 154px;
+  width: 600px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 19px;
+  font-weight: 600;
+  color: #cce7ff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sub-prefix {
+  color: var(--blue-bright);
+  font-weight: 800;
+}
+
+.sub-text {
+  color: #e2f1ff;
+}
+
+/* ==========================================================================
+   6. PROGRESS BAR GROOVE & DEEP NEON BLUE BAR FILL
+   ========================================================================== */
+.progress-track {
+  position: absolute;
+  left: 224px;
+  top: 205px;
+  width: 600px;
+  height: 19px;
+  border-radius: 9px;
+  overflow: hidden;
+  pointer-events: none;
+  background: transparent;
+}
+
+.bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 9px;
+  /* Deep Neon Blue Gradient with Bright Leading Head */
+  background: linear-gradient(90deg, 
+    #0033cc 0%, 
+    #0066ff 45%, 
+    #00b4ff 85%, 
+    #70e2ff 100%);
+  box-shadow: 0 0 16px var(--blue-glow), 0 0 32px rgba(0, 110, 255, 0.75);
+  position: relative;
+  transition: width 0.12s linear;
+}
+
+/* Animated Diagonal Scanline Stripes inside Bar */
+.bar-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.22) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-size: 24px 24px;
+  animation: barStripes 0.8s linear infinite;
+}
+
+@keyframes barStripes {
+  from { background-position: 0 0; }
+  to { background-position: 24px 0; }
+}
+
+/* ==========================================================================
+   7. PERCENTAGE BADGE (RIGHT SIDE)
+   ========================================================================== */
+.action-pct {
+  position: absolute;
+  left: 846px;
+  top: 198px;
+  width: 88px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: var(--blue-bright);
+  text-shadow: 0 0 14px rgba(0, 210, 255, 0.95), 0 2px 4px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   8. INTERRUPTED STATE (WHEN CANCELLED OR ATTACKED)
+   ========================================================================== */
+.action-bar.interrupted {
+  animation: actionShake 0.45s cubic-bezier(.36,.07,.19,.97) both;
+  filter: drop-shadow(0 0 40px rgba(255, 40, 60, 0.95));
+}
+
+.action-bar.interrupted .bar-fill {
+  background: linear-gradient(90deg, #aa0011 0%, #ff2244 100%) !important;
+  box-shadow: 0 0 20px rgba(255, 40, 60, 0.95) !important;
+}
+
+.action-bar.interrupted .action-pct {
+  color: var(--red-warn) !important;
+  text-shadow: 0 0 14px var(--red-warn) !important;
+}
+
+@keyframes actionShake {
+  10%, 90% { transform: translate3d(-3px, 0, 0) scale(0.65); }
+  20%, 80% { transform: translate3d(5px, 0, 0) scale(0.65); }
+  30%, 50%, 70% { transform: translate3d(-5px, 0, 0) scale(0.65); }
+  40%, 60% { transform: translate3d(5px, 0, 0) scale(0.65); }
+}
+
+/* ==========================================================================
+   9. SUCCESS STATE
+   ========================================================================== */
+.action-bar.success .bar-fill {
+  background: linear-gradient(90deg, #00aa44 0%, #00e676 100%) !important;
+  box-shadow: 0 0 22px rgba(0, 230, 118, 0.95) !important;
+}
+
+.action-bar.success .action-pct {
+  color: var(--green-success) !important;
+  text-shadow: 0 0 14px var(--green-success) !important;
+}

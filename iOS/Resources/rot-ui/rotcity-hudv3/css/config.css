@@ -1,0 +1,44 @@
+:root {
+    --accent: #feff13;
+    --accent-rgb: 254, 255, 19;
+    --panel-rgb: 11, 11, 8;
+    --text: #ffffff;
+    --text-dim: rgba(255, 255, 255, .55);
+    --text-faint: rgba(255, 255, 255, .28);
+    --hud-outline: .38;
+    --hud-shadow-edge: .35;
+    --hud-shadow-soft: .38;
+
+    --brand-color: var(--accent);
+    --voice-color: var(--accent);
+    --stats-rgb: var(--accent-rgb);
+    --money-rgb: var(--accent-rgb);
+    --radio-color: #ff4144;
+    --radio-rgb: 255, 65, 68;
+    --black-rgb: 255, 65, 68;
+    --speedo-rgb: var(--accent-rgb);
+    --help-rgb: var(--accent-rgb);
+    --progress-rgb: var(--accent-rgb);
+    --status-rgb: var(--accent-rgb);
+    --health-rgb: 255, 65, 68;
+    --armor-rgb: 58, 160, 255;
+    --food-rgb: 255, 146, 48;
+    --water-rgb: 64, 196, 255;
+    --stamina-rgb: 83, 255, 169;
+    --info-rgb: var(--accent-rgb);
+    --info-nt-rgb: var(--accent-rgb);
+    --success-rgb: 83, 255, 130;
+    --warning-rgb: 255, 65, 68;
+    --announce-rgb: var(--accent-rgb);
+    --private-rgb: 186, 120, 255;
+    --chat-rgb: var(--accent-rgb);
+    --radio-list-rgb: var(--accent-rgb);
+    --item-add-rgb: 83, 255, 130;
+    --item-remove-rgb: 255, 65, 68;
+    --team-rgb: 255, 72, 72;
+    --safe-rgb: 83, 255, 130;
+    --death-rgb: 255, 65, 68;
+
+    --plus-color: #53ffa9;
+    --minus-color: #ff4144;
+}

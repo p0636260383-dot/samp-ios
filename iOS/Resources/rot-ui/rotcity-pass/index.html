@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>ROT CITY • Survivor Pass &amp; Mystery Crate</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="backdrop">
+    <main class="shell" role="dialog" aria-label="Survivor Pass &amp; Mystery Crate">
+      <header class="topbar">
+        <div class="brand">
+          <div class="badge">SP</div>
+          <div>
+            <div class="eyebrow">CYBER-BLUE SEASON PASS &amp; GACHA</div>
+            <h1>Survivor Pass &amp; กล่องสุ่มกาชา</h1>
+          </div>
+        </div>
+        <div class="top-right">
+          <div class="pill">แต้มผลงาน: <strong id="meritVal">0</strong></div>
+          <div class="pill">Bio-Core: <strong id="cpVal">0</strong> CP</div>
+          <button id="btnRefresh" class="icon-btn">↻</button>
+          <button id="btnClose" class="icon-btn close">✕</button>
+        </div>
+      </header>
+
+      <div id="toast" class="toast" hidden></div>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="pass">Survivor Pass (10 ระดับ)</button>
+        <button class="tab" data-tab="crate">กล่องสุ่มกาชา (Mystery Crate)</button>
+      </nav>
+
+      <section id="tab-pass" class="panel">
+        <div class="pass-header">
+          <div>
+            <div class="pass-lv">ระดับปัจจุบัน: <strong id="passLevel">LV.1</strong> / 10</div>
+            <div class="xp-bar"><div id="passXpFill"></div></div>
+            <div class="sub" id="passXpText">0 / 100 XP (ฆ่าซอมบี้เพื่อสะสม Pass XP)</div>
+          </div>
+          <button id="btnUnlockPrem" class="btn btn-amber">ปลดล็อก Premium Pass (2,500 แต้ม)</button>
+        </div>
+        <div id="tierList" class="tier-grid"></div>
+      </section>
+
+      <section id="tab-crate" class="panel" hidden>
+        <div id="crateResult" class="crate-result" hidden>
+          <div class="eyebrow">รางวัลที่คุณสุ่มได้</div>
+          <h2 id="crateRewardName">-</h2>
+        </div>
+        <div class="crate-grid">
+          <div class="crate-card">
+            <h3>กล่องเสบียงมาตรฐาน (Standard Crate)</h3>
+            <p class="sub">ลุ้นรับ: 1,000 แต้มผลงาน, เศษเหล็ก x6, แกลลอนน้ำมัน x3, หรือ 350 แต้มผลงาน</p>
+            <button id="btnCrateStd" class="btn btn-primary">เปิดกล่อง (500 แต้มผลงาน)</button>
+          </div>
+          <div class="crate-card bio">
+            <h3>กล่องไบโอคอร์ระดับสูง (Bio-Core Crate)</h3>
+            <p class="sub">ลุ้นรับ: Jackpot 2,500 แต้มผลงาน, เศษเหล็ก x15, Bio-Core x15 CP, หรือ 1,200 แต้ม</p>
+            <button id="btnCrateBio" class="btn btn-amber">เปิดกล่อง (10 Bio-Core)</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

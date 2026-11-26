@@ -1,0 +1,3430 @@
+{
+  "source": "SAMP-Mobile-GTA-2.11/app/src/main/assets/rot-ui",
+  "server": {
+    "host": "diamond1412.thddns.net",
+    "port": 6160
+  },
+  "pages": 39,
+  "files": [
+    {
+      "path": "diamond_admin/app.js",
+      "size": 26340,
+      "sha256": "64397fb8070f38ccfd1fa9bf18211373828843255552e704d5b8d9807336b51b"
+    },
+    {
+      "path": "diamond_admin/assets/cityline.svg",
+      "size": 7912,
+      "sha256": "2ca9ff91ee30ce234e169c227f75bf24f032a2b62b4bd176c5e79076f2cabd2a"
+    },
+    {
+      "path": "diamond_admin/assets/diamond_icon.png",
+      "size": 34332,
+      "sha256": "d6d3869fa6b53d5a903851adcf7b5449d21e4aaff1fdb441356edf79e862be60"
+    },
+    {
+      "path": "diamond_admin/assets/diamond_wordmark.png",
+      "size": 117983,
+      "sha256": "8c37cba9504f87e04c9f66bdadc92efe3e7e8622e4b8f19f339714f025adaa80"
+    },
+    {
+      "path": "diamond_admin/index.html",
+      "size": 29330,
+      "sha256": "1b33278ad4a215440c3c38f4c972a9b5e6e5725866b2149e2945fa8878109aff"
+    },
+    {
+      "path": "diamond_admin/style.css",
+      "size": 17990,
+      "sha256": "01cc581823f0b9245521dea78fb948b4375f0e3298659153bc0b52f35b92fc2e"
+    },
+    {
+      "path": "diamond_hud/hud.css",
+      "size": 3547,
+      "sha256": "d6f9d56111f15283e112f73b0418842aac39de7a1c2e85f423f8521893336e24"
+    },
+    {
+      "path": "diamond_hud/hud.js",
+      "size": 4903,
+      "sha256": "b265bf5b631effb6c457f3872cb967ea6d61b6793961061545e5bc380c13d449"
+    },
+    {
+      "path": "diamond_hud/img/00_main_shell.png",
+      "size": 33777,
+      "sha256": "e1f63500a044e639f91be75e66ef5a75637dbb869ce549c77dfbaba808b9bcd7"
+    },
+    {
+      "path": "diamond_hud/img/00_main_shell.svg",
+      "size": 3482,
+      "sha256": "3447c80851284733db727068a4fcaa68f9af2bbcc4cb349f59002b7c56824e35"
+    },
+    {
+      "path": "diamond_hud/img/01_left_chevron.png",
+      "size": 16258,
+      "sha256": "87109db64250b9fca1c61b2073adfa2f438f1133e4bd51f3aa619d62515e4506"
+    },
+    {
+      "path": "diamond_hud/img/01_left_chevron.svg",
+      "size": 2952,
+      "sha256": "a65382d556454daaeced8a3d727c0ffa8bff84368d5d18ed8b6ee23a9da61833"
+    },
+    {
+      "path": "diamond_hud/img/02_player_plate.png",
+      "size": 9889,
+      "sha256": "fdd7aaddbc871491331e298d4677337ad699802b4c85395c2d8096b56504cd94"
+    },
+    {
+      "path": "diamond_hud/img/02_player_plate.svg",
+      "size": 2969,
+      "sha256": "1de48e5f7743067b5c6c534423c842f4ca22d61e5eb3d68568c947021f4821dc"
+    },
+    {
+      "path": "diamond_hud/img/03_voice_plate.png",
+      "size": 7496,
+      "sha256": "b0e815b14b67d810e6630ab0a5ac3f9e802420f14acf9b1d6b01ad49919cb171"
+    },
+    {
+      "path": "diamond_hud/img/03_voice_plate.svg",
+      "size": 2866,
+      "sha256": "e060d160a05644a9606a128a15c62e928a996c677bbf289c982ca05b7f0c8a5e"
+    },
+    {
+      "path": "diamond_hud/img/04_datetime_plate.png",
+      "size": 16263,
+      "sha256": "1d607c4e4ba10a24dc5ed29f1113c3c5384464e6075655206303a983995aaa85"
+    },
+    {
+      "path": "diamond_hud/img/04_datetime_plate.svg",
+      "size": 3030,
+      "sha256": "e61998954663cc276b6e75fb4555883750f5313dc9db2113238b592d1c0e4214"
+    },
+    {
+      "path": "diamond_hud/img/05_online_plate.png",
+      "size": 5398,
+      "sha256": "c5def430004dd100a72f6b3e3bdd518264f6a0cf57dd67512469089777e9d776"
+    },
+    {
+      "path": "diamond_hud/img/05_online_plate.svg",
+      "size": 2855,
+      "sha256": "c23a0a38258045e1de7898bcf2ea2bfff351971ac1549e7812b6dc9fc1653353"
+    },
+    {
+      "path": "diamond_hud/img/06_health_track.png",
+      "size": 6318,
+      "sha256": "62577154f187ac9052634398e33bbde0c3cda8bd43a503465285defb247093fd"
+    },
+    {
+      "path": "diamond_hud/img/06_health_track.svg",
+      "size": 2934,
+      "sha256": "14d7f312485ebf4fbe871472cac5e1c11245a35a9fec5196f8b106cc1d1d1a3b"
+    },
+    {
+      "path": "diamond_hud/img/07_health_fill.png",
+      "size": 12733,
+      "sha256": "023b597ddfcc2c25a67d739a33cb79332d6c1987faf4e713e5cf886ac1831ed8"
+    },
+    {
+      "path": "diamond_hud/img/07_health_fill.svg",
+      "size": 2967,
+      "sha256": "e3cf764ff5aca23fcc44fa3a472a8dea994371e530f14e9184e77b0f6669050c"
+    },
+    {
+      "path": "diamond_hud/img/08_armour_track.png",
+      "size": 4985,
+      "sha256": "efea8522a3213c4a410a56a51e69d53a0f9b72da9bb39e373b3bb9180b51f807"
+    },
+    {
+      "path": "diamond_hud/img/08_armour_track.svg",
+      "size": 2901,
+      "sha256": "07441342471e574bc919ebfb9dd4e8e1fd99f2640313e33eca350e500dded38e"
+    },
+    {
+      "path": "diamond_hud/img/09_armour_fill.png",
+      "size": 5065,
+      "sha256": "50d05a56fb2440266c56022ce54de6aa85f1bc7d910ec4d98375a46478d548e2"
+    },
+    {
+      "path": "diamond_hud/img/09_armour_fill.svg",
+      "size": 2844,
+      "sha256": "4b7c010970197b6bfff17c84b0c5be13b544da4528ef9f98db279c1d780b5b61"
+    },
+    {
+      "path": "diamond_hud/img/10_heart_icon.png",
+      "size": 9652,
+      "sha256": "fbe170601b1ab598086e50b2170e5a9b96dcb63cc49bc084d9f82852265d6334"
+    },
+    {
+      "path": "diamond_hud/img/10_heart_icon.svg",
+      "size": 3164,
+      "sha256": "d413c3be8513c7f014c0fcb2878a664a006485b307136d2972cd3e7679bdf329"
+    },
+    {
+      "path": "diamond_hud/img/11_shield_icon.png",
+      "size": 7118,
+      "sha256": "de07f22d3425c054892cf2cb6104b2e4aefa2e6d86155bc81ce222691f1ccdbb"
+    },
+    {
+      "path": "diamond_hud/img/11_shield_icon.svg",
+      "size": 3026,
+      "sha256": "15372ec2f9ba98b707a26e28a4f556b72db1728c79561d9d2a4f1cc44fa07b6d"
+    },
+    {
+      "path": "diamond_hud/img/12_microphone.png",
+      "size": 3162,
+      "sha256": "7b03139f939f8c018b98e1f226d56c39b2e72e36fe45c32fbf8639f12f245127"
+    },
+    {
+      "path": "diamond_hud/img/12_microphone.svg",
+      "size": 2920,
+      "sha256": "eec907157c1f0f7858387071e784a4e369147eee73d3cd636966fc2f6f5bb17d"
+    },
+    {
+      "path": "diamond_hud/img/13_waveform.png",
+      "size": 3424,
+      "sha256": "b919511210a30da19d6a853ddad4577de042538da9b220eb115e5f505e327a89"
+    },
+    {
+      "path": "diamond_hud/img/13_waveform.svg",
+      "size": 2923,
+      "sha256": "c01b7bbfeafe27455a101ac7a228e527ee1ef6b40c54f82c09df3eb694d3f048"
+    },
+    {
+      "path": "diamond_hud/img/14_calendar.png",
+      "size": 1728,
+      "sha256": "591e60b83e4271e9edf3ddbbc38a7ba8778d45c942c58e105f8169cd44de30fe"
+    },
+    {
+      "path": "diamond_hud/img/14_calendar.svg",
+      "size": 2935,
+      "sha256": "79016dc3fc51130cb37650ce3342fb35a7babf5e795329d0f96c7994ca47fc52"
+    },
+    {
+      "path": "diamond_hud/img/15_clock.png",
+      "size": 3091,
+      "sha256": "34a9ef6a5a2334e9afcd86f989bb0e0d2bfa8e997c2a340af90eea0646851ce9"
+    },
+    {
+      "path": "diamond_hud/img/15_clock.svg",
+      "size": 2820,
+      "sha256": "1a376a05f19e31a5831032cdca7d7bfd86abed702c0a1c2b58fc9a236e5631e3"
+    },
+    {
+      "path": "diamond_hud/img/16_players.png",
+      "size": 3037,
+      "sha256": "63b3dd9180a25810749cd63bf8f5016b8db1829dcb2603f85243cb45a409e3d4"
+    },
+    {
+      "path": "diamond_hud/img/16_players.svg",
+      "size": 2868,
+      "sha256": "853391b658c575cddda1b557b10cb14caebb0b6a6a07c48f06033abcbb62e46d"
+    },
+    {
+      "path": "diamond_hud/img/17_food_triangle.png",
+      "size": 18690,
+      "sha256": "902c43979aab4555a9930ff195603273e9b9182bab25af929c157c30fc047f6b"
+    },
+    {
+      "path": "diamond_hud/img/17_food_triangle.svg",
+      "size": 3015,
+      "sha256": "ce7446f0aa5646e086f76b8fe38c273441a9844d77a98b753acb42a7208a7c9a"
+    },
+    {
+      "path": "diamond_hud/img/18_burger_icon.png",
+      "size": 4376,
+      "sha256": "00a0ae47df80ea7d336989afe98557a736ed2b93be75934de6d5194cec66200b"
+    },
+    {
+      "path": "diamond_hud/img/18_burger_icon.svg",
+      "size": 3123,
+      "sha256": "3aae94c03753ce0da94ef4153548fcf11b0b0c1dd80941f8408af16543d953c7"
+    },
+    {
+      "path": "diamond_hud/img/19_water_triangle.png",
+      "size": 18122,
+      "sha256": "ff30970732b09dba4de674b30039ed97cc9c56bacb7a2fec2ab21ef20687f03a"
+    },
+    {
+      "path": "diamond_hud/img/19_water_triangle.svg",
+      "size": 2991,
+      "sha256": "ac80fc0a3e932ae4ee828185221b039e3e2e35918d097fcee6b2feb54d407f51"
+    },
+    {
+      "path": "diamond_hud/img/20_droplet_icon.png",
+      "size": 7553,
+      "sha256": "e8402a1da3625cd905616f3b31bf268482ad1ea46c1af4664df082fb940c2f4d"
+    },
+    {
+      "path": "diamond_hud/img/20_droplet_icon.svg",
+      "size": 2875,
+      "sha256": "f5ca30ac629fe6f795ba4b90abb95eb879a24723b4c20b7fcd29269d30af1ed5"
+    },
+    {
+      "path": "diamond_hud/img/21_money_chip.png",
+      "size": 4197,
+      "sha256": "c8547096793836ddfa904194a13b47265e158776b7dd11af30f0e97c3d58e112"
+    },
+    {
+      "path": "diamond_hud/img/21_money_chip.svg",
+      "size": 2798,
+      "sha256": "e8787609ba184e381b5dc59e9198f06ac13f61ae5332e9ab60d6620fd8546d53"
+    },
+    {
+      "path": "diamond_hud/img/22_small_divider.png",
+      "size": 177,
+      "sha256": "649ec7ae98093b3cfe3286c5471f77d6d62be1a04a18d79dd92d387d90196ae8"
+    },
+    {
+      "path": "diamond_hud/img/22_small_divider.svg",
+      "size": 2704,
+      "sha256": "0925a07e2bb6d773ebae1f7fce3a7fb2fcce74f64d9bf9b1376fafc5042539cd"
+    },
+    {
+      "path": "diamond_hud/index.html",
+      "size": 4078,
+      "sha256": "f704703b0f1dc84c5a585ee2446d6642cb758a349694a9dc05098ee1d45ea9c6"
+    },
+    {
+      "path": "diamond_phone/index.html",
+      "size": 1106,
+      "sha256": "808c3b73ba5817e05cdee2d82c7f6c8e762974091cac366f4c66532e55b1380d"
+    },
+    {
+      "path": "diamond_phone/phone.js",
+      "size": 31717,
+      "sha256": "d6b0488654653c43d936ac5afe8d3731aafbf36b429bcfff70e8aabf2b11ed06"
+    },
+    {
+      "path": "diamond_phone/style.css",
+      "size": 10032,
+      "sha256": "306c5cf650ea4e13e14a6806d38db9eccaaf6a6d7ca77fae95078348329273d6"
+    },
+    {
+      "path": "pages.json",
+      "size": 1798,
+      "sha256": "209b263776eabda1bda78c2796af13c21df5bf6243c2897fa4a9ed9862d36020"
+    },
+    {
+      "path": "rotcity-action/action.js",
+      "size": 8616,
+      "sha256": "baf5be85ea2af6100e7945f4034253f97178d37e92e9186c499857d5224a58ba"
+    },
+    {
+      "path": "rotcity-action/action_bar_bg_clean.png",
+      "size": 270124,
+      "sha256": "6c6a389df6d0fbbd895b74d58cea2976f85aef3067bd5eb3089e710cbb75f0ec"
+    },
+    {
+      "path": "rotcity-action/icons/airdrop.svg",
+      "size": 1543,
+      "sha256": "8b46a69ff1f65dc96a917f15e5d775d9a0c312f2e45a69b3eb4191089d326ab7"
+    },
+    {
+      "path": "rotcity-action/icons/craft.svg",
+      "size": 1137,
+      "sha256": "8ed979fd147aeb3198abf9d9ce83efc976ad4608c897be84bd43115dcf27ee75"
+    },
+    {
+      "path": "rotcity-action/icons/loot.svg",
+      "size": 1053,
+      "sha256": "31fce26209402ea09c048c16dd7b4691375c83052dfcc470b62e86ad27415e1f"
+    },
+    {
+      "path": "rotcity-action/icons/medkit.png",
+      "size": 19754,
+      "sha256": "12e64f4b2734c703ac2d27482e7f9cb991101dda0b3669e6a75edcb800133b9d"
+    },
+    {
+      "path": "rotcity-action/icons/repair_gun.svg",
+      "size": 1372,
+      "sha256": "c1fc001e5852ff72fe6d1ec7dd0875328f4db83be48944c808f85caa650dad81"
+    },
+    {
+      "path": "rotcity-action/icons/repair_veh.svg",
+      "size": 1278,
+      "sha256": "d7550236bbf850cba70f53fefaa4f5574a0ea575c695d2714cd1572bb7226162"
+    },
+    {
+      "path": "rotcity-action/index.html",
+      "size": 1697,
+      "sha256": "f308c49db2224c7cfcb5ca3457a01f272c0dcb2acc7fe78fb54ed282612b3d56"
+    },
+    {
+      "path": "rotcity-action/style.css",
+      "size": 7664,
+      "sha256": "e8e47cdbb68ac5dea69e36f9f1a0b3f65d3c4fb8bfab804628a08f825ada7216"
+    },
+    {
+      "path": "rotcity-admin/img/logo.png",
+      "size": 12072,
+      "sha256": "4403e8ed66a937f9a0593ea5540c357d6995d35774e0c0727b0de3ccd1f71751"
+    },
+    {
+      "path": "rotcity-admin/index.html",
+      "size": 49777,
+      "sha256": "fcc9561371a4bf8ac052132299f2cc78d07f89035beec227c78ef238eda34c9b"
+    },
+    {
+      "path": "rotcity-admin/style/announcement.css",
+      "size": 1426,
+      "sha256": "2436d224c14db76b483de2377fc6783be75318bafd5bbbe691fce013da49f207"
+    },
+    {
+      "path": "rotcity-admin/style/style.css",
+      "size": 174548,
+      "sha256": "003984c4c2f4e7cf2895a18978a5af040fc16efe412efa0eed6941cb969a113f"
+    },
+    {
+      "path": "rotcity-admin/style.css",
+      "size": 1331,
+      "sha256": "fe49a0b6f7042b9b9bc919cfdd9be2afbb3a502a7d3cba7b87355c24be6dc281"
+    },
+    {
+      "path": "rotcity-airdrop/airdrop.js",
+      "size": 9395,
+      "sha256": "101c5bc7209ccc3c546f5a0cb33d677c4bd3c50b9ae8c69a30740ace0c30c120"
+    },
+    {
+      "path": "rotcity-airdrop/airdrop_incoming_banner.png",
+      "size": 176018,
+      "sha256": "972e6549ac05ba71144b3fe5bb7ecb138e7315993f26f4f03d46a72ad93261e9"
+    },
+    {
+      "path": "rotcity-airdrop/airdrop_incoming_banner_clean.png",
+      "size": 56051,
+      "sha256": "93a5371686a0b42533a5e0206a177af20355f9f7eb7f44a086bdee9f6e9694ff"
+    },
+    {
+      "path": "rotcity-airdrop/airdrop_ui_bg.png",
+      "size": 196488,
+      "sha256": "2b37f15b37a1c335588c2be7491349342825f577e6cd7a941a3eff73d8752e99"
+    },
+    {
+      "path": "rotcity-airdrop/index.html",
+      "size": 2470,
+      "sha256": "f688056530e22a7facbddaef5e64bce1ccaee6d9e048b74ef8bc07376a2f17f9"
+    },
+    {
+      "path": "rotcity-airdrop/style.css",
+      "size": 8675,
+      "sha256": "e3c0358d0c2efd1963e77f443edd6aabd8a70cea4268504195ebeb31bfc03fd3"
+    },
+    {
+      "path": "rotcity-base/app.js",
+      "size": 9675,
+      "sha256": "f5950e0f91afc6547a6e11e95b40cc57db18bff7a53428fd9e49f2f336a8aca6"
+    },
+    {
+      "path": "rotcity-base/index.html",
+      "size": 2852,
+      "sha256": "c0036af937a8b538695ff377b63f9bc926e19cda201abef467eb95517f1560f5"
+    },
+    {
+      "path": "rotcity-base/style.css",
+      "size": 8260,
+      "sha256": "0ab623934062fd01bbe48eb25e7d84c50e52de3b408d62b73643335158045204"
+    },
+    {
+      "path": "rotcity-base/textures/cracked-glass.svg",
+      "size": 388,
+      "sha256": "30a95b4c6f95d402092ce656df45b04c63636abab6a438ccea1b446cf73e92ae"
+    },
+    {
+      "path": "rotcity-base/textures/grime.png",
+      "size": 28470,
+      "sha256": "898fefa5d86a6789768ee6b784f79e486ccd085f8344eac316a1a02e2c90b366"
+    },
+    {
+      "path": "rotcity-base/textures/hazard.svg",
+      "size": 553,
+      "sha256": "757e4316138d0769c585b793a693f2471f9ed998214a6f78d4d92bc159b25b1d"
+    },
+    {
+      "path": "rotcity-base/textures/rust-specks.png",
+      "size": 16125,
+      "sha256": "c099d5479906a7996e1f6e3d6fd7c078a862fb9e489a12f2f00daa78f79e8cc9"
+    },
+    {
+      "path": "rotcity-base/textures/skyline.svg",
+      "size": 9546,
+      "sha256": "4daa23b6d2b0dd58fdd8f8bc549ffb8d19704fc32592cc79a1fc0f9611dd7633"
+    },
+    {
+      "path": "rotcity-base/textures/steel-grit.webp",
+      "size": 123252,
+      "sha256": "154aebd47d926a3d49190ccc83799686fc09d75ba96a72e5f3976abec009c8cb"
+    },
+    {
+      "path": "rotcity-camp/app.js",
+      "size": 3798,
+      "sha256": "96ecf3f033b1c2a7f835aae76e50e337f7c734c77a687710ad66e55266c22643"
+    },
+    {
+      "path": "rotcity-camp/assets/bench_emblem.png",
+      "size": 1047540,
+      "sha256": "d2faa924b30bb2662906e2e2c5e84d4b05112480f903641bc600b53bfeb349f8"
+    },
+    {
+      "path": "rotcity-camp/index.html",
+      "size": 5366,
+      "sha256": "4259dd40b971988832213f23fd5bd77d60bcfae3cc8c248957af540dd2c72d8b"
+    },
+    {
+      "path": "rotcity-camp/style.css",
+      "size": 5821,
+      "sha256": "621e86373840ebe8bbbddeb4f2b5346416ba55e76a30f694072e9482227766c7"
+    },
+    {
+      "path": "rotcity-cashout/index.html",
+      "size": 5763,
+      "sha256": "8ae5c59f42f10d754623f9d9e13e6c9b3c8bbc4b4cd0a997a6e2e1e6c0d80664"
+    },
+    {
+      "path": "rotcity-cashout/style.css",
+      "size": 4346,
+      "sha256": "3c37d7a9c3dc777c6e8142cc91d3707457ce119d7fd61dc585ae4a18f81bb188"
+    },
+    {
+      "path": "rotcity-cefcheck/index.html",
+      "size": 992,
+      "sha256": "0530a11f8c7a85d4f08854ea5a2b5c7d6c6e94775a4fa5d7593b571e55bdf04c"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/admin.png",
+      "size": 3063,
+      "sha256": "471ba98221a26ad7544ab333186083273c6f512bb2e3bfabaf0a0f9ca14e74fd"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/anonymous.png",
+      "size": 1625,
+      "sha256": "5084f642b821993b2539a6e7562fbffaf60e5e04a49036587031727f9ce963be"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/do.png",
+      "size": 1998,
+      "sha256": "41264063020293c9f728a549b392a8d6d2df7eaee185b4a8120909af3fe5f496"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/globaldo.png",
+      "size": 2289,
+      "sha256": "c2bdbd4775e3b26e634c160ed2c6f0e7aefb53d1b28cc318c6a05798a2604dbe"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/me.png",
+      "size": 1887,
+      "sha256": "168add818f08f5663291a1d5fd1b010456f71bb6e623a560b73c11e9ad478135"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/news.png",
+      "size": 1475,
+      "sha256": "f3d223679a719fc1680da404989623d1e84ac8c1c9f359015d28a8c1a69c9790"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/ooc.png",
+      "size": 2389,
+      "sha256": "014f8c651607f5caa4346f83da3a826c21a4e171004b0d12aa7388987aad29c6"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/police.png",
+      "size": 1836,
+      "sha256": "846f820afc33ad53df02321bda7bed5fea9ae4eabc0dad5f4de70c0ac2e460d1"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/tootube.png",
+      "size": 1565,
+      "sha256": "8494f44d4e3f9f255f2801154e98842ea4328de7a90c9e5b7735c8798b1134da"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/try.png",
+      "size": 2336,
+      "sha256": "fd5293286c925b06cc313e3fb1a14c1832700babe0285659dcd9521545ee69c5"
+    },
+    {
+      "path": "rotcity-chat/categoryIcons/twotter.png",
+      "size": 2569,
+      "sha256": "312a2b79d5c68b12ee2339a572c4474f85dfa0a7055932a4ba04c77af5977120"
+    },
+    {
+      "path": "rotcity-chat/icons/adminPanel.svg",
+      "size": 504,
+      "sha256": "5dd29516b25ac0ef880f2dc6051153554e0580923f965ffddc842f200aa5053e"
+    },
+    {
+      "path": "rotcity-chat/icons/blockedWords.svg",
+      "size": 374,
+      "sha256": "db36cd32a85a2aa734aabab49302e5d46e591c552423317975ec9102edbfeeef"
+    },
+    {
+      "path": "rotcity-chat/icons/category.svg",
+      "size": 736,
+      "sha256": "193b2aa5f59d95939fcf593f28dc8c8f4150d3dbcbc696b8dc8b8d4c1998ddc8"
+    },
+    {
+      "path": "rotcity-chat/icons/chatPosition.svg",
+      "size": 570,
+      "sha256": "6c9af5322d8e73efb3655a9607f3088981655ecd61c75a5bc5ab6e51323a0e1b"
+    },
+    {
+      "path": "rotcity-chat/icons/chatSettings.svg",
+      "size": 740,
+      "sha256": "7d2cfb301d0e889db163e86f85832531272f171b4836c7bc40bda94704fa12cf"
+    },
+    {
+      "path": "rotcity-chat/icons/chatThemes.svg",
+      "size": 337,
+      "sha256": "4d63d035b73813ca926336674493042c3c29388b7c922908334c6ee9fa04f983"
+    },
+    {
+      "path": "rotcity-chat/icons/controlMessages.svg",
+      "size": 675,
+      "sha256": "8827bae08c8a8176b7ee8c522fcc26c9920c23f806dc4273efe1ad677fafdc6c"
+    },
+    {
+      "path": "rotcity-chat/icons/discardChanges.svg",
+      "size": 367,
+      "sha256": "5f7b866f97bafde59d8559311d014694c81025eb6ee0672973ed08c22d530662"
+    },
+    {
+      "path": "rotcity-chat/icons/fontSize.svg",
+      "size": 591,
+      "sha256": "b82269627f50659159841b01d6ff653e843d312b0bffd1f8fd295802fad9d811"
+    },
+    {
+      "path": "rotcity-chat/icons/gridMode.svg",
+      "size": 499,
+      "sha256": "73ab3f24a21f4054073aa4332e80889a9d32b5e2c1b2454e82f8a776f5d6c326"
+    },
+    {
+      "path": "rotcity-chat/icons/openGroups.svg",
+      "size": 513,
+      "sha256": "3302886e7fd0cb80418544b82ac3dd0a4c1e7a0fb81379ea2babc8e57bf9b32a"
+    },
+    {
+      "path": "rotcity-chat/icons/phoneCall.svg",
+      "size": 793,
+      "sha256": "cc69db9d276471da0d8486e5bfc99c35082e9c1b7ad17bb64ee11756d2eb9bfd"
+    },
+    {
+      "path": "rotcity-chat/icons/save.svg",
+      "size": 359,
+      "sha256": "ca56191f912351c00f21c26744e2d956311911608e5b14265dd449623788f201"
+    },
+    {
+      "path": "rotcity-chat/icons/saveProfile.svg",
+      "size": 385,
+      "sha256": "cad31a441f781a1cbd01aa5e4b405343b337e1e18f19e6045175ced9f157a815"
+    },
+    {
+      "path": "rotcity-chat/icons/send.svg",
+      "size": 357,
+      "sha256": "9c53da7904b6c6464e49b4eac00e6da75952a692158c2cfcde8834b393b5eec1"
+    },
+    {
+      "path": "rotcity-chat/icons/styleFont.svg",
+      "size": 371,
+      "sha256": "2716cf3db6a210b0909e62930784c9353256e5d4d10b68a9c29232c6ae6d7b8c"
+    },
+    {
+      "path": "rotcity-chat/icons/theme.svg",
+      "size": 509,
+      "sha256": "ee02f3b69c487739417d629caf8ce4c3d1b90a26134cb65b84e404822dc395c9"
+    },
+    {
+      "path": "rotcity-chat/icons/timeMessage.svg",
+      "size": 273,
+      "sha256": "4b3fbd86db6e57f30bfca449b7e3bd34e4f3c2afe5590dbc1a7e47c0f7420070"
+    },
+    {
+      "path": "rotcity-chat/icons/user.svg",
+      "size": 188,
+      "sha256": "57893c7e9ec0e1e479ce92388fd267a4bd4be6657b303b5e3b8db29812c5b041"
+    },
+    {
+      "path": "rotcity-chat/index.html",
+      "size": 16947,
+      "sha256": "ffe1c1193338decf6d13cbf577a2ece52268955a243ab245f70dbd58abd533a1"
+    },
+    {
+      "path": "rotcity-craft/index.html",
+      "size": 17272,
+      "sha256": "0e6433979adce3e5ff8834aa8a0fa1b1c4fdac04d4e29a5552754e300679f266"
+    },
+    {
+      "path": "rotcity-craft/textures/cracked-glass.svg",
+      "size": 388,
+      "sha256": "30a95b4c6f95d402092ce656df45b04c63636abab6a438ccea1b446cf73e92ae"
+    },
+    {
+      "path": "rotcity-craft/textures/grime.png",
+      "size": 28470,
+      "sha256": "898fefa5d86a6789768ee6b784f79e486ccd085f8344eac316a1a02e2c90b366"
+    },
+    {
+      "path": "rotcity-craft/textures/hazard.svg",
+      "size": 553,
+      "sha256": "757e4316138d0769c585b793a693f2471f9ed998214a6f78d4d92bc159b25b1d"
+    },
+    {
+      "path": "rotcity-craft/textures/rust-specks.png",
+      "size": 16125,
+      "sha256": "c099d5479906a7996e1f6e3d6fd7c078a862fb9e489a12f2f00daa78f79e8cc9"
+    },
+    {
+      "path": "rotcity-craft/textures/skyline.svg",
+      "size": 9546,
+      "sha256": "4daa23b6d2b0dd58fdd8f8bc549ffb8d19704fc32592cc79a1fc0f9611dd7633"
+    },
+    {
+      "path": "rotcity-craft/textures/steel-grit.webp",
+      "size": 123252,
+      "sha256": "154aebd47d926a3d49190ccc83799686fc09d75ba96a72e5f3976abec009c8cb"
+    },
+    {
+      "path": "rotcity-downed/app.js",
+      "size": 7543,
+      "sha256": "cd319ed18a115fd444b3a028988f5f1c55c71d1270f28bb3a1fbc15be12dbd91"
+    },
+    {
+      "path": "rotcity-downed/index.html",
+      "size": 13816,
+      "sha256": "663f73a58ac26eedaa0b764ac966a5e501b40c00916bb5f2feb9144133e17602"
+    },
+    {
+      "path": "rotcity-downed/style.css",
+      "size": 23689,
+      "sha256": "f1e13e9e3cd9dde4cde095aeda807aa63ee3ca7c9ed19863ee78ac92dfb44d78"
+    },
+    {
+      "path": "rotcity-drone/images/drone.png",
+      "size": 6147,
+      "sha256": "a26f6b51eff294c57568aac088d4bb9c67562eaa2548d46c7a5ae735c9f7b032"
+    },
+    {
+      "path": "rotcity-drone/images/drone_lspd.png",
+      "size": 10270,
+      "sha256": "f7c450c6a6178ec2c26604862351f05ef5a4683ba00085ae0c5d3947f8fe724a"
+    },
+    {
+      "path": "rotcity-drone/index.html",
+      "size": 21632,
+      "sha256": "7c7cff68799722b0850018b08fdd6341488d4b4ebbfb48d9af630492e3b8b580"
+    },
+    {
+      "path": "rotcity-drone/sounds/away_easy.ogg",
+      "size": 43548,
+      "sha256": "aa10575d2f193245e0ff4d8c45025cfb089638f7548b838edd1b9f918e1f1e38"
+    },
+    {
+      "path": "rotcity-drone/sounds/bullet_ass.ogg",
+      "size": 61426,
+      "sha256": "eb722af5c98c2869f9368d69b87eac6cd2eb5ffad354ceac472efc83648b87fc"
+    },
+    {
+      "path": "rotcity-drone/sounds/cant_hide_boi.ogg",
+      "size": 45542,
+      "sha256": "7a53f5f2af4e6500b22319b6ca30abb0a3e85761ba0aab2241ee1c96c8349689"
+    },
+    {
+      "path": "rotcity-drone/sounds/car_over.ogg",
+      "size": 30257,
+      "sha256": "ade704aa8a7b5d000769ea7254deb0611461fe25e1494246380bab32c90bcc50"
+    },
+    {
+      "path": "rotcity-drone/sounds/clear_the_area.ogg",
+      "size": 49812,
+      "sha256": "97052fe59128f798c1747e1f6af1978f3a326932a97e2f604706d45dae9a590b"
+    },
+    {
+      "path": "rotcity-drone/sounds/disperse_now.ogg",
+      "size": 51139,
+      "sha256": "16289b142d8d415b89c27a6ba88066d58923b29100cbd5f3e9f1eb1398280c85"
+    },
+    {
+      "path": "rotcity-drone/sounds/dont_make_me.ogg",
+      "size": 47540,
+      "sha256": "3426320e1b44136ea8a788c602f986139074093c5941d9c7aaa709151d031a89"
+    },
+    {
+      "path": "rotcity-drone/sounds/engine_off.ogg",
+      "size": 49417,
+      "sha256": "ab181dd005fb36cf0e8093eed7d903a5f83cc9671c98ecb84762dc4f6e46bf77"
+    },
+    {
+      "path": "rotcity-drone/sounds/freeze_lspd.ogg",
+      "size": 29561,
+      "sha256": "4e13ead43ab62359d3d4f9b3d0567db7b169d6b87d1caf7f1c0c64faca0a83a5"
+    },
+    {
+      "path": "rotcity-drone/sounds/get_out.ogg",
+      "size": 46233,
+      "sha256": "1ff3087cc3e532483f6d5e5fc4a976c82643b94e0f6cbcb83bfa4a17ee240a8d"
+    },
+    {
+      "path": "rotcity-drone/sounds/get_out_of_here_now.ogg",
+      "size": 50649,
+      "sha256": "98696707e1189c21feed67b4b0c02e96fd1a584b8eceb97d6fa419e0399c2690"
+    },
+    {
+      "path": "rotcity-drone/sounds/give_up.ogg",
+      "size": 45330,
+      "sha256": "1982d9e3282c1ad3b508cb03ef0685aa0abcac0cac224cc31d1f590a3643447b"
+    },
+    {
+      "path": "rotcity-drone/sounds/last_chance.ogg",
+      "size": 38007,
+      "sha256": "1723c3d8d1f756f09812557f1883f123f202b8286afa669be243ea6388dd3495"
+    },
+    {
+      "path": "rotcity-drone/sounds/los_santos.ogg",
+      "size": 63871,
+      "sha256": "29da97a193bb979ada43f400e07f44c6e36bd301784720e5f6fc4177a9948c97"
+    },
+    {
+      "path": "rotcity-drone/sounds/move_along_people.ogg",
+      "size": 48097,
+      "sha256": "5d655e7a9f81653d8dadd5956897687a5d030fda8347c063a32378baf169cb3a"
+    },
+    {
+      "path": "rotcity-drone/sounds/pull_imm.ogg",
+      "size": 56327,
+      "sha256": "2a354cf3796df492fbde7433a800c033518e59f7cbf8ea5af440eb099a0c11b8"
+    },
+    {
+      "path": "rotcity-drone/sounds/sahp_stop.ogg",
+      "size": 50142,
+      "sha256": "83e209ca1eb755e01c5d427367228eff5dfec7cb2368e76bd2d84bc659ae97ba"
+    },
+    {
+      "path": "rotcity-drone/sounds/this_is_the_lspd.ogg",
+      "size": 59189,
+      "sha256": "8d42a32aaaf24c1dd9a3b86afb68dc0d2123e74c81b3df104e0261de2fc421fb"
+    },
+    {
+      "path": "rotcity-emotes/catalog.js",
+      "size": 162717,
+      "sha256": "d6aad5fd6a1dede02570d811bf1ebb5781dd8fe7aa90fdd6cfaeb18cccc8ed2b"
+    },
+    {
+      "path": "rotcity-emotes/index.html",
+      "size": 11519,
+      "sha256": "a559cf8e407d2d79cdeb5db5d945339a8d163034bddb7048feeee488e64e9dec"
+    },
+    {
+      "path": "rotcity-exchange/app.js",
+      "size": 4907,
+      "sha256": "478181df1a98e9c15892caa148b90d0d78013b0953d06f6033ce6ac5e7b7def7"
+    },
+    {
+      "path": "rotcity-exchange/index.html",
+      "size": 2434,
+      "sha256": "30397bd29978685fab31161982054c51e73c39b3fd5bbf6847b8b769a21ff912"
+    },
+    {
+      "path": "rotcity-exchange/style.css",
+      "size": 2263,
+      "sha256": "b8a56ae9f39efcd6c3469dfa5da2d69f297282a3bbf1ee5de384c14d35c6bb2f"
+    },
+    {
+      "path": "rotcity-garage/app.js",
+      "size": 6312,
+      "sha256": "0e93a73034e1620da5acf1b4d351d31d1406876b3623047dd7230e85c29a2089"
+    },
+    {
+      "path": "rotcity-garage/index.html",
+      "size": 2460,
+      "sha256": "87a3dd132d5d5f903fa264274024ebe99e248ae3e94e42199b09bb3d5d73acd2"
+    },
+    {
+      "path": "rotcity-garage/style.css",
+      "size": 7182,
+      "sha256": "60970d9531d7e273c2da8080c79a47e400e9fa70ea499c7f521f20c78e1021dc"
+    },
+    {
+      "path": "rotcity-guild/app.js",
+      "size": 15254,
+      "sha256": "1c5fb2d0224782701bec1abb77217e39342a2743ab804f4fad51904257c72af8"
+    },
+    {
+      "path": "rotcity-guild/index.html",
+      "size": 16195,
+      "sha256": "26a07139d3edb29793768c3c867a7cf597f339fb45608c4f8bda022e37445978"
+    },
+    {
+      "path": "rotcity-guild/style.css",
+      "size": 12608,
+      "sha256": "340fe15789b1942a89b3b91e4268a19409352407d1b16207d57f1ae67b8bd498"
+    },
+    {
+      "path": "rotcity-guildwar/app.js",
+      "size": 4799,
+      "sha256": "b2b4a3e429243cbee9eba1823515f851f2b2e79ef9f6b8c10b0e82d03ac6bc1a"
+    },
+    {
+      "path": "rotcity-guildwar/index.html",
+      "size": 2847,
+      "sha256": "eef5ed19734b21c1080c4d2bfe78c3d939269018c539366f677893acc579dc24"
+    },
+    {
+      "path": "rotcity-guildwar/style.css",
+      "size": 3949,
+      "sha256": "06ea1f8fe2235f39bef151f9d2b504b9676217cb3cec49ad92ee10befe6aa9fa"
+    },
+    {
+      "path": "rotcity-guntune/app.js",
+      "size": 8444,
+      "sha256": "c550a09be81f08e5c7a5fd1878f94b8fade5773b2df12b2a26821f2e09f1028b"
+    },
+    {
+      "path": "rotcity-guntune/emblem.jpg",
+      "size": 601836,
+      "sha256": "8e0263553790bb6ac317b1bdd9d630a8c77d6c4960eb27c3f4e40379e7903d60"
+    },
+    {
+      "path": "rotcity-guntune/index.html",
+      "size": 3825,
+      "sha256": "1199df2d05fce97a1d8e845e1763acf4a8c6282e66097a9caa2f0f6ff60987aa"
+    },
+    {
+      "path": "rotcity-guntune/style.css",
+      "size": 7189,
+      "sha256": "32ac1ddca77bbfa52309e16d76b2c80421f035ecd341929e5a4733ac5baba9c4"
+    },
+    {
+      "path": "rotcity-hud/app.js",
+      "size": 9740,
+      "sha256": "2c4b40c7b32099180b53c63b3d8b8557fac6f36fae909590a82ee515434cfc4b"
+    },
+    {
+      "path": "rotcity-hud/default-avatar.svg",
+      "size": 842,
+      "sha256": "1285540d220cf675c96b858ae4b9e8da8cd9c82e833cfbb39bd12db54a05b825"
+    },
+    {
+      "path": "rotcity-hud/immunity_bridge.js",
+      "size": 1619,
+      "sha256": "83808ccd398ec305f70e296f98a3ae9ab05c87c307bd8b075372acbb78604dad"
+    },
+    {
+      "path": "rotcity-hud/index.html",
+      "size": 4936,
+      "sha256": "938b8a8b8cdd77cfdf5bdb202faeca4345a12870ff084cde6ecc2b18ec78daaf"
+    },
+    {
+      "path": "rotcity-hud/rust-specks.png",
+      "size": 16125,
+      "sha256": "c099d5479906a7996e1f6e3d6fd7c078a862fb9e489a12f2f00daa78f79e8cc9"
+    },
+    {
+      "path": "rotcity-hud/sfx/zombie_groan1.wav",
+      "size": 944208,
+      "sha256": "86dfc982e24e967ef8b9428523fb8c095566d348b3c6cac356625e74167f42b7"
+    },
+    {
+      "path": "rotcity-hud/sfx/zombie_groan2.wav",
+      "size": 825424,
+      "sha256": "6dd4274a419f7fd072f7ae7dd4b0bbdc36533cf50060714b474bbbbcfa6282f3"
+    },
+    {
+      "path": "rotcity-hud/style.css",
+      "size": 11180,
+      "sha256": "c338fcc816cf5206509bf30bdf9358d443f2ec70b204867bd0dbb7a457f4feab"
+    },
+    {
+      "path": "rotcity-hudv3/css/config.css",
+      "size": 1359,
+      "sha256": "39fb35653099f3ac479eb27d7bc069977004b504df6990a4a86945fecef49a0a"
+    },
+    {
+      "path": "rotcity-hudv3/css/dashboard.css",
+      "size": 26685,
+      "sha256": "d485a0c826f87011cf57c5d70327791a753a508c1879844c8bc8986a33e0826e"
+    },
+    {
+      "path": "rotcity-hudv3/css/fonts.css",
+      "size": 900,
+      "sha256": "fa0f1dbc25e880269a6b46dea82bda1e1a62440b4f80a18c3033c27fd029387b"
+    },
+    {
+      "path": "rotcity-hudv3/css/move.css",
+      "size": 6352,
+      "sha256": "361521b035afb9638c5fb96d9904fc0c1c13ee39f7d4416d9b5c70cf0bd57cbb"
+    },
+    {
+      "path": "rotcity-hudv3/css/rewards.css",
+      "size": 8550,
+      "sha256": "e4526ed3dd1747cddf4464403147ccb2107a181abf427557d77961eb6930e356"
+    },
+    {
+      "path": "rotcity-hudv3/css/style.css",
+      "size": 198600,
+      "sha256": "c0f30f0c22023a58fa0d464445a57f730728c127c45560160e944a149e3d5cc7"
+    },
+    {
+      "path": "rotcity-hudv3/fontawesome/css/all.min.css",
+      "size": 73890,
+      "sha256": "74005d7c17d4a02f2f25404ec0655d9bc2fdaa53166874c87d7b7eec69d9088a"
+    },
+    {
+      "path": "rotcity-hudv3/fontawesome/webfonts/fa-brands-400.woff2",
+      "size": 118684,
+      "sha256": "d7236a19bf23cbb2027280e8f51dc99d6c45976a2ed60de73382b034b18a2b68"
+    },
+    {
+      "path": "rotcity-hudv3/fontawesome/webfonts/fa-regular-400.woff2",
+      "size": 25472,
+      "sha256": "e3456d1283b9d75337a773dfd147bf908fd02c01b4bf48576d8603a69b13cbe5"
+    },
+    {
+      "path": "rotcity-hudv3/fontawesome/webfonts/fa-solid-900.woff2",
+      "size": 158220,
+      "sha256": "aa75998623a391e61c6901794ace832e3ecdd288b56d608f21bea0411acc0b8e"
+    },
+    {
+      "path": "rotcity-hudv3/fontawesome/webfonts/fa-v4compatibility.woff2",
+      "size": 4796,
+      "sha256": "0ce9033c69dc714f5f45ef9bf17d55e4c46bcdfad6799a4e92b38e7781bf86bd"
+    },
+    {
+      "path": "rotcity-hudv3/images/logo.png",
+      "size": 341886,
+      "sha256": "66a0fb73d48fbd416a4c24624cfa9655fdd8298ad28615ff659d8046c7e28d8b"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_advancedrifle.png",
+      "size": 34197,
+      "sha256": "bf8b77daccb193d0acac9367ee6230602cc82750f92e86cee4593ebee76c9826"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_appistol.png",
+      "size": 15600,
+      "sha256": "f7b7218301c681c4b33c6b1ebe73257d3cb7ab496628f3cda4e1036e35ef1b2d"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_assaultrifle.png",
+      "size": 55363,
+      "sha256": "20122c81aed14093ae9d1c53bbeb69939bc206b29282607857fb5fe0fcd2be0b"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_assaultrifle_mk2.png",
+      "size": 26676,
+      "sha256": "fc5fdaf7620c4200abb25085fcf28a5072094aa553659cd443e533fe4cfab781"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_assaultshotgun.png",
+      "size": 29609,
+      "sha256": "826f78bbeb63e93e6999c200f96a25915df0d1b46b44a7e6610e4c88bdc13d41"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_assaultsmg.png",
+      "size": 26391,
+      "sha256": "820f51aac7f9f31bf7630f488b712b8a473e3572f1a63b5976ed168ec1924f4c"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_autoshotgun.png",
+      "size": 65388,
+      "sha256": "79439b2f4f2c99b25e7085bb034495e2753938d921d38e69f66ef0a282d418ab"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_ball.png",
+      "size": 78484,
+      "sha256": "1a3bbc22857540425bfc9de35b83c920ea8051a0edf78d9b6403ecf88b89d399"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_bat.png",
+      "size": 15920,
+      "sha256": "6209ac2cdafa22399ad97acccfd76384384fe0223bb165d6061c425ac81bcc5a"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_battleaxe.png",
+      "size": 39578,
+      "sha256": "ff1ee7975f71273017944e207d12df9689b41e5880fdee2df0acbdb0df7fcc77"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_bottle.png",
+      "size": 12421,
+      "sha256": "6d5ac40b54a4ddabf60bfbec18743e4da79f0fd5c6182d6e1835244c270a9332"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_bullpuprifle.png",
+      "size": 26864,
+      "sha256": "dd18461c037d96f40c152040b5d626045333239091ab9b913e6a6802444fc1f8"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_bullpuprifle_mk2.png",
+      "size": 32063,
+      "sha256": "d20e2cd1eddbaa7c5859d085393d590732712e339da7c9218bebfffbcf9183f1"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_bullpupshotgun.png",
+      "size": 25002,
+      "sha256": "ebcdd629d9ffc6777b286aab3f75d2b62219f05b35e68c9e917897231cd4e911"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_bzgas.png",
+      "size": 50239,
+      "sha256": "1794f0fa17e53701893f557fd2a405240025602894d89d215f327d0af7b3be79"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_carbinerifle.png",
+      "size": 29345,
+      "sha256": "96bda10f7a5a1de7abfd91e4d8d2975c7e77f974b55b17edf4410b69d7a480f5"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_carbinerifle_mk2.png",
+      "size": 25679,
+      "sha256": "dbeb4baebb2309d59b78cede070f85ca6b840c001fc252ab013c380b271d1130"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_combatmg.png",
+      "size": 40754,
+      "sha256": "f3712745670441614fcdf53f81bf43270b9a393d67854d6c4094d03ceab787ba"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_combatmg_mk2.png",
+      "size": 39956,
+      "sha256": "4a28b3cfb4d51cb56256c3d3d69322e8b4f63b2bcf164e970a16b9bcde067276"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_combatpdw.png",
+      "size": 25617,
+      "sha256": "e58e28b830c64fbad8958ee76e7a379f0b01e446f667d253748e77dd3bc692e7"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_combatpistol.png",
+      "size": 16014,
+      "sha256": "74d9e04e1238e999ce55a677d21b09d28d97e2494660bededed9d85aa384fbb6"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_compactlauncher.png",
+      "size": 58078,
+      "sha256": "9fae730f625a2ee090adcb78606746f09a0c1b378f68a0bb4425226fa570164f"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_compactrifle.png",
+      "size": 29861,
+      "sha256": "472232dc42d2d7b20111f83d35ff063d7d69f8fa3ec2057f7cc1c28f3cab8599"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_crowbar.png",
+      "size": 17514,
+      "sha256": "e73edfeec5458a8958d266cc7d0463a44002a5a9a481c4f74f0b822d79073ee8"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_dagger.png",
+      "size": 25151,
+      "sha256": "3adad8abe976c7b8c3348aefda86549b633558433df9f89ba040c2878c4a968e"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_dbshotgun.png",
+      "size": 45104,
+      "sha256": "be3879a2f8c31a379a00eb1f5cd9fa9198c8c2ffa9efa034c31ae32e45bd47fd"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_doubleaction.png",
+      "size": 42496,
+      "sha256": "bccd3d6c0684947a63d44235a2c13e272813a17583940365192b80b6c0cb43a1"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_firework.png",
+      "size": 27333,
+      "sha256": "c729512b1a58634b0145ce5ec0925aa300489e6891cfc36ff68d05ead2153a8c"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_flare.png",
+      "size": 7988,
+      "sha256": "49f5bbfbac405e9abf93d0bf05840bca609a576776d4df1b43ce11ca7b6e8018"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_flaregun.png",
+      "size": 29593,
+      "sha256": "23caea7c4d082b770df45b044a1d8228a7854dda4fbcb9d03ff8257ef00d9046"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_flashlight.png",
+      "size": 36675,
+      "sha256": "da3b59fac744bcacd78f3dc2751b397a7f0c84ef8c3302485ab7b48b1acf9267"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_golfclub.png",
+      "size": 6548,
+      "sha256": "618537a953af782a6b14513f2faf2ab712595c38a06a68739f1ede58c771f2f0"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_grenade.png",
+      "size": 58944,
+      "sha256": "5075899d3a39f417165237b91e42c63da22db806cf89652e1b96cb2966b1e038"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_grenadelauncher.png",
+      "size": 48828,
+      "sha256": "7daa479f85cd0ee5ac4fdef17129d1951fd39dff0093a2bc5125bc200bdf5f55"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_grenadelauncher_smoke.png",
+      "size": 48828,
+      "sha256": "7daa479f85cd0ee5ac4fdef17129d1951fd39dff0093a2bc5125bc200bdf5f55"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_gusenberg.png",
+      "size": 33108,
+      "sha256": "e38ceb371cb89de6d801fba52fce22d40745b8f882c95b077641cbfa69be4b27"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_hammer.png",
+      "size": 29827,
+      "sha256": "a15d479c5aa45de859702b2c84f1a380f540aee083c877c54b1e0edf85c53614"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_hatchet.png",
+      "size": 35906,
+      "sha256": "e0a2331cd94672f7dfe2a5f43bd865ed50b4849f0b7fd423fabe0ee63023197d"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_heavypistol.png",
+      "size": 14966,
+      "sha256": "fc1407405bc77ac6fac96ddab26ad220744f0698daaeb115736e335555cdc7f6"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_heavyshotgun.png",
+      "size": 22834,
+      "sha256": "5db67fede4b0777377d9998360b2cb9c8fe0e26c406701f41b77c280b2216c9b"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_heavysniper.png",
+      "size": 21946,
+      "sha256": "4a87d3bc844afb2729017ea1be3f1663a64892bf26f1f7a82d1bbc748c15d43d"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_heavysniper_mk2.png",
+      "size": 24850,
+      "sha256": "3c1472338dd86c6f7c58c90fa044e8da0931da722da2c2590465113d8fe01bbf"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_hominglauncher.png",
+      "size": 26157,
+      "sha256": "3f51351228202c8bef6509bdf7f7d5712fb2ba38a64720be87b281032e92f17d"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_knife.png",
+      "size": 19457,
+      "sha256": "72cb8065165f40204b1542fd2c19771cffc37ab74f983a6ee7f19d2ea833213a"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_knuckle.png",
+      "size": 30253,
+      "sha256": "8c768c89804edeefc5ec271a44c15d7cf234301fc15c83a45c2119d55bd12009"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_machete.png",
+      "size": 42505,
+      "sha256": "748fc97fe0b6fff3a486a1f1c1deeeff12732f98d418edce05bb577f0657c877"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_machinepistol.png",
+      "size": 26649,
+      "sha256": "465ea0dd80b08176c3306bfb4f613f6bb24f76726fd753bcdd046a885b454990"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_marksmanpistol.png",
+      "size": 43767,
+      "sha256": "6a899b57ea6e7f966e2c8f0cfb60f6c7af194397e899072e34f3de8819a2c881"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_marksmanrifle.png",
+      "size": 21115,
+      "sha256": "e6132624ddb42653d66b245eae5b1083742666c4d346affa7034341e23a66378"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_marksmanrifle_mk2.png",
+      "size": 25074,
+      "sha256": "238c2a42d226d52845bbc6b1c7a9147fe8dacfd44f0722af743510be68a0782b"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_mg.png",
+      "size": 27156,
+      "sha256": "0733e248d32762e8a9e3cf82e2ef6f4305ea2afff3fb530591812310d86f8b41"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_microsmg.png",
+      "size": 19232,
+      "sha256": "921661b91da23d406e0ca8e29ed1408d22575a67997744c987a305a7f2f2e5d4"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_minigun.png",
+      "size": 42351,
+      "sha256": "ebfa791d8bd3bf964fdbc8b194a0e5c3717cc771a43ff5941215d3e127243893"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_minismg.png",
+      "size": 27563,
+      "sha256": "6d520e7826fc49282acfe6d85a94df857049b31533df5ba365dddd900d72512b"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_molotov.png",
+      "size": 49438,
+      "sha256": "77614205b34620eaae9228b96733a5410a688e7594dd74db224674a65a5da078"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_musket.png",
+      "size": 23047,
+      "sha256": "e49d03cb8f7e6e52dd3cc02c21de45e49717501b8f82408fb81a521b7ebe61b4"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_nightstick.png",
+      "size": 24179,
+      "sha256": "a26582261aeafcee373860a5b17726e985f6e4ea50f5f005e6d625b63e06774c"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_petrolcan.png",
+      "size": 27370,
+      "sha256": "9742f87e71da6bdaaea15495ddce3f8e84e5c20e871b1135d6820e2086ff79bc"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_pipebomb.png",
+      "size": 91010,
+      "sha256": "6e6c73260eed5fda9395b3a8cc458231b17c5744bd87a533d530109910d9214e"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_pistol.png",
+      "size": 19144,
+      "sha256": "a2a24e66191d5b6186b2b23082c141896bcc01e2cca00d568b5d17413f687314"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_pistol50.png",
+      "size": 15945,
+      "sha256": "a99dc406124cb6ff7f4d4cd503b900b607d0ab3e150cba788b2f189652bb85a3"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_pistol_mk2.png",
+      "size": 17671,
+      "sha256": "ee1e66546c9491c0773f62cdc7cd7e3fb43709dc4fbd88f9311c68062ada8f98"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_poolcue.png",
+      "size": 14329,
+      "sha256": "c7243a0be363c5b5db6dee2990e9ec1236ea0e5fde9880eea686c9319ef46440"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_proxmine.png",
+      "size": 56507,
+      "sha256": "9224611ebcae21852fef25ce0a0a06473fd30d1396303b1c69771ef5a3435351"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_pumpshotgun.png",
+      "size": 16623,
+      "sha256": "e9656210dfc11b10c7666c702772a7e6bdf311d84c408779d1dc4ffffa6e7752"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_pumpshotgun_mk2.png",
+      "size": 24193,
+      "sha256": "e2ca9dce034a72db146641a162109634120ef0635bf760bd1aecc229be5bca6d"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_railgun.png",
+      "size": 46862,
+      "sha256": "1197f916df6694539b09e5f95508eb969489e137fd3a677befec2e1a48a5f053"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_raycarbine.png",
+      "size": 73267,
+      "sha256": "d3f96c3343af77f7d93c6c66c9ea5bff7c15487f0d85204aa027e49530b06578"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_rayminigun.png",
+      "size": 49976,
+      "sha256": "c98435b6716ef756318d8e5419b886a0b222b90d90e359f023bfe1d756cf3f76"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_raypistol.png",
+      "size": 24797,
+      "sha256": "02dde2b6675e05512228f83b276b9275ed698f078ed4a5265bfa830ed005499b"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_revolver.png",
+      "size": 39272,
+      "sha256": "d42095b5a5fe095c2543242277b767b59ec12d9f148efcee65cf5dd29a4d51a2"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_revolver_mk2.png",
+      "size": 24862,
+      "sha256": "0d5bbb753b3c72c4876e45d7adc0eac268515d0bb546d4cdba6ac9197d0bcacb"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_rpg.png",
+      "size": 20689,
+      "sha256": "98a101566b51d101aa17b98d66f028fcf83c6b48f9341803a01d7ab849e3eac2"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_sawnoffshotgun.png",
+      "size": 36335,
+      "sha256": "429055cfbaacaa42c94f01459df5d91c2f49f6d8c477f13d0a6986f295f8da5e"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_smg.png",
+      "size": 31107,
+      "sha256": "112e294d247a004f1936111024ff6587118dc12807b40ae9257e00d9b7bb3d09"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_smg_mk2.png",
+      "size": 22843,
+      "sha256": "e301ccee420081a7064c0b6b84f0e86dc9aad9d0e3ad8e3984e9cf6ad2baa95a"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_smokegrenade.png",
+      "size": 50239,
+      "sha256": "1794f0fa17e53701893f557fd2a405240025602894d89d215f327d0af7b3be79"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_sniperrifle.png",
+      "size": 23865,
+      "sha256": "306ecd346d803210df17364482e227f0205cccc6ce7802ecd6d0dff6ecd1b0e6"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_snowball.png",
+      "size": 86745,
+      "sha256": "35378cf4f594b47cb2592e34701f2fe26d4f92a35996702659e4fe6fce35b205"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_snspistol.png",
+      "size": 16548,
+      "sha256": "ea1fe0e6849d9f98d74cce428d3ec58fdad89e8029a233990153ebcb47ad9582"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_snspistol_mk2.png",
+      "size": 12997,
+      "sha256": "c09a471f1bbb14b02e6392176fbfc04bdd2c50c986027f89d2d6a1a3fc787cbd"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_specialcarbine.png",
+      "size": 30401,
+      "sha256": "4a1fa0b3b385e986c1cdba95d84a54f71ec28acf1c4d2fe73da51085c91a4699"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_specialcarbine_mk2.png",
+      "size": 32794,
+      "sha256": "248f342196f6efe59d21b7bdbabd15b6f0b0630c8c479b36ecf46f734299c2f7"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_stickybomb.png",
+      "size": 63851,
+      "sha256": "542f30e26401a988e7d05fc962148074d7f5ffb960e92153afa1e5b7dcf27211"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_stone_hatchet.png",
+      "size": 41913,
+      "sha256": "c8a010087872c5198e303f4a615ebc182a8a01a4075a319226e5091d0da85f90"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_stungun.png",
+      "size": 18956,
+      "sha256": "652f1c002d21b68d8865e5e8316a42b7a2a87980db10a47054413ca347cb65b3"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_switchblade.png",
+      "size": 20266,
+      "sha256": "014e525b6cf08232513acfa2f455a82f1cc9abb3bbe0bd0654fee8f848631de5"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_unarmed.png",
+      "size": 33260,
+      "sha256": "997b6a687b31e7d56a2ad48d5c0f7a2041371ee1b035a01d33f82bc58c856094"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_vintagepistol.png",
+      "size": 23575,
+      "sha256": "7ed9d0c35b733a31488f03cf2449f26d79feecba68d39e85d9ad65d3b872c6b0"
+    },
+    {
+      "path": "rotcity-hudv3/images/weapons/weapon_wrench.png",
+      "size": 37603,
+      "sha256": "5366e218fc0bd1f27c08b6067b6912adafafb86787d7d7a05f075a20ec3e0906"
+    },
+    {
+      "path": "rotcity-hudv3/index.html",
+      "size": 21206,
+      "sha256": "cdfb620a71531567b7daa71035bc938a570d128404ff26f6f452fdc82df90332"
+    },
+    {
+      "path": "rotcity-interaction/dist/app.min.css",
+      "size": 77535,
+      "sha256": "33647702c1a67279537edd088c48b7157770c136e789708afa7f68883d24cf85"
+    },
+    {
+      "path": "rotcity-interaction/dist/index.html",
+      "size": 13846,
+      "sha256": "0f1cbbe2ea791ed72fb96ca4fa02b2f3e512e220f8ee0cba737f526d42cb989d"
+    },
+    {
+      "path": "rotcity-interaction/fontawesome/css/all.min.css",
+      "size": 90336,
+      "sha256": "e0b69df26e19596d4b81bf7eb0c54b6047e7221ec18d5d4d40c11eefd3ef8a4b"
+    },
+    {
+      "path": "rotcity-interaction/fontawesome/css/fa-pro-compat.css",
+      "size": 6860,
+      "sha256": "8a031eca83d27a09fba33ec1db87fa570ff793bdf69194a69ca603ca917943d2"
+    },
+    {
+      "path": "rotcity-interaction/fontawesome/LICENSE.txt",
+      "size": 7427,
+      "sha256": "20c6f40715a567c97b80f6944beb8bb325835cab47ea7dcab89ee3b8e077eced"
+    },
+    {
+      "path": "rotcity-interaction/fontawesome/webfonts/fa-brands-400.woff2",
+      "size": 115420,
+      "sha256": "ff66d1cfb67dbe3da432bbe36572cabfa4eef0e591303c2cba111474ba1d15bc"
+    },
+    {
+      "path": "rotcity-interaction/fontawesome/webfonts/fa-regular-400.woff2",
+      "size": 19512,
+      "sha256": "f4722d10b9e1b41eefe3b51a026312ee1970edb7782f94b0080d3d475945734c"
+    },
+    {
+      "path": "rotcity-interaction/fontawesome/webfonts/fa-solid-900.woff2",
+      "size": 119488,
+      "sha256": "24e5fae26b41c08b2df81c91669f5aaae71d81a84a4713fc56b5c621b78dd456"
+    },
+    {
+      "path": "rotcity-interaction/fontawesome/webfonts/fa-v4compatibility.woff2",
+      "size": 4168,
+      "sha256": "c776ee1f1fe21cd72195e91de7afd5c9dbd007e9d06016254d65fbcc091398ca"
+    },
+    {
+      "path": "rotcity-interaction/fonts/Inter-latin-ext.woff2",
+      "size": 85068,
+      "sha256": "34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956"
+    },
+    {
+      "path": "rotcity-interaction/fonts/Inter-latin.woff2",
+      "size": 48256,
+      "sha256": "3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62"
+    },
+    {
+      "path": "rotcity-interaction/fonts/LICENSE.txt",
+      "size": 252,
+      "sha256": "9c58167248d6047b49ffcbba726be1d1bc35d60941af08ccac12b58dea320a5d"
+    },
+    {
+      "path": "rotcity-inventory/app.js",
+      "size": 32996,
+      "sha256": "d575f7938399587d9e40aad02278756092dfe21d4e985c7a11ee74401a9baa02"
+    },
+    {
+      "path": "rotcity-inventory/cracked-glass.svg",
+      "size": 388,
+      "sha256": "30a95b4c6f95d402092ce656df45b04c63636abab6a438ccea1b446cf73e92ae"
+    },
+    {
+      "path": "rotcity-inventory/grime.png",
+      "size": 28470,
+      "sha256": "898fefa5d86a6789768ee6b784f79e486ccd085f8344eac316a1a02e2c90b366"
+    },
+    {
+      "path": "rotcity-inventory/hazard.svg",
+      "size": 553,
+      "sha256": "757e4316138d0769c585b793a693f2471f9ed998214a6f78d4d92bc159b25b1d"
+    },
+    {
+      "path": "rotcity-inventory/index.html",
+      "size": 7457,
+      "sha256": "286020f68e160cf5d46f126dce7affad16fddf4a8a61888464fb8f52f6ee3697"
+    },
+    {
+      "path": "rotcity-inventory/rust-specks.png",
+      "size": 16125,
+      "sha256": "c099d5479906a7996e1f6e3d6fd7c078a862fb9e489a12f2f00daa78f79e8cc9"
+    },
+    {
+      "path": "rotcity-inventory/skyline.svg",
+      "size": 9546,
+      "sha256": "4daa23b6d2b0dd58fdd8f8bc549ffb8d19704fc32592cc79a1fc0f9611dd7633"
+    },
+    {
+      "path": "rotcity-inventory/steel-grit.webp",
+      "size": 123252,
+      "sha256": "154aebd47d926a3d49190ccc83799686fc09d75ba96a72e5f3976abec009c8cb"
+    },
+    {
+      "path": "rotcity-inventory/style.css",
+      "size": 27856,
+      "sha256": "31d58fdb24f9677cb339626a468bf80ebd8303e616e98bfc5c7318598adabc46"
+    },
+    {
+      "path": "rotcity-inventory/textures/cracked-glass.svg",
+      "size": 388,
+      "sha256": "30a95b4c6f95d402092ce656df45b04c63636abab6a438ccea1b446cf73e92ae"
+    },
+    {
+      "path": "rotcity-inventory/textures/grime.png",
+      "size": 28470,
+      "sha256": "898fefa5d86a6789768ee6b784f79e486ccd085f8344eac316a1a02e2c90b366"
+    },
+    {
+      "path": "rotcity-inventory/textures/hazard.svg",
+      "size": 553,
+      "sha256": "757e4316138d0769c585b793a693f2471f9ed998214a6f78d4d92bc159b25b1d"
+    },
+    {
+      "path": "rotcity-inventory/textures/rust-specks.png",
+      "size": 16125,
+      "sha256": "c099d5479906a7996e1f6e3d6fd7c078a862fb9e489a12f2f00daa78f79e8cc9"
+    },
+    {
+      "path": "rotcity-inventory/textures/skyline.svg",
+      "size": 9546,
+      "sha256": "4daa23b6d2b0dd58fdd8f8bc549ffb8d19704fc32592cc79a1fc0f9611dd7633"
+    },
+    {
+      "path": "rotcity-inventory/textures/steel-grit.webp",
+      "size": 123252,
+      "sha256": "154aebd47d926a3d49190ccc83799686fc09d75ba96a72e5f3976abec009c8cb"
+    },
+    {
+      "path": "rotcity-lockpick/index.html",
+      "size": 6780,
+      "sha256": "75a96a473b9c8c06a7886266037c16d7fad2a77859de909267b90562e0dc9b5f"
+    },
+    {
+      "path": "rotcity-login/app.js",
+      "size": 6362,
+      "sha256": "fa30010c0fd083a5eb8932ca1314b4f0703c50eeead79adfac671e8c0b714e93"
+    },
+    {
+      "path": "rotcity-login/cracked-glass.svg",
+      "size": 388,
+      "sha256": "30a95b4c6f95d402092ce656df45b04c63636abab6a438ccea1b446cf73e92ae"
+    },
+    {
+      "path": "rotcity-login/grime.png",
+      "size": 28470,
+      "sha256": "898fefa5d86a6789768ee6b784f79e486ccd085f8344eac316a1a02e2c90b366"
+    },
+    {
+      "path": "rotcity-login/hazard.svg",
+      "size": 553,
+      "sha256": "757e4316138d0769c585b793a693f2471f9ed998214a6f78d4d92bc159b25b1d"
+    },
+    {
+      "path": "rotcity-login/index.html",
+      "size": 4967,
+      "sha256": "0afe026ea52f5ddf0a5bda20164889aa618ab900ddba43c1e112612a14fd757d"
+    },
+    {
+      "path": "rotcity-login/reference.png",
+      "size": 3733794,
+      "sha256": "fdd6d2acfd2fba559f3ca85c3d0854a85532884063c32d3509012229f7ea4f1a"
+    },
+    {
+      "path": "rotcity-login/rust-specks.png",
+      "size": 16125,
+      "sha256": "c099d5479906a7996e1f6e3d6fd7c078a862fb9e489a12f2f00daa78f79e8cc9"
+    },
+    {
+      "path": "rotcity-login/skyline.svg",
+      "size": 9546,
+      "sha256": "4daa23b6d2b0dd58fdd8f8bc549ffb8d19704fc32592cc79a1fc0f9611dd7633"
+    },
+    {
+      "path": "rotcity-login/steel-grit.webp",
+      "size": 123252,
+      "sha256": "154aebd47d926a3d49190ccc83799686fc09d75ba96a72e5f3976abec009c8cb"
+    },
+    {
+      "path": "rotcity-login/style.css",
+      "size": 5684,
+      "sha256": "5ae4ebcb9e4bddfa6b26c67b4120f6eefab48d6d2bccd39a175db12a8b06c6e5"
+    },
+    {
+      "path": "rotcity-login/textures/cracked-glass.svg",
+      "size": 388,
+      "sha256": "30a95b4c6f95d402092ce656df45b04c63636abab6a438ccea1b446cf73e92ae"
+    },
+    {
+      "path": "rotcity-login/textures/grime.png",
+      "size": 28470,
+      "sha256": "898fefa5d86a6789768ee6b784f79e486ccd085f8344eac316a1a02e2c90b366"
+    },
+    {
+      "path": "rotcity-login/textures/hazard.svg",
+      "size": 553,
+      "sha256": "757e4316138d0769c585b793a693f2471f9ed998214a6f78d4d92bc159b25b1d"
+    },
+    {
+      "path": "rotcity-login/textures/rust-specks.png",
+      "size": 16125,
+      "sha256": "c099d5479906a7996e1f6e3d6fd7c078a862fb9e489a12f2f00daa78f79e8cc9"
+    },
+    {
+      "path": "rotcity-login/textures/skyline.svg",
+      "size": 9546,
+      "sha256": "4daa23b6d2b0dd58fdd8f8bc549ffb8d19704fc32592cc79a1fc0f9611dd7633"
+    },
+    {
+      "path": "rotcity-login/textures/steel-grit.webp",
+      "size": 123252,
+      "sha256": "154aebd47d926a3d49190ccc83799686fc09d75ba96a72e5f3976abec009c8cb"
+    },
+    {
+      "path": "rotcity-main/app.js",
+      "size": 689,
+      "sha256": "caa5002b48cb215046119fe50b71dc97584b7adcbc426af8849c6c6d2818562f"
+    },
+    {
+      "path": "rotcity-main/index.html",
+      "size": 1173,
+      "sha256": "859f8656c4def5299873d90fcc39dec4278d64261acbc76033e51a16028e2fea"
+    },
+    {
+      "path": "rotcity-main/style.css",
+      "size": 1272,
+      "sha256": "c1aa327c79844f8fe516fe8796fdef0531943b661e64f17d35682518590e4935"
+    },
+    {
+      "path": "rotcity-market/app.js",
+      "size": 16729,
+      "sha256": "6f5c6988f4b339b0774f31b413d8fa844b1aacb2da07d101f7eadb5af92a4c33"
+    },
+    {
+      "path": "rotcity-market/index.html",
+      "size": 9423,
+      "sha256": "19500eac35df08e4202cdf8803c49150cbb7e1f85cfcbd2493d27f4036b1900c"
+    },
+    {
+      "path": "rotcity-market/style.css",
+      "size": 22899,
+      "sha256": "908e06c785ed64d973cdbc8523fcbb71bfe9951c3f7e1919ee48d262ffad55b5"
+    },
+    {
+      "path": "rotcity-notify/img/ammo.png",
+      "size": 43097,
+      "sha256": "7cec7e18da07e1e34a505c1d2623c06ff23ed12b6057072d030429a7880a4f31"
+    },
+    {
+      "path": "rotcity-notify/img/bandage.png",
+      "size": 51159,
+      "sha256": "7ed41395912798f9e95084caa625a4a9ed238a11bf7a48e4624bbc9e70354d0f"
+    },
+    {
+      "path": "rotcity-notify/img/card_raw1.png",
+      "size": 273652,
+      "sha256": "8aa84e124c72a072aaaf3dd2500b19279f4501e3e2cf459d8f75ce5816b0d958"
+    },
+    {
+      "path": "rotcity-notify/img/crate.svg",
+      "size": 1180,
+      "sha256": "c6f88b8ae76064f2b9ac86b006940d978ee868b5bd551c4c15c7ff9949c23e1a"
+    },
+    {
+      "path": "rotcity-notify/img/flare.svg",
+      "size": 1154,
+      "sha256": "8cecd5f6e82f401032257fe3975dbe3b4b38ddbee4fdb6213d531aad205bd6f0"
+    },
+    {
+      "path": "rotcity-notify/img/food.svg",
+      "size": 1461,
+      "sha256": "cb23bedca95bb63729f5ed3b6bc31bd0d6161ddf93a53f4bcfac4fb2ed46bbc5"
+    },
+    {
+      "path": "rotcity-notify/img/fuel.png",
+      "size": 54195,
+      "sha256": "1e948de7ced1f95d5b3f14720908d14fe7db5914a3b2365bd99078a93fd16520"
+    },
+    {
+      "path": "rotcity-notify/img/icon_drop.svg",
+      "size": 917,
+      "sha256": "abba3c3960c26cb1b5e543b49188a1406f2221ca1dc37c5abf806d8755070242"
+    },
+    {
+      "path": "rotcity-notify/img/icon_give.svg",
+      "size": 860,
+      "sha256": "358f084233f39a934d472b9d0bfd6103fe2c261373ea4f8b3e926d003c6213f5"
+    },
+    {
+      "path": "rotcity-notify/img/icon_receive.svg",
+      "size": 756,
+      "sha256": "ec84dc5452a56baecf5fbff139a479a63996a46f758978b206512885a2de219d"
+    },
+    {
+      "path": "rotcity-notify/img/icon_sell.svg",
+      "size": 584,
+      "sha256": "7c39d866af4d094cfea2580fb588de2574cdc1ca5e534c6b0cb71477d7993604"
+    },
+    {
+      "path": "rotcity-notify/img/icon_store.svg",
+      "size": 718,
+      "sha256": "f52e0bda2f288496841426d2adcf5d3962420c6d37515697fe0e5a62ca98ef18"
+    },
+    {
+      "path": "rotcity-notify/img/icon_use.svg",
+      "size": 486,
+      "sha256": "44172e2a79a2d7205cd1bfc47202495e028248b23e2b5b5c78ba4b7594220d39"
+    },
+    {
+      "path": "rotcity-notify/img/mask.svg",
+      "size": 1424,
+      "sha256": "b3f4cf30425983f5209bf72d889246a536d0bbad822a6cdcf2bd072c0c6c1b48"
+    },
+    {
+      "path": "rotcity-notify/img/medkit.png",
+      "size": 19754,
+      "sha256": "12e64f4b2734c703ac2d27482e7f9cb991101dda0b3669e6a75edcb800133b9d"
+    },
+    {
+      "path": "rotcity-notify/img/scrap.png",
+      "size": 54261,
+      "sha256": "1b58482e40db963e0565c27ff17046fa7207c8b8c55fdd772973f6cca636122f"
+    },
+    {
+      "path": "rotcity-notify/img/toast_card_bg.png",
+      "size": 125136,
+      "sha256": "0b80dda17d734190fab50eff0b74351897ce18d7569fbb7649c56e8476955a0b"
+    },
+    {
+      "path": "rotcity-notify/img/toast_card_bg_v2.png",
+      "size": 125136,
+      "sha256": "0b80dda17d734190fab50eff0b74351897ce18d7569fbb7649c56e8476955a0b"
+    },
+    {
+      "path": "rotcity-notify/img/tool.svg",
+      "size": 1182,
+      "sha256": "573e32809d7251a956eec079f7cd35a89c24821d06eb2d8175b7a7fb323bfd6b"
+    },
+    {
+      "path": "rotcity-notify/img/water.png",
+      "size": 42540,
+      "sha256": "0ce03a4a1715b0ef153c50f3c188da59d0562c1a23160c1f9d6c2e11570dbdd6"
+    },
+    {
+      "path": "rotcity-notify/img/weapon.svg",
+      "size": 1362,
+      "sha256": "043b45a69070ab4d02ee3f036674556c48679fa1e5bf65bcee7254be2d0149ec"
+    },
+    {
+      "path": "rotcity-notify/index.html",
+      "size": 626,
+      "sha256": "f5555f14cda02e8e317f10443f661837624178c762839e7a9da7bd0420a15cfb"
+    },
+    {
+      "path": "rotcity-notify/notify.js",
+      "size": 15099,
+      "sha256": "996740ba3e12380d31ec2ef7d63e19e1169e6fc3c9a31b043a51ce5389c2d0d9"
+    },
+    {
+      "path": "rotcity-notify/style.css",
+      "size": 7041,
+      "sha256": "c98487f39c9ce4a7e6d66eba8711b1a6f123467aeb2f4b083594c9f5ebbaf922"
+    },
+    {
+      "path": "rotcity-pass/app.js",
+      "size": 4327,
+      "sha256": "a47011193981c9c51daf8c70a4464827c2152ba42df219012ecea9289942cb3b"
+    },
+    {
+      "path": "rotcity-pass/index.html",
+      "size": 3316,
+      "sha256": "b02c99265756374f534a99c20eca0d3e951f8dcb292f4e4b8a946c52473d94fb"
+    },
+    {
+      "path": "rotcity-pass/style.css",
+      "size": 4208,
+      "sha256": "20d54bc2c86ccf76e93bcf21180249020d17a9c5fe2dc70fe8ae7bcce4fb1ae4"
+    },
+    {
+      "path": "rotcity-pda/app.js",
+      "size": 4615,
+      "sha256": "df12a76758e1ab18e33201643615ca00d951d12435f6d31680ede37fb04bc30c"
+    },
+    {
+      "path": "rotcity-pda/assets/pda_emblem.png",
+      "size": 1329367,
+      "sha256": "466dc8b0cd416771e32260900fc6410c61ab791c21cb07074e0f0a1cef12e6d9"
+    },
+    {
+      "path": "rotcity-pda/index.html",
+      "size": 8683,
+      "sha256": "0b6f7276f61279cd392ee35f4c9168ae4348dc2cef360ce5f3105e3f0018a8d8"
+    },
+    {
+      "path": "rotcity-pda/style.css",
+      "size": 9220,
+      "sha256": "bdd3e0807aa26a2aaa5433155ac07f76dbafcc6762127613e8672817d9e1a222"
+    },
+    {
+      "path": "rotcity-quest/asset-map.json",
+      "size": 5164,
+      "sha256": "3a42d0fe8ddbcac7bbd9d7479c17e5e937328b20030a9d33f2de19337f78244b"
+    },
+    {
+      "path": "rotcity-quest/asset-preview.png",
+      "size": 252259,
+      "sha256": "484d7e0118a6b6ff5e76da4d360af34fffa357345d88b842c7120259a6f39806"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/accept.png",
+      "size": 6253,
+      "sha256": "48ff41250caa4b502ec63f1c2dcd8e0b288c1bcd832e5a9c770ecf638b4cb56c"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/brute.png",
+      "size": 8122,
+      "sha256": "f9a834ddd776c9dc69c1b776ed8492771602b6d60eecc0d684418674089bd77f"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/cancel.png",
+      "size": 4822,
+      "sha256": "073fb42d5fb5b97b0a747c77549244f64010e2430a93d000db65faec494fe87f"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/horde.png",
+      "size": 8166,
+      "sha256": "4948f1babe2cace420a85b6329493e0d4c2e09c44b5ae4451b279d95b21a9e23"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/mutant.png",
+      "size": 10674,
+      "sha256": "49c58d53784300f224ecebcfec34ea3aac3caa34e50b18fc147a965f234ea35d"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/reward_parts.png",
+      "size": 19289,
+      "sha256": "8b7c9e70ae63a48a750283acc0b4a4970930ba42a6d12b01c813235f531558c3"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/reward_reputation.png",
+      "size": 14411,
+      "sha256": "9c8e064e55e0bd9d863a4b2721c7dbfbc8df5605176cd8f0532b9e2aeb12f271"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/reward_water.png",
+      "size": 10821,
+      "sha256": "de71c5d8a90ff3b3e87e37eb55562ef61c9d14d28dd509d4766849db60edf7ff"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/runner.png",
+      "size": 7469,
+      "sha256": "0b84fe4466c212a76b9463b73d42b6f4fc291dc3fefa48ac7853ffe7c9f493a7"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/scrap.png",
+      "size": 9723,
+      "sha256": "2365dffce0eb38ebb4a455a8966d630ff256ac3654a82d9be37436ed5e5fa305"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/toxic.png",
+      "size": 9075,
+      "sha256": "1e521dddd388df5fb72d48332e98769da79f556d4414afa0ebc01f526c298978"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/walker.png",
+      "size": 5924,
+      "sha256": "0fb35c02acc6a46279cf34e818489366b1e72e21083219e2366600f300a688d7"
+    },
+    {
+      "path": "rotcity-quest/assets/glyphs/water.png",
+      "size": 8181,
+      "sha256": "dde1791f68cb935f7f6ed8a2e7e128476a071afd847397c83635d831eaab0bd9"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/accept.png",
+      "size": 5517,
+      "sha256": "32ca312f21c9a6345024d510f7d800866574ea4b48670824df245ffe9d978736"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/brand.png",
+      "size": 17456,
+      "sha256": "b938eb474d3db2d42d01c916e2a50ac6da91cac193927790814b376dd2ef547a"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/brute.png",
+      "size": 12317,
+      "sha256": "448ccabc7ceac8086307a5fac58ec6e5182525c789d724916a499ff52a77b46c"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/cancel.png",
+      "size": 4304,
+      "sha256": "00351e58a0a04f7e6c08c00de3ef85f928ae4183ec96defb68bfad7b7ac54db2"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/chevron.png",
+      "size": 1572,
+      "sha256": "619ac20967e4fd5053f3c9a6005583945d0410324959a4c584309c1959ce6066"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/horde.png",
+      "size": 12616,
+      "sha256": "59cbc41ae31e8244fe92f2ba9f33ef087d4991fa08557351ea508612a54bb4ec"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/mutant.png",
+      "size": 13041,
+      "sha256": "5b513ed8a4613c00b65e0b0e5027c8565c74c1489b061a8391f467cb720f5d14"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/reward_parts.png",
+      "size": 16297,
+      "sha256": "8b4e07bfe31ad3d5f47d76e8c928a95c8decf6d8f3b81165328e5110dc9e3a1d"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/reward_reputation.png",
+      "size": 12408,
+      "sha256": "18f5808f3f96fbb58a439e4dce1854d14b0cd49ea65b79cc0baf9d20c3eb754b"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/reward_water.png",
+      "size": 9373,
+      "sha256": "196a4645508eb0bd7731d3c651d69deb6c9eaf828c484a370fcf2ad2181502b6"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/runner.png",
+      "size": 12015,
+      "sha256": "5b2e44a2008100f101761194d9cd39f9f17509e15d54372adc839b86c5c3f918"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/scrap.png",
+      "size": 13451,
+      "sha256": "bf0c94d69529c580b554e49d0ecca81beccd7e44c0392f77e68c23e73702adcb"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/toxic.png",
+      "size": 12820,
+      "sha256": "f8a37070361787cf73119b4ebf063f6a6b1960acef91c64f9ffde40a1830149a"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/walker.png",
+      "size": 11255,
+      "sha256": "bb644197e94aa589fcef5bf8efc75b912fdcaea2f8de07aeaf0025ecb6f9757e"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/water.png",
+      "size": 14201,
+      "sha256": "504e6a9f4acaf504b739c1d79744d5f11c82974618e90c561d54ffc56f50233a"
+    },
+    {
+      "path": "rotcity-quest/assets/icons/water_large.png",
+      "size": 22989,
+      "sha256": "874ebc5a755a8015c0140648ada0f47b98a1fc3f88f645ff18d6bdddfa149882"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/accept.png",
+      "size": 34718,
+      "sha256": "9a82c9dbd09c9afddf25991dd3a1a1cc0916dcae0d3cac0f02aace2af1b7a91c"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/cancel.png",
+      "size": 27322,
+      "sha256": "19dee5a38b56ff50fcb31296afd33eb0d093186c80c6fbd0ca5d1d0da02da331"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/daily.png",
+      "size": 52133,
+      "sha256": "c8269f8b01810bd151bb16ee0768e990e0b74875dd2b560cd5df75664bb6591a"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/details.png",
+      "size": 293933,
+      "sha256": "99af9d89911319194b3444404f941e1a0842bd0b1c67ba88cdc1f39a99b8aa46"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/footer.png",
+      "size": 175778,
+      "sha256": "9a9fd25f65863c44d2126be6cac10f32a6185018a971de8df15c84e3e5088ce3"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/progress.png",
+      "size": 10003,
+      "sha256": "7a4057a3762f4e39034669529c66f6ab8d4d60d4f50d6157439769646becf7d5"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/row_brute.png",
+      "size": 38498,
+      "sha256": "e753257ac6e1e877929f155db3af969088aa20e51936108c61574e79052ab248"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/row_horde.png",
+      "size": 39199,
+      "sha256": "27de77461cc446a4902e104efa61bf2b9944f68d4bc27e0a4a6cb4178712272a"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/row_mutant.png",
+      "size": 45230,
+      "sha256": "e24125f184991562256496fb38d1dc70741cc0b3c51493087a7844b7c7d1497f"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/row_runner.png",
+      "size": 43816,
+      "sha256": "08115ec497e0bcdc5c9e6c115630541745651cae620b9d5c05d35a8e379e319d"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/row_scrap.png",
+      "size": 44985,
+      "sha256": "c9ce9377c52e7b38f43d4d00c4963c9ea006a0c5301b6dc7fe9085ef2238ea80"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/row_toxic.png",
+      "size": 41363,
+      "sha256": "50cb9be9583b40a463d3671ec61d655c72bee617fdfa66916d834dfd3e75760a"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/row_walker.png",
+      "size": 44715,
+      "sha256": "d3f1a0de75fc75546b95fc44486bf42ba45404513443a85c4b4ff2119653ee12"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/row_water.png",
+      "size": 56341,
+      "sha256": "171c17d252993fef21037030a45c279ec0d12cc38b56c5545c2ff0d2564173f0"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/state_active.png",
+      "size": 8583,
+      "sha256": "fa5a5ea3ef1519fdb80a9b8c4b19dcca158effb6d1d9f266b9273ff5eaebff44"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/state_complete.png",
+      "size": 9353,
+      "sha256": "ee036323ffe062fab0c850d9caf2f5b0d61b3b9a4211ea418c219274bcef777c"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/state_idle.png",
+      "size": 6365,
+      "sha256": "09fcbfe04a0301bfa2f092b6d363f427061f81bced914f5cc540362573b69849"
+    },
+    {
+      "path": "rotcity-quest/assets/raw/title.png",
+      "size": 79684,
+      "sha256": "f582d15200ba0b7c5a9bd7cbf451b366dc40471913b9e0021268c61f9389c778"
+    },
+    {
+      "path": "rotcity-quest/assets/ui/button_accept.png",
+      "size": 18475,
+      "sha256": "9b20bba3f1aecc7301b601c90626b62cc40b451b724785f9b42c748c549ec1cb"
+    },
+    {
+      "path": "rotcity-quest/assets/ui/button_cancel.png",
+      "size": 16189,
+      "sha256": "d79c76390cf3845b881d1098da22531e663f4609320720034880bd3c66d996f1"
+    },
+    {
+      "path": "rotcity-quest/assets/ui/frame.png",
+      "size": 423111,
+      "sha256": "605880a950d17fc63c2b4815ffda5fa462076539b64569a0064740a2a523a7eb"
+    },
+    {
+      "path": "rotcity-quest/assets/ui/row_idle.png",
+      "size": 27290,
+      "sha256": "917d03c48085b343b310602d898713ebef54c24b5d29f99135aba69dcee1d3cd"
+    },
+    {
+      "path": "rotcity-quest/assets/ui/row_selected.png",
+      "size": 34643,
+      "sha256": "9079e0d57a71ca056afe2aeb74f079fc3460132f1f09393cd540458c34d52c3b"
+    },
+    {
+      "path": "rotcity-quest/index.html",
+      "size": 1316,
+      "sha256": "e7f25e5c549420d2fc7c104bceb5536330dbc111dfb67da4ad45b419a087f16b"
+    },
+    {
+      "path": "rotcity-quest/README.md",
+      "size": 4658,
+      "sha256": "4be101adcfbb6ae47acee0bf0403732da73c5822bf42ceec330ab315bf9ce617"
+    },
+    {
+      "path": "rotcity-quest/textures/cracked-glass.svg",
+      "size": 388,
+      "sha256": "30a95b4c6f95d402092ce656df45b04c63636abab6a438ccea1b446cf73e92ae"
+    },
+    {
+      "path": "rotcity-quest/textures/grime.png",
+      "size": 28470,
+      "sha256": "898fefa5d86a6789768ee6b784f79e486ccd085f8344eac316a1a02e2c90b366"
+    },
+    {
+      "path": "rotcity-quest/textures/hazard.svg",
+      "size": 553,
+      "sha256": "757e4316138d0769c585b793a693f2471f9ed998214a6f78d4d92bc159b25b1d"
+    },
+    {
+      "path": "rotcity-quest/textures/panel-bg.png",
+      "size": 720143,
+      "sha256": "cd367499a1c630f473ef7d9d8207f1aea434b37c618eb6c4b4deed7d3a1cf3e3"
+    },
+    {
+      "path": "rotcity-quest/textures/rust-specks.png",
+      "size": 16125,
+      "sha256": "c099d5479906a7996e1f6e3d6fd7c078a862fb9e489a12f2f00daa78f79e8cc9"
+    },
+    {
+      "path": "rotcity-quest/textures/skyline.svg",
+      "size": 9546,
+      "sha256": "4daa23b6d2b0dd58fdd8f8bc549ffb8d19704fc32592cc79a1fc0f9611dd7633"
+    },
+    {
+      "path": "rotcity-quest/textures/steel-grit.webp",
+      "size": 123252,
+      "sha256": "154aebd47d926a3d49190ccc83799686fc09d75ba96a72e5f3976abec009c8cb"
+    },
+    {
+      "path": "rotcity-quest/ui.css",
+      "size": 3614,
+      "sha256": "a723f12f0fb6d15ec5aa7e9465f84fdfed167022666a466cd1ae322811cc3d5d"
+    },
+    {
+      "path": "rotcity-quest/ui.js",
+      "size": 11197,
+      "sha256": "d3cda32f560170bbf1e9449fd1f9c08c727090d1d0f2185fde8196d117c89611"
+    },
+    {
+      "path": "rotcity-radio/index.html",
+      "size": 21730,
+      "sha256": "b6352f8100ba6ba845f8483b7a4a995fd4a0b67e246122fcd2ae7451c2d21c4e"
+    },
+    {
+      "path": "rotcity-radio/radio_overlay.png",
+      "size": 347527,
+      "sha256": "3716ffc9d02833d11de449418ce270fdb756734a6d6d1f2b25690aafcef95ce7"
+    },
+    {
+      "path": "rotcity-radio/sounds/click.ogg",
+      "size": 7699,
+      "sha256": "de72429b171c165b7dc636a2f927dd45ebc5281a5c8c74647beee8217ad21c77"
+    },
+    {
+      "path": "rotcity-radio/sounds/off.ogg",
+      "size": 10093,
+      "sha256": "daa3d378bf1ec9648df634b4d1c14ecc5220375227c8fcd158fc79ca745092b6"
+    },
+    {
+      "path": "rotcity-radio/sounds/on.ogg",
+      "size": 4428,
+      "sha256": "8172ed3ee813e304c1f52aefb08d26c9f3b078e5b7dc63905c62dec214d1b636"
+    },
+    {
+      "path": "rotcity-raid/app.js",
+      "size": 4023,
+      "sha256": "898aa5ad15dd09adc7e87185fc71b6b1f0dd5f1fa78cac89e353c502d8c4c7b5"
+    },
+    {
+      "path": "rotcity-raid/index.html",
+      "size": 2459,
+      "sha256": "93be2629a7ba06a59449e1b750d3bc923aa06e5de5b76ea84e3a7d6175495393"
+    },
+    {
+      "path": "rotcity-raid/style.css",
+      "size": 3424,
+      "sha256": "dbcecb57a321275a8826fab082791d50f0e43017e390a108d3a499e99ed96c94"
+    },
+    {
+      "path": "rotcity-reports/index.html",
+      "size": 21670,
+      "sha256": "e40b4add67f7beeed303bb6f73ba3dfb80942458d70e2286794a46c49a5d561e"
+    },
+    {
+      "path": "rotcity-restart/index.html",
+      "size": 5882,
+      "sha256": "6efb39d4235bdd75ba4411bab4b4f5ced0ffff505e80582030cd483dcc5c839d"
+    },
+    {
+      "path": "rotcity-restart/style.css",
+      "size": 8724,
+      "sha256": "373c144f9a9315897b0f29bddc0a0e19dae00d23cdc34681af813e932a57a5c0"
+    },
+    {
+      "path": "rotcity-shared/assets/cracked-glass.svg",
+      "size": 388,
+      "sha256": "30a95b4c6f95d402092ce656df45b04c63636abab6a438ccea1b446cf73e92ae"
+    },
+    {
+      "path": "rotcity-shared/assets/grime.png",
+      "size": 28470,
+      "sha256": "898fefa5d86a6789768ee6b784f79e486ccd085f8344eac316a1a02e2c90b366"
+    },
+    {
+      "path": "rotcity-shared/assets/hazard.svg",
+      "size": 553,
+      "sha256": "757e4316138d0769c585b793a693f2471f9ed998214a6f78d4d92bc159b25b1d"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/bank_bay.png",
+      "size": 323,
+      "sha256": "4f8402ba20f2da5750dd336102b2a2fe9764b10b73a60cc181d5a8135aeb4693"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/bank_bbl.png",
+      "size": 327,
+      "sha256": "382fa60f6b765ce17a7cfcc13908ab9589e4f482acebb186c8cb7a49540260a7"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/bank_kbank.png",
+      "size": 326,
+      "sha256": "dbde4e6faa1e79ef7e97bd767d1886c328589807305866c399edc0d2c7fb7697"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/bank_ktb.png",
+      "size": 312,
+      "sha256": "381a88c20357f4eadc97ea36d50c36fb0ebdbd4a8ecadf0017560fa2ce102b35"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/bank_promptpay.png",
+      "size": 322,
+      "sha256": "bfb814f8f43793172b8ed929fac5dbb08f6773226228e5c9415849f4358057c8"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/bank_scb.png",
+      "size": 326,
+      "sha256": "279a155ae94cdfb1abb44bdff557064a29533f5790a140f6af37477f770a80bb"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/bank_truemoney.png",
+      "size": 306,
+      "sha256": "d42ae76e840ec3805db7755f2fd9ec9a09a51cacdb2c193456e9dd1102fc21da"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/bank_ttb.png",
+      "size": 314,
+      "sha256": "51ebb6ee328fe691cd5db15d1af9941f0d6aa5b6e13f0d88134a890c7d0c928e"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/biocore.png",
+      "size": 901,
+      "sha256": "a7b936933d7cbb58cbb4468544b36f94aef11efa7e7de2c3acb6ce79e18deabe"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/cash.png",
+      "size": 557,
+      "sha256": "b852949fa753169b04255588bc22f2c738d37da235dc27afc2722d15dbf4855d"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/cashout.png",
+      "size": 798,
+      "sha256": "89023bcb17674a6b63b24897352ccf1dee6ab9e959205d00fab15068f592524c"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/exchange.png",
+      "size": 817,
+      "sha256": "ee0e98017d4081afe178f2090d74ceaa02aea4a0f4d6937dacb23952071242a2"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/market.png",
+      "size": 819,
+      "sha256": "535c24c03f63053771871284bc1ef9d0d78a905596a47f1b3e947209a3952a7c"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/merit.png",
+      "size": 804,
+      "sha256": "a5bef788c6cd371416acd24e02fa695493d5a4de45ba8151ec68d7053c68bac9"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/shield.png",
+      "size": 647,
+      "sha256": "608f81fc4b31fd365b7c2bbf20bcee4056e566fec2c07d68fd8d9d434e8ed819"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/shop.png",
+      "size": 821,
+      "sha256": "52d441d4f452578bd354f8bc2ddfc542e3bddd6bb3869c6f6fd5eff68f8c5523"
+    },
+    {
+      "path": "rotcity-shared/assets/icons/trade.png",
+      "size": 818,
+      "sha256": "a08137fb9c6ddd5fda7276388d6ff87ad5d39144562a962068ca3e7e9dc76858"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_001.png",
+      "size": 18562,
+      "sha256": "83be85cb06bc2886df92cffdc71a1c5b50cd9025913d6924758f82df5fce8734"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_002.png",
+      "size": 25644,
+      "sha256": "957346c6c775738fa6f1beecbd624ff3481a349150c68d4b4d8ad51c4e3233ab"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_003.png",
+      "size": 30149,
+      "sha256": "01a650ab09263ab97eff9c0243e2fec0579e8b65ed82e13bd2c878418b2e150c"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_004.png",
+      "size": 15587,
+      "sha256": "0b34c3d50ee8e1ccfe903ac95b9e2c21816879852361d62fd3d8d7ac79bc229b"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_005.png",
+      "size": 27394,
+      "sha256": "91b9f1cd45e546714415bb42aa3b689c52736889616f4f8ca25d4b609f1e5e6c"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_006.png",
+      "size": 23451,
+      "sha256": "fc8295f2fe2e1b18185d909a753b6456ec4f97e5ddd19f6053f4fcc88073a1fb"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_007.png",
+      "size": 25482,
+      "sha256": "b520b0016d8b2dcfb739a8e5f78ab830f3e0804a602c489faf4764589a57fd8b"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_008.png",
+      "size": 22235,
+      "sha256": "e92239c73d5089dd076ad345445e79c54c60617aa8cbfd74ebb7f95a8139e200"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_009.png",
+      "size": 21239,
+      "sha256": "1acac4bbb6485ec5b4baba9b71c7fd3854b81965affe78cb6b6b7270bf5012e8"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_010.png",
+      "size": 19894,
+      "sha256": "588a1d2ac2a96cdb81748c2e856f86bc8b103bd462191e188fc2c64a4873d933"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_011.png",
+      "size": 24385,
+      "sha256": "46198a7c8ea7bae6ca0c037ffa119bd55bf042bc916ed36e9a5e958abba7cb76"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_012.png",
+      "size": 24865,
+      "sha256": "999e020e1271096c594ee2f68bcc45e5d5ea063d0153130cc3ee6f6024c66b5b"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_013.png",
+      "size": 25347,
+      "sha256": "f4724bb9fcb405774b677eb018451f4b45e43e2c43a30f0a2e8bdf9b9aa5b0c7"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_014.png",
+      "size": 23677,
+      "sha256": "d5cc4f33091ba1863e4afae53197ed3e2309c9c2a7d71e552d26156baf877e93"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_015.png",
+      "size": 29233,
+      "sha256": "0f45e4acea3cfba98481332de304e1b38bde4361f8ed4d87d20218a40c9135ea"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_016.png",
+      "size": 22137,
+      "sha256": "30ff0f258ecf3672cdddfb198c66f59d287d569abec9d57de7651bbce4b3ead3"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_017.png",
+      "size": 24715,
+      "sha256": "56dfbf49c6af50f2bb5d780201ff78e2c5fe0811780cb9230c1f90b80bf820a1"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_018.png",
+      "size": 29926,
+      "sha256": "528861d74aa549ee33d4c25361c7b746bcd5450785323081dd4ef8f13d041b6c"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_019.png",
+      "size": 17125,
+      "sha256": "149e4c49e7fa873d29fcc344147083861b0842ac81ec49c23c4b4d65720855c5"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_020.png",
+      "size": 27557,
+      "sha256": "8298b47e74526ff0e55f313a61bfe5f256147ee43ebffebcdb7cdd761a8ac840"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_021.png",
+      "size": 16378,
+      "sha256": "474e832840a2991ab501014eea4b4307a0edfbb1d847722992321605f693cb9e"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_022.png",
+      "size": 19158,
+      "sha256": "1c0b6c869ad3ee5c69a3a6332b6921447eb8538a6d574fc5b939ba71975a6279"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_023.png",
+      "size": 31952,
+      "sha256": "722644cd21f33b4b3050e7ed59c6d20aba3026156f691e32d9cdbf81a7c973d8"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_024.png",
+      "size": 29528,
+      "sha256": "b9e0b5624ad92047a3a85ebfdeb732afdda480fab765f6c98d7e89aa5529c2a2"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_025.png",
+      "size": 10673,
+      "sha256": "c27fe9bf96c9b36a5aecaea84f8e91e0d940b57f1c2b2bfbe2015977375f8095"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_026.png",
+      "size": 28496,
+      "sha256": "ebd2752bed394252a40bb0ab05855953832ea7713fd8c5647261d7143739993e"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_027.png",
+      "size": 32519,
+      "sha256": "c02f96ae92a1105d0f239c947308d3021c1508be7eb05e576ad7043900554c6f"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_028.png",
+      "size": 15886,
+      "sha256": "7a0f3ccbd7aad5034cb87b3e412631b96588b897f8cd502bf995a21ecd9fa5b4"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_029.png",
+      "size": 22470,
+      "sha256": "99131c1c91f8d7138cc60e67d5ee4aef06dd5a504b3c441e05467f142536efd3"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_030.png",
+      "size": 28375,
+      "sha256": "a00e9ecc1c4c9891143feae757d2906f1bca57c147f8a9341d36b41037d82d4a"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_031.png",
+      "size": 23869,
+      "sha256": "2fc85c14082761741625aff19f711d241c5ea6664d5ebda712d084c88e318e72"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_032.png",
+      "size": 27177,
+      "sha256": "b44c23d43eeea2c8fab0fa133b74dc2755bdef00874d7b4324b2232e2da3074b"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_033.png",
+      "size": 26112,
+      "sha256": "8aff7723a5b9d5a18bda1faec7242c88475f213b15538d68dc7d38c303934fb4"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_034.png",
+      "size": 25508,
+      "sha256": "fff4f0492e4029aa5b8e2ab833327cdc6ffd428dc6c921b5a3d201e765cead5d"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_035.png",
+      "size": 25598,
+      "sha256": "0ee06152b69a402bd56da422c97a55d341b38c61198d88c553cac4148aef83c6"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_036.png",
+      "size": 24844,
+      "sha256": "e47d1140954ad09401cbbb2917e682b70442b35e88789936b7efbca49b917508"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_037.png",
+      "size": 20089,
+      "sha256": "7ec5406eaa5133a7edce1b4c86959a8e66a67a7ab3cae113c17823957b0472aa"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_038.png",
+      "size": 21270,
+      "sha256": "6ecb2ce3bba0f21e5e1d871667bb288e7b7da0bf258549feaa8f43f00304ed50"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_039.png",
+      "size": 19040,
+      "sha256": "5edbfbfc1fb8e24f0ae7afd859aa5124bb7ba6b4fe38c4b2ea92f832c72b61d8"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_040.png",
+      "size": 20284,
+      "sha256": "dbd10aad6d526986754df4c1079ea7072a272324ba7926e7ac592edf034dcabd"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_041.png",
+      "size": 20651,
+      "sha256": "b2fb9a625c4f1c588f2d27ca07ce28ba88212c9ea4b45c8b44c798000c51596e"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_042.png",
+      "size": 13951,
+      "sha256": "b638d38312976cfa72c1592f81893b1664b138adf0c83159a495a9ac5abfb0e5"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_043.png",
+      "size": 12627,
+      "sha256": "9c6806a941a519df64aa2e8f6e7c8d971adb49dcc0ebc0d12316911738d1f704"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_044.png",
+      "size": 12649,
+      "sha256": "c16a2824f8998e753279b311441e3a355aed97ead5e77ee9bac2c2721388c626"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_045.png",
+      "size": 24083,
+      "sha256": "00267955ea084e78b6883a44cbe763479765d4230b01b5b2ebbdb8616f4a0d5d"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_046.png",
+      "size": 15643,
+      "sha256": "0427a4df7ca210946fb5315f350d98c0f512bdfe52e6317546e088692a866dc2"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_047.png",
+      "size": 19481,
+      "sha256": "47dd9a416eb1e9bf62ed4dae69df5e78c168ea2f3226ba51c4ef54c4608ff316"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_048.png",
+      "size": 17305,
+      "sha256": "2b0c725a5b789a9fe14847f7e49706625f637d6a88bc5ed3269de511019472aa"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_049.png",
+      "size": 19139,
+      "sha256": "ec36cf87fed3772c88f878c2174620c2fe2d63e933cc02d92b49ec2154dabdf6"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_050.png",
+      "size": 22692,
+      "sha256": "0d72889ebcaa9fe20b370dc7fddde8cc43746235a9b9d2addc9fc71f36bc9fc0"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_051.png",
+      "size": 25717,
+      "sha256": "66872f3c01357af1df85603621857f5e62031eea53e7551b3ae876c9ef728b0e"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_052.png",
+      "size": 13600,
+      "sha256": "1bae97055faef902a702579c06fabc67bf8c13fe8c83405d46cca2abbf382c63"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_053.png",
+      "size": 14267,
+      "sha256": "849b2acbd853e552579e6949d89a05a3cf4722c8bd7fa60fda5b8615ee348172"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_054.png",
+      "size": 15577,
+      "sha256": "0210b1cf4f023cc5ef12aaf7e2922f793f7317c1c130199f66910607ebebb251"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_055.png",
+      "size": 15793,
+      "sha256": "da6ba8132733bc911f2220a9df4077bb2f2b1eb209d547363498230273fa877c"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_056.png",
+      "size": 15578,
+      "sha256": "055db875741025ebe31b46432517b90ea746e1f4667f9fe8c36733d4d061c16b"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_057.png",
+      "size": 11462,
+      "sha256": "483e3c6510ce7f77f52fcfee8684719398eb28b6af21103df71cbb79e7932c28"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_058.png",
+      "size": 16938,
+      "sha256": "0a9c1433fd0bdf49bb59c8950324f0174d8049a0da525e8e37038a4006c2cea4"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_059.png",
+      "size": 15887,
+      "sha256": "187b2db2b2eb99810a10a7f2b927dc239dc83ed40c9d8cbca96c749171119b7d"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_060.png",
+      "size": 11120,
+      "sha256": "f9a5336601ff013d44889a7d8091613012f0c2920edc81011e3e12f9d7e99591"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_061.png",
+      "size": 17231,
+      "sha256": "51422ff07ab4e1caf453bfb4ca44cfbb72e3e39793181491c206536616cc380f"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_062.png",
+      "size": 12570,
+      "sha256": "20543d396c889a45c90ea1a48045b3b85084a364932bc8684f70ea382df010fe"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_063.png",
+      "size": 17120,
+      "sha256": "829130e418baee1c2023a9c24a4fd363776710ce8f3815083f20c9c0098615ad"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_064.png",
+      "size": 16662,
+      "sha256": "64277f91cd9fe03753ede19df2c8b6e9075537c7268c2c56466da8c4ddd02313"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_065.png",
+      "size": 25757,
+      "sha256": "e190c2a0c8862c13595132e7a9e0e6475b3c6127eda39bd3aeb797f7d3462717"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_066.png",
+      "size": 21230,
+      "sha256": "7007d4b6b13e0cdeb449ab9a9eb8e77bcb848f5795eadc15c29a99082c33706f"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_067.png",
+      "size": 22336,
+      "sha256": "c3418c52130e45857511840630529552d4c0e5f3b427faa6754e98accb513ab4"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_068.png",
+      "size": 24213,
+      "sha256": "8af7658e3e65d04b28000fdf6dd9df7369f6f451f02e7c560ada63c6ec15c4f0"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_069.png",
+      "size": 17586,
+      "sha256": "848047d53871d87a86669bc3a8b6c76a0cc306a5d658748b1a00dfbd40f773c8"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_070.png",
+      "size": 17582,
+      "sha256": "37649e1b2aca3f634badb67586f5610f44f08c73defb168bdb468f123b9375f2"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_071.png",
+      "size": 16003,
+      "sha256": "098946c24a604b6e6c54badf3b5500888946da9ec52dbf7169e5c6aa0f8cc320"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_072.png",
+      "size": 16188,
+      "sha256": "4ce3c6b41aed2460ea2d130c52ccf12601ddb8be78c7bae950895fb2059a0cab"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_073.png",
+      "size": 15863,
+      "sha256": "a71904627c37525b712289987ee2565470b82495f917cb792bb920a56036e2ee"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_074.png",
+      "size": 13772,
+      "sha256": "158cf70e004a51fafc2d7e5101f1685b8ae60a5a56e15df897d5b5210c911bb6"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_075.png",
+      "size": 13212,
+      "sha256": "398848f8d00c38c3e76f2d2c2d01d2b286e9600bb70b13a31d7e4356f02c70fa"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_076.png",
+      "size": 14035,
+      "sha256": "b9beb85995c58f54e8be3fbfa7c523769da7bc4a5598932b4c1776d574058ee5"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_077.png",
+      "size": 12999,
+      "sha256": "275d07938900e751d526a8b9bf4033763bf3049fad643ad1012c69415a968f65"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_078.png",
+      "size": 13700,
+      "sha256": "f0b73c2b7b566357e119f4c6708b9eda0088d245df69e365b60d525f0dc59542"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_079.png",
+      "size": 13379,
+      "sha256": "1a546a7ae2674816a812603ea681a99c44f0d10de34662a0e05ca71320b1b07d"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_080.png",
+      "size": 13960,
+      "sha256": "835f44f0f3f00e1ebc4b9125eea68f1774de0be1c2f50028bb6b385923f1264f"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_081.png",
+      "size": 7924,
+      "sha256": "1a4791e295e9f3fd18a65179f14194de68ed240efbbbe172b34499ac50dba665"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_082.png",
+      "size": 9551,
+      "sha256": "568800736fbe3c15f38d8984c76fb2c32943266f0c6d301d03c59e88fb24acb9"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_083.png",
+      "size": 14919,
+      "sha256": "98dc0ed6a61c01d1f1a7a11fe0689cf7d8b0c729cfaaaf16073f9c6fd8b83a27"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_084.png",
+      "size": 12930,
+      "sha256": "2a1ddcb145d16950f69ccc40190b8090a82fc690b61617acb3fe71cce72c0dfa"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_085.png",
+      "size": 13855,
+      "sha256": "fc08663c91a45c7a18f9ee695f10a53577b85f0565f42e8062637d847f154756"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_086.png",
+      "size": 14095,
+      "sha256": "5faf7cd9e8de682ca6e27c280c1dbeac3dfafd015b62f5d4e3d003a1b2b0172d"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_087.png",
+      "size": 12593,
+      "sha256": "0ae71f08d4fe3520915b5fb6c1bee9c52d080b7d93fea36e86d7219d9051b711"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_088.png",
+      "size": 12777,
+      "sha256": "9fa6d979c542b32e1441d99e68deb177f9dfde0dd1f4e3b8648bb51ceb49c80a"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_089.png",
+      "size": 13610,
+      "sha256": "330d8961e450a77b69da952d534be393697b70a20217969b184dbf8bf34b3f30"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_090.png",
+      "size": 9600,
+      "sha256": "6188df66a0cc696413c8dc9be1cf80bae88f79eea0feae0779555457911a661a"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_091.png",
+      "size": 20881,
+      "sha256": "1ba1aab2c607519a5ed69e92214145845c928fc21eee6eedc1d8dec1844c985b"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_092.png",
+      "size": 28364,
+      "sha256": "427b526d75612de229b90b355eec738d516c76624e000cb33347efc5210f8cb5"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_093.png",
+      "size": 29449,
+      "sha256": "f8c6adfc910ba98b1bdda35eddeb144a672fd21a3451efdbb27c791c64c089bf"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_094.png",
+      "size": 15534,
+      "sha256": "6f102077355f72bb10fe24dc9692bac2dd93ac1db525175e5ac38e11c1bd7ba7"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_095.png",
+      "size": 22291,
+      "sha256": "2ba85f4dbc4671a843e2255d9ff958cc4d45885df96fa4047235244bfe09546a"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_096.png",
+      "size": 17396,
+      "sha256": "fd33b7b29b4f7d0cf7dbfce2d9d69b494179d1087e316484fbb2a173479b23e0"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_097.png",
+      "size": 18599,
+      "sha256": "19e413e0fe89bf6b062d98b18344b294005a65b077c315320b9c33e55e88edbe"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_098.png",
+      "size": 20891,
+      "sha256": "11686a75abbd3a49a28ed81327e1a6760f29c5696d67f058a4a6e3ac484763e5"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_099.png",
+      "size": 17133,
+      "sha256": "72da3e7c5813a7e6087a646e3439be2011c20e6a5e791e63a74b1cf5116a2d12"
+    },
+    {
+      "path": "rotcity-shared/assets/items/item_100.png",
+      "size": 32469,
+      "sha256": "f3a20c3135acc5afdabf9c0a9a936e983213f5cffc52b876c6a3f0c0eb5c395d"
+    },
+    {
+      "path": "rotcity-shared/assets/skyline.svg",
+      "size": 9546,
+      "sha256": "4daa23b6d2b0dd58fdd8f8bc549ffb8d19704fc32592cc79a1fc0f9611dd7633"
+    },
+    {
+      "path": "rotcity-shared/assets/steel-grit.webp",
+      "size": 123252,
+      "sha256": "154aebd47d926a3d49190ccc83799686fc09d75ba96a72e5f3976abec009c8cb"
+    },
+    {
+      "path": "rotcity-shared/cef-thai.js",
+      "size": 412,
+      "sha256": "a013e0bdd16b2561de2f4585b4ad25382c53b24115c3fd6490c55996970bd4bf"
+    },
+    {
+      "path": "rotcity-shared/commerce.css",
+      "size": 3065,
+      "sha256": "640764707dc61a4acedebf8307e2d6845f1f653095613153aa66405d103e4bc2"
+    },
+    {
+      "path": "rotcity-shared/img/test_circle.png",
+      "size": 141,
+      "sha256": "2107c08d3e64249251a6ba7ab7a08315b79ef71173ee8bdc4df45ac6609bdb08"
+    },
+    {
+      "path": "rotcity-shared/item-icons.js",
+      "size": 18079,
+      "sha256": "6ce71431373d6ec2ce400142991eca7a759432d1cbd780b9f693fce7e3a54653"
+    },
+    {
+      "path": "rotcity-shared/ITEM_ICON_MAP.txt",
+      "size": 7213,
+      "sha256": "2a0201b4d77acbd007900ec665538ecfb018f45d96d04777a96ca1e9b75b41ad"
+    },
+    {
+      "path": "rotcity-shared/mobile-layout.css",
+      "size": 15640,
+      "sha256": "0ab1231ee67a949b6f188d3a8c4aab8d87b59cf0308e30c438f27097eb3502d2"
+    },
+    {
+      "path": "rotcity-shared/mobile.css",
+      "size": 7854,
+      "sha256": "b585cf4c75fb1fba0ee0678aa2dcdfee120229f546fd1e84a3ee7f64a541dc1a"
+    },
+    {
+      "path": "rotcity-shared/README.txt",
+      "size": 895,
+      "sha256": "03ebb3030bf58518a547bfe55202c4d6d7d35122b7f5db72e8e088da896af510"
+    },
+    {
+      "path": "rotcity-shared/README_ITEM_ICONS.txt",
+      "size": 966,
+      "sha256": "a2cc4f1e97b45eb98f03c70cdfd76eb1143517221a2700d74803db5c03e6fcab"
+    },
+    {
+      "path": "rotcity-shop/app.js",
+      "size": 15894,
+      "sha256": "8910613a00c873925501fb31f359abbce5eebb9c1091277d02aeaf6ecf73c626"
+    },
+    {
+      "path": "rotcity-shop/index.html",
+      "size": 7010,
+      "sha256": "79f55eff15007537b262443b89d88f42c393c07e254b597fefc246a0db039440"
+    },
+    {
+      "path": "rotcity-shop/style.css",
+      "size": 17180,
+      "sha256": "185e3a90f0232e4e685e37da309616c52cf00ce44c37ee671dd1fb81df331fe3"
+    },
+    {
+      "path": "rotcity-sign/img/airdrop_green.png",
+      "size": 299373,
+      "sha256": "f937630820b1c38c6095ac5f0f4d3c35434d35ad8e7e12426a845785085fec22"
+    },
+    {
+      "path": "rotcity-sign/img/airdrop_red.png",
+      "size": 304145,
+      "sha256": "81823edb580dfeb998c37ef26cc2bf02758a86cf2f13d82b5f6e620af518f16b"
+    },
+    {
+      "path": "rotcity-sign/img/camp_green.png",
+      "size": 294868,
+      "sha256": "58fb50f9f8621ab9bd20ce8b27ec0f85c4aec652519567708189c76b805def61"
+    },
+    {
+      "path": "rotcity-sign/img/camp_red.png",
+      "size": 301305,
+      "sha256": "a6025021669a7d75299f89a9906011fa9d9abeaf44e2c85e0094cacd2dd2ed85"
+    },
+    {
+      "path": "rotcity-sign/img/garage_green.png",
+      "size": 199153,
+      "sha256": "cc25c62928e5fa0313e57b6f5f08cd1713ef79dfb2415b9b1bcf08a11a4f3add"
+    },
+    {
+      "path": "rotcity-sign/img/garage_red.png",
+      "size": 199276,
+      "sha256": "6110d26d59dc4b27702e0cf684a466de47d542d778b536bef4e709d5d7f75ae1"
+    },
+    {
+      "path": "rotcity-sign/img/guild_green.png",
+      "size": 307108,
+      "sha256": "a6d65940f56a57b7db87d35c7ae2049df5941cefbade8465174f7352c26c2657"
+    },
+    {
+      "path": "rotcity-sign/img/guild_red.png",
+      "size": 319313,
+      "sha256": "6dbd8ca7acbbba30d04969aceb1a2e81cab45678399f85ee2df8f1d3dfe7f57b"
+    },
+    {
+      "path": "rotcity-sign/img/interact_green.png",
+      "size": 270323,
+      "sha256": "16d5c778926853d70d80cea8a101f1a4cbf7d45aa53435cf1e76b96a1b271c4f"
+    },
+    {
+      "path": "rotcity-sign/img/interact_red.png",
+      "size": 273885,
+      "sha256": "9c7f6fa01568517f2fe32791e4fd5072741f822dfd3d3d67166ae7c9fbcbf5ad"
+    },
+    {
+      "path": "rotcity-sign/img/mission_green.png",
+      "size": 300245,
+      "sha256": "232acfe65091a5f0c98d3cefdfba6d6a67d90cd6ac3e77e6b8ad186ab370fd5e"
+    },
+    {
+      "path": "rotcity-sign/img/mission_red.png",
+      "size": 307527,
+      "sha256": "a391004cd324ceb1fe19b8739e7576cb9b1f15b08f9ceccfea90c273c89bb16b"
+    },
+    {
+      "path": "rotcity-sign/img/quest_green.png",
+      "size": 310486,
+      "sha256": "a35b48034d2aae177274bf29d7c88e9573a7e3deba9104995cd487d136b7bb1b"
+    },
+    {
+      "path": "rotcity-sign/img/quest_red.png",
+      "size": 320520,
+      "sha256": "fc39d843d5df452513ae5924c5daceb0f66f50138e65ebce60656adb28c75e2c"
+    },
+    {
+      "path": "rotcity-sign/img/safezone_green.png",
+      "size": 298099,
+      "sha256": "03937910609b4093da768c5c4371eb27484657a9e8d2eafda2e665cb60125e54"
+    },
+    {
+      "path": "rotcity-sign/img/safezone_red.png",
+      "size": 305709,
+      "sha256": "5ea5644d02b351721eaa9d6cab84e84f8fdbf0efacce2e57744862ef7023736c"
+    },
+    {
+      "path": "rotcity-sign/img/shop_green.png",
+      "size": 294971,
+      "sha256": "a93c47392c16cfd6c07afd1ad0b7f8d6258f6aeba6c1c48040addb814652d5b6"
+    },
+    {
+      "path": "rotcity-sign/img/shop_red.png",
+      "size": 301684,
+      "sha256": "1ebb304903a8c3a59ae54a6dd47e41690ebeeca9b5a3d5c79d7c94c06e98f4c0"
+    },
+    {
+      "path": "rotcity-sign/img/storage_green.png",
+      "size": 301781,
+      "sha256": "69c92a49712d4243abac2a5213b6c5d5b50ba808f3158457adbb5ac5778a95f6"
+    },
+    {
+      "path": "rotcity-sign/img/storage_red.png",
+      "size": 302672,
+      "sha256": "84f1fae1312832311c7279f4c83c5c6488a90a5ae9b54c9168c6027bd3a2bbac"
+    },
+    {
+      "path": "rotcity-sign/img/supply_green.png",
+      "size": 276295,
+      "sha256": "33d48ddb6912d21e4bf079eef9d98c3e536497815a0bdf2254adc9430eeb857b"
+    },
+    {
+      "path": "rotcity-sign/img/supply_red.png",
+      "size": 256402,
+      "sha256": "c8f19beaf6021a8b1c722d47d2908e3c9b5b742d74162bf2ffb3c4cfe148293b"
+    },
+    {
+      "path": "rotcity-sign/img/veh_access_green.png",
+      "size": 157451,
+      "sha256": "91783d626680e101af6326fcc12c324fb318ef650a0b3711c875bdceca7240bb"
+    },
+    {
+      "path": "rotcity-sign/img/veh_access_red.png",
+      "size": 154682,
+      "sha256": "44c343d0f16320f1f17baf5f38125120e6eb568b47ecccf4879c678540969adf"
+    },
+    {
+      "path": "rotcity-sign/index.html",
+      "size": 1988,
+      "sha256": "a774c58945fc72d4cf36ee38819c7629964fa95e49391dc508772615e1ab0154"
+    },
+    {
+      "path": "rotcity-sign/sign.js",
+      "size": 11019,
+      "sha256": "ea7f7e7c4fe52d2c91bdc71636c3b7ce222fee6c46531fbcfd06b003ff42033b"
+    },
+    {
+      "path": "rotcity-sign/style.css",
+      "size": 10191,
+      "sha256": "947f3cb722bd0d1b78840b2bacd92018035df0aaf0d8cf18e66739244f19e3e3"
+    },
+    {
+      "path": "rotcity-skills/app.js",
+      "size": 10518,
+      "sha256": "ab3d567044712045a41f932fed088448c360988cf2373ec6805d824f324ce1a4"
+    },
+    {
+      "path": "rotcity-skills/index.html",
+      "size": 5958,
+      "sha256": "05d7eb2519d44370540a8a5fec23b8ce19e1698884e6cccdfcdab0a883c280f7"
+    },
+    {
+      "path": "rotcity-skills/style.css",
+      "size": 10263,
+      "sha256": "c6faf710ec2169aeefae54f0bb9b0e83913e2c6d447305ce1255b71a84865e2f"
+    },
+    {
+      "path": "rotcity-storage/index.html",
+      "size": 23048,
+      "sha256": "a37ce8f42e2a2b6c253080d1c0b45d68cfed91649ad8c75c9f1428f00ed5c564"
+    },
+    {
+      "path": "rotcity-storage/textures/cracked-glass.svg",
+      "size": 388,
+      "sha256": "30a95b4c6f95d402092ce656df45b04c63636abab6a438ccea1b446cf73e92ae"
+    },
+    {
+      "path": "rotcity-storage/textures/grime.png",
+      "size": 28470,
+      "sha256": "898fefa5d86a6789768ee6b784f79e486ccd085f8344eac316a1a02e2c90b366"
+    },
+    {
+      "path": "rotcity-storage/textures/hazard.svg",
+      "size": 553,
+      "sha256": "757e4316138d0769c585b793a693f2471f9ed998214a6f78d4d92bc159b25b1d"
+    },
+    {
+      "path": "rotcity-storage/textures/rust-specks.png",
+      "size": 16125,
+      "sha256": "c099d5479906a7996e1f6e3d6fd7c078a862fb9e489a12f2f00daa78f79e8cc9"
+    },
+    {
+      "path": "rotcity-storage/textures/skyline.svg",
+      "size": 9546,
+      "sha256": "4daa23b6d2b0dd58fdd8f8bc549ffb8d19704fc32592cc79a1fc0f9611dd7633"
+    },
+    {
+      "path": "rotcity-storage/textures/steel-grit.webp",
+      "size": 123252,
+      "sha256": "154aebd47d926a3d49190ccc83799686fc09d75ba96a72e5f3976abec009c8cb"
+    },
+    {
+      "path": "rotcity-toxic/index.html",
+      "size": 2311,
+      "sha256": "1818b87cc3278e53e794eb4f530338d1061406af322d09f15faf3d11a8bc3bd6"
+    },
+    {
+      "path": "rotcity-toxic/README_TH.txt",
+      "size": 926,
+      "sha256": "ac54f91d27a28accfbff3a3f8f4da0ade55c956da4b0b2857d510b954e850b70"
+    },
+    {
+      "path": "rotcity-toxic/style.css",
+      "size": 3835,
+      "sha256": "41e80f2c1f4dd8439068dce2ceb570a7a3a3b8f4c7952ef0a6b96b04d4669c39"
+    },
+    {
+      "path": "rotcity-toxic/toxic.js",
+      "size": 2701,
+      "sha256": "354116331f0da8392c4407b9254e77fb8c6b83d2cc14de7cb1255dc5eb2f6c77"
+    },
+    {
+      "path": "rotcity-trade/app.js",
+      "size": 11756,
+      "sha256": "9580ea9bde4c25e325345097ce0434aae61f1ed34ea544c4d18027335831a240"
+    },
+    {
+      "path": "rotcity-trade/index.html",
+      "size": 11351,
+      "sha256": "2b2aad0e13ff954eee393b5ad5b3f9f9b4034edc87674ad051e0a63202ae4900"
+    },
+    {
+      "path": "rotcity-trade/style.css",
+      "size": 13591,
+      "sha256": "18f95d33a0f25f0494859a7dcf0f11b9abd18ec586cb6d98f2af502cdfd4cc06"
+    },
+    {
+      "path": "rotcity-trunk/index.html",
+      "size": 26728,
+      "sha256": "f10ceb90beb171a1940a23cae2febf999dcbfe6e5c55d9bfcb7ecea8fb3f493d"
+    },
+    {
+      "path": "rotcity-wardrobe/catalog.js",
+      "size": 30813,
+      "sha256": "a443426fa12f74de3124a68422e344a92b84bf736104604a53b3f9323036115e"
+    },
+    {
+      "path": "rotcity-wardrobe/index.html",
+      "size": 36788,
+      "sha256": "5584e684165b54d6a577cc7b34eebdd7e2bca661a6eb793626977e0b24a1047a"
+    },
+    {
+      "path": "rotcity-waypoints/css/style.css",
+      "size": 28648,
+      "sha256": "ea6d9998f085beb3dfe7425998e3571b50ecf35e9d9cdfb8e43ce1d874ea2e41"
+    },
+    {
+      "path": "rotcity-waypoints/fontawesome/css/all.min.css",
+      "size": 90336,
+      "sha256": "e0b69df26e19596d4b81bf7eb0c54b6047e7221ec18d5d4d40c11eefd3ef8a4b"
+    },
+    {
+      "path": "rotcity-waypoints/fontawesome/css/fa-pro-compat.css",
+      "size": 6860,
+      "sha256": "8a031eca83d27a09fba33ec1db87fa570ff793bdf69194a69ca603ca917943d2"
+    },
+    {
+      "path": "rotcity-waypoints/fontawesome/LICENSE.txt",
+      "size": 7427,
+      "sha256": "20c6f40715a567c97b80f6944beb8bb325835cab47ea7dcab89ee3b8e077eced"
+    },
+    {
+      "path": "rotcity-waypoints/fontawesome/webfonts/fa-brands-400.woff2",
+      "size": 115420,
+      "sha256": "ff66d1cfb67dbe3da432bbe36572cabfa4eef0e591303c2cba111474ba1d15bc"
+    },
+    {
+      "path": "rotcity-waypoints/fontawesome/webfonts/fa-regular-400.woff2",
+      "size": 19512,
+      "sha256": "f4722d10b9e1b41eefe3b51a026312ee1970edb7782f94b0080d3d475945734c"
+    },
+    {
+      "path": "rotcity-waypoints/fontawesome/webfonts/fa-solid-900.woff2",
+      "size": 119488,
+      "sha256": "24e5fae26b41c08b2df81c91669f5aaae71d81a84a4713fc56b5c621b78dd456"
+    },
+    {
+      "path": "rotcity-waypoints/fontawesome/webfonts/fa-v4compatibility.woff2",
+      "size": 4168,
+      "sha256": "c776ee1f1fe21cd72195e91de7afd5c9dbd007e9d06016254d65fbcc091398ca"
+    },
+    {
+      "path": "rotcity-waypoints/index.html",
+      "size": 5820,
+      "sha256": "c884eb4d9f582f582ad633780fa77b9902ba2c095564f4c6ba0b4136e8fd1c3a"
+    },
+    {
+      "path": "rotcity-waypoints/js/app.js",
+      "size": 48231,
+      "sha256": "6c16a6c70164b99eda709a2180f29ce66b202442e2025019952af40f4e5357ab"
+    },
+    {
+      "path": "rotcity-waypoints/js/i18n.js",
+      "size": 9601,
+      "sha256": "920845fa67b908d7248c3a1cff40adeb2a60fd8d77ef06d474cb204418f6b4c8"
+    },
+    {
+      "path": "speedo_cef/img/arc_l1.png",
+      "size": 1566,
+      "sha256": "d77e079e211a14d185744ff1d877d7313d0d1ef0bcfee52b71b460ce2c579fc3"
+    },
+    {
+      "path": "speedo_cef/img/arc_l2.png",
+      "size": 1504,
+      "sha256": "63a2064d1afaf59fd988f2d28a10f118a3d85bbc0aa19a6b224586b4e96a90e3"
+    },
+    {
+      "path": "speedo_cef/img/arc_r1.png",
+      "size": 1539,
+      "sha256": "7e4b2441796b42c21b10f5eeffbdfd0ca0c3a3be784959942e28ef0ecc6f31a0"
+    },
+    {
+      "path": "speedo_cef/img/arc_r2.png",
+      "size": 1498,
+      "sha256": "f44418486f21fd07c2f97bf263ccfd0990aa5dd493659198e5db992327fdfa64"
+    },
+    {
+      "path": "speedo_cef/img/bar_bottom.png",
+      "size": 2003,
+      "sha256": "e0fbe8aa5afae071d4625f53fee4cf8eeb400508b2be2cdedcccf0cf9014b170"
+    },
+    {
+      "path": "speedo_cef/img/deco_slash_l.png",
+      "size": 530,
+      "sha256": "4d52e6c70bd762f7e0bff66ba4c90612c3331375afcb7909fe8ed0e4dbbffb65"
+    },
+    {
+      "path": "speedo_cef/img/deco_slash_r.png",
+      "size": 524,
+      "sha256": "ee7b1db75e75dfcb225333698b4b2634ddb7907a1c2fe3e88f19d324b1183fd1"
+    },
+    {
+      "path": "speedo_cef/img/disc.png",
+      "size": 1833,
+      "sha256": "5296bf6394a817c3764c9def30f698ea80e3c9d6e143250ab58946812b8a30d0"
+    },
+    {
+      "path": "speedo_cef/img/frame_square.png",
+      "size": 1471,
+      "sha256": "572f0c5f1b0c089a3ce58c47791278ebf599c702da05ac8397b636738e934390"
+    },
+    {
+      "path": "speedo_cef/img/icon_ring.png",
+      "size": 5522,
+      "sha256": "9519507eb511c11c8f35e3c1164261c668cfc64a847c51583b5607323fe7cabf"
+    },
+    {
+      "path": "speedo_cef/img/ico_door.png",
+      "size": 908,
+      "sha256": "5bdb93d9c81cfe8f8a7404d33e8645401f8ec6e4119177d18926eb2a5d9937de"
+    },
+    {
+      "path": "speedo_cef/img/ico_fuel.png",
+      "size": 1349,
+      "sha256": "32bd40daec3edcbd11fcb2694f3de97a33933b462bb7697007694705afcc18ea"
+    },
+    {
+      "path": "speedo_cef/img/ico_headlight.png",
+      "size": 852,
+      "sha256": "19af5c52360f71098f22ddeabf17f03d1e7151728354830d14e176a9ac74433d"
+    },
+    {
+      "path": "speedo_cef/img/ico_lock.png",
+      "size": 590,
+      "sha256": "13b144112c088e91596ced60dcc4c0dbfb7c28a4c2fd8999e3fb888a3e8eb179"
+    },
+    {
+      "path": "speedo_cef/img/ico_pin.png",
+      "size": 718,
+      "sha256": "2b6da31a7e7d5039905fdc440a3779b4f27d5cc59606cc68440394fc5c63bbe8"
+    },
+    {
+      "path": "speedo_cef/img/ico_power.png",
+      "size": 1790,
+      "sha256": "3db2daf0b4a48301f1f7055bed52980aa7e5b20f415e09626056842606d0b6b3"
+    },
+    {
+      "path": "speedo_cef/img/ico_seat.png",
+      "size": 1380,
+      "sha256": "7ed301fba40993add6d09ef0324e27de62fddbf4f8e2a3e2dda6b08c6fa823bd"
+    },
+    {
+      "path": "speedo_cef/img/ico_signal.png",
+      "size": 1028,
+      "sha256": "68811c8aa21aa884597a12e8425a53223aea7a53014b234b6d9832d0c0519e28"
+    },
+    {
+      "path": "speedo_cef/img/ico_warning.png",
+      "size": 514,
+      "sha256": "37eedf9e2c5ea8e0eebba5b138440f142cbd6f64dad5a116959202a2d51a1e79"
+    },
+    {
+      "path": "speedo_cef/img/ico_wrench.png",
+      "size": 1294,
+      "sha256": "59af41892dff3ba1d970c156b575199f0496b0b0a31638e85765d35d56507caa"
+    },
+    {
+      "path": "speedo_cef/img/panel_bg.png",
+      "size": 10197,
+      "sha256": "173095939c8ed87a5ef3d5418cc5ff514ab72d9716072a6888f4d2c11bc9b7b0"
+    },
+    {
+      "path": "speedo_cef/img/panel_left.png",
+      "size": 4324,
+      "sha256": "f37820aa351d820d9a68190b4da93a0890a3ce26e2672fe55877d3a1aead0156"
+    },
+    {
+      "path": "speedo_cef/img/panel_right.png",
+      "size": 5150,
+      "sha256": "dc1df7462f913fcb4536b8e24d97c051e3cf6410114785aedd6e52f31bc16df2"
+    },
+    {
+      "path": "speedo_cef/img/ring_base.png",
+      "size": 36922,
+      "sha256": "42fa4c3362f8fdbf368c0e1428085f5cdfacecacaab1c1ce3f061af967bc86fa"
+    },
+    {
+      "path": "speedo_cef/img/seg_00.png",
+      "size": 1255,
+      "sha256": "747963b03c6b4f633217c65d2a0659022c9dcf6cf1558985ff38208d7466a488"
+    },
+    {
+      "path": "speedo_cef/img/seg_01.png",
+      "size": 1250,
+      "sha256": "3ee403c04b657244b1f8570121854a7ed4543260285d77508bcf3e8732381da6"
+    },
+    {
+      "path": "speedo_cef/img/seg_02.png",
+      "size": 1506,
+      "sha256": "f5c55be8c63d22496f7362fa9f2e9a06a8b4bbe4ce7728f85daa107a5770cd61"
+    },
+    {
+      "path": "speedo_cef/img/seg_03.png",
+      "size": 1440,
+      "sha256": "f732100a53426db2e11fd4f0316ac89db78c7b7f6805b98057362f68408ca5b8"
+    },
+    {
+      "path": "speedo_cef/img/seg_04.png",
+      "size": 1078,
+      "sha256": "3cc632163524db585f5bdc3bac1828e0b35e64bf005374c4e482ebbefe458899"
+    },
+    {
+      "path": "speedo_cef/img/seg_05.png",
+      "size": 1452,
+      "sha256": "876005570cbd2ae64f91560b6f28306ae6f9ee9696df80a7acb0aad124251f3e"
+    },
+    {
+      "path": "speedo_cef/img/seg_06.png",
+      "size": 1459,
+      "sha256": "f6794b032588611e14a94df134cc8abe3169fbe7bd615861056b062a985b61c0"
+    },
+    {
+      "path": "speedo_cef/img/seg_07.png",
+      "size": 1233,
+      "sha256": "39122f76587c1b55a6757368b611383aa57dc57f056ac2100869c3eed0667042"
+    },
+    {
+      "path": "speedo_cef/img/seg_08.png",
+      "size": 1273,
+      "sha256": "044e8771fd5af0946d8daed4078819892ec1ac0e091f9728eebd4d45a44ac726"
+    },
+    {
+      "path": "speedo_cef/img/seg_09.png",
+      "size": 1497,
+      "sha256": "9d9cb45ee606ce0883b74edbf4729638f2598f241639dc4a81f566b9cf559a4c"
+    },
+    {
+      "path": "speedo_cef/img/seg_10.png",
+      "size": 1226,
+      "sha256": "1fcdfeac226984633a9eb3b2b7831be45e844b906a4b0a779a8cc61ccda4a3f0"
+    },
+    {
+      "path": "speedo_cef/img/seg_11.png",
+      "size": 1130,
+      "sha256": "98eff131aaec7df22bb42639e1d15cef5cbc4ce8f7daec538239f76b37e94a20"
+    },
+    {
+      "path": "speedo_cef/img/seg_12.png",
+      "size": 1500,
+      "sha256": "b63390c0c315a38344b44b8d4e7e7c812e2aeffcaa4d64d20da1f5b4d9dc48b0"
+    },
+    {
+      "path": "speedo_cef/img/seg_13.png",
+      "size": 1325,
+      "sha256": "2d61fb959d8ed893e4eaa444da34588b1accc40e8e841b56dd901e9be97cdf03"
+    },
+    {
+      "path": "speedo_cef/img/seg_14.png",
+      "size": 1272,
+      "sha256": "7e75ec6fb1c1eed2332d344f85bacd1f9f22e9c8c1d51407dbc0ab9c0bfb0fa7"
+    },
+    {
+      "path": "speedo_cef/img/seg_15.png",
+      "size": 1399,
+      "sha256": "9b2878d729547c04459d7698148e22b81b7dd0f6858a55c51bb7d6ca47d92175"
+    },
+    {
+      "path": "speedo_cef/img/seg_16.png",
+      "size": 1484,
+      "sha256": "e125ac029cd25771570a19d65d30bca6f9fb917476b4c922c0a9dd8180ba36c0"
+    },
+    {
+      "path": "speedo_cef/img/seg_17.png",
+      "size": 1090,
+      "sha256": "bc6831a75d5cd69b8516c29df29b54d76d0a805fa2df1343927226f1b7e67aaa"
+    },
+    {
+      "path": "speedo_cef/img/seg_18.png",
+      "size": 1290,
+      "sha256": "651fbd68e41f04e43019f4a7eb3043a6901c91518d41e58211beac9bc12fcf5c"
+    },
+    {
+      "path": "speedo_cef/img/seg_19.png",
+      "size": 1569,
+      "sha256": "e8adb86f9b04e69d5b2d6fba18c16afe2063773f4d32db04782986eac4ec48a3"
+    },
+    {
+      "path": "speedo_cef/index.html",
+      "size": 3763,
+      "sha256": "6344bcce0a4a5afe77c0245067ba2978400e0504f5412306106d174172a6d8ce"
+    },
+    {
+      "path": "speedo_cef/README_TH.txt",
+      "size": 1661,
+      "sha256": "6fb201669c56e30d0419a6c3edfe2c26415fd4c1d49c4d430c282ec3fb4bf38d"
+    },
+    {
+      "path": "speedo_cef/speedo.js",
+      "size": 12604,
+      "sha256": "693dfe0e767533d275752b357b3ed6502d5169321392614535d4eabc3c6b79bf"
+    },
+    {
+      "path": "speedo_cef/style.css",
+      "size": 11714,
+      "sha256": "e8dbb9a42425bc7f91b4e2f9298f951b5bf49aba3cb051dbbc866c81337bf3db"
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+/* Diamond Speedometer V4 — video-style three states: engine-off, driving, N radial menu.
+   Change --accent to #36d5ad for the mint theme used in the reference video. */
+:root {
+  --speedo-scale: .52;
+  --speedo-left: 0px;
+  --speedo-bottom: 24px;
+  --accent: #2cc6ff;
+  --accent-bright: #80e4ff;
+  --accent-deep: #0869bd;
+  --accent-glow: rgba(31,183,255,.52);
+}
+:root[data-speedo-theme="mint"] {
+  --accent: #27d8a5;
+  --accent-bright: #a3ffe7;
+  --accent-deep: #087d69;
+  --accent-glow: rgba(28,221,153,.45);
+}
+* { box-sizing: border-box; }
+html,body { margin:0;width:100%;height:100%;overflow:hidden;background:transparent!important;
+  font-family:Arial,Tahoma,sans-serif;color:#fff;user-select:none;pointer-events:none; }
+#speedo { position:fixed; width:720px;height:670px;left:var(--speedo-left);bottom:var(--speedo-bottom);
+  transform:scale(var(--speedo-scale));transform-origin:left bottom;pointer-events:none;
+  opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s ease; }
+#speedo.visible { opacity:1;visibility:visible; }
+
+/* V4.3 — split physical wing panels (real PNG halves from the supplied matte panel).
+   The black background is NOT a full overlay; each half is revealed from the center
+   as it slides outward. This prevents a visually instantaneous pop-in. */
+:root {
+  --wing-slide-duration: 1.12s;
+  --wing-slide-easing: cubic-bezier(.18,.64,.18,1);
+}
+.slide-shell {
+  position:absolute;
+  top:332px;
+  height:286px;
+  width:313px;
+  z-index:2;
+  pointer-events:none;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  opacity:1;
+  will-change:transform,clip-path;
+  transition:
+    transform var(--wing-slide-duration) var(--wing-slide-easing),
+    clip-path var(--wing-slide-duration) var(--wing-slide-easing);
+}
+.shell-left {
+  left:47px;
+  background-image:url("img/panel_left.png");
+  transform:translateX(66px);
+  clip-path:inset(0 0 0 100%);
+}
+.shell-right {
+  right:47px;
+  background-image:url("img/panel_right.png");
+  transform:translateX(-66px);
+  clip-path:inset(0 100% 0 0);
+}
+#speedo.body-open .shell-left,
+#speedo.menu-open .shell-left,
+#speedo.body-open .shell-right,
+#speedo.menu-open .shell-right {
+  transform:translateX(0);
+  clip-path:inset(0 0 0 0);
+}
+
+/* Actual status panels slide with the pieces; circles and icons are NOT squashed.
+   clip-path conceals the unexposed side, avoiding an opacity fade/pop. */
+.vehicle-wing {
+  position:absolute;
+  top:324px;
+  width:254px;
+  height:240px;
+  z-index:3;
+  pointer-events:none;
+  opacity:1;
+  will-change:transform,clip-path;
+  transition:
+    transform var(--wing-slide-duration) var(--wing-slide-easing),
+    clip-path var(--wing-slide-duration) var(--wing-slide-easing);
+}
+.left-wing {
+  left:72px;
+  transform:translateX(96px);
+  clip-path:inset(0 0 0 100%);
+}
+.right-wing {
+  right:72px;
+  transform:translateX(-96px);
+  clip-path:inset(0 100% 0 0);
+}
+#speedo.body-open .left-wing,
+#speedo.menu-open .left-wing,
+#speedo.body-open .right-wing,
+#speedo.menu-open .right-wing {
+  transform:translateX(0);
+  clip-path:inset(0 0 0 0);
+}
+/* The shell PNG is the ONLY large black backplate. Avoid stacked black gradients. */
+.wing-body {
+  position: absolute;
+  inset: 19px 0 0;
+  background: transparent;
+  box-shadow: none;
+}
+.left-wing .wing-body { clip-path:polygon(22% 6%,100% 0,100% 95%,0 100%,0 32%);border-radius:14px 10px 10px 20px; }
+.right-wing .wing-body { clip-path:polygon(0 0,78% 6%,100% 32%,100% 100%,0 95%);border-radius:10px 14px 20px 10px; }
+.side-meter { position:absolute;top:63px;left:49px;width:120px;height:120px;overflow:visible;z-index:5; }
+.right-wing .side-meter {left:84px;}
+.side-meter circle { fill:none;stroke-width:8;stroke-linecap:round;transform:rotate(-90deg);transform-origin:60px 60px; }
+.side-meter .meter-track {stroke:#36474b;opacity:.95;}
+.side-meter .meter-progress {stroke:var(--accent);stroke-width:9;stroke-dasharray:0 100;
+  filter:drop-shadow(0 0 5px var(--accent-glow));transition:stroke-dasharray .32s ease-out; }
+.wing-icon {position:absolute;top:85px;left:71px;width:76px;height:76px;object-fit:contain;z-index:6;
+  filter:drop-shadow(0 0 4px rgba(255,255,255,.14));}
+.right-wing .wing-icon {left:106px;}
+.side-caption {position:absolute;top:195px;left:61px;width:100px;text-align:center;z-index:6;
+  font-size:18px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:.1px;}
+.right-wing .side-caption {left:87px;}
+.wing-title {position:absolute;top:221px;left:61px;width:100px;text-align:center;z-index:6;
+  font-size:16px;font-weight:900;color:var(--accent-bright);letter-spacing:1px;}
+.right-wing .wing-title {left:87px;}
+
+/* Floating center ring. The arc is a genuine SVG stroke (not an elliptical stretched PNG). */
+.dial-backlight { position:absolute;left:217px;top:217px;width:286px;height:286px;z-index:8;
+  border-radius:50%;background:radial-gradient(circle,#061a24 32%,#071315 62%,rgba(0,0,0,0) 74%);
+  filter:drop-shadow(0 4px 16px #000); }
+.dial-image {position:absolute;left:222px;top:221px;width:276px;height:276px;z-index:9;object-fit:contain;
+  border-radius:50%;filter:drop-shadow(0 0 10px var(--accent-glow));}
+/* Source PNG is blue. Mint theme recolors the ring without touching image assets. */
+:root[data-speedo-theme="mint"] .dial-image {filter:hue-rotate(-69deg) saturate(1.12) drop-shadow(0 0 10px var(--accent-glow));}
+.speed-ring {position:absolute;left:224px;top:226px;width:272px;height:272px;z-index:12;overflow:visible;}
+.speed-ring path {fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.speed-ring-track {stroke:#26434b;stroke-width:12;}
+.speed-ring-halo {stroke:var(--accent);stroke-width:21;opacity:.42;filter:blur(6px);stroke-dasharray:0 100;
+  transition:stroke-dasharray .22s linear;}
+.speed-ring-progress {stroke:var(--accent-bright);stroke-width:14;stroke-dasharray:0 100;
+  filter:drop-shadow(0 0 5px var(--accent));transition:stroke-dasharray .22s linear;}
+.readout {position:absolute;left:252px;top:291px;width:216px;height:137px;z-index:18;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;
+  text-shadow:0 3px 7px rgba(0,0,0,.9);}
+#speed-value {font-size:99px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-4px;}
+.unit {margin-top:8px;font-size:27px;font-weight:900;letter-spacing:1px;color:var(--accent-bright);}
+.gear-pill {position:absolute;z-index:22;left:318px;top:454px;width:84px;height:84px;display:flex;
+  justify-content:center;align-items:center;border-radius:50%;color:#fff;font-size:43px;font-weight:900;
+  background:linear-gradient(135deg,var(--accent-bright),var(--accent-deep));
+  box-shadow:inset 0 2px 8px rgba(255,255,255,.25),0 0 9px var(--accent-glow);}
+#standby-power {position:absolute;z-index:24;left:324px;top:160px;width:72px;height:72px;border-radius:50%;
+  background:radial-gradient(circle,#142630,#080f14);border:3px solid #6a7e83;display:flex;align-items:center;
+  justify-content:center;opacity:0;transform:translateY(36px) scale(.6);transition:opacity .28s,transform .42s;
+  box-shadow:0 4px 11px #000;pointer-events:none;}
+#standby-power img {width:48px;height:48px;object-fit:contain;opacity:.72;}
+#speedo:not(.engine-on) #standby-power {opacity:1;transform:translateY(0) scale(1);}
+
+.footer-panel {position:absolute;left:236px;top:516px;width:248px;height:112px;z-index:6;
+  opacity:0;transform:translateY(8px) scaleX(.82);
+  transition:
+    transform .78s var(--wing-slide-easing) .21s,
+    opacity .45s ease .27s;
+  pointer-events:none;}
+#speedo.body-open .footer-panel,
+#speedo.menu-open .footer-panel {opacity:1;transform:translateY(0) scaleX(1);}
+.footer-row {height:55px;border-radius:15px 15px 4px 4px;padding:0 10px;display:flex;align-items:center;
+  justify-content:space-between;background:transparent;
+  border-top:0;}
+.indicator {display:flex;align-items:center;justify-content:center;opacity:.5;width:39px;height:39px;}
+.indicator img {max-width:30px;max-height:28px;object-fit:contain;}
+.indicator.on {opacity:1;filter:drop-shadow(0 0 4px var(--accent));}
+.indicator.arrow {font-size:24px;color:var(--accent);opacity:.3;}
+.indicator.blink {opacity:1;}
+.location-line {height:45px;display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:6px 10px;background:transparent;
+  clip-path:none;font-size:17px;font-weight:700;}
+.location-line img {height:22px;width:16px;object-fit:contain;filter:drop-shadow(0 0 4px var(--accent));}
+#zone-label {max-width:245px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#warning-icon {position:absolute;left:506px;top:327px;width:25px;height:29px;z-index:7;opacity:.22;}
+#warning-icon.warn-on {opacity:1;filter:drop-shadow(0 0 6px var(--accent));}
+.engine-status {position:absolute;top:582px;left:533px;width:142px;font-size:13px;color:var(--accent-bright);
+  text-align:center;z-index:8;opacity:0;transition:opacity .2s;}
+#speedo.body-open .engine-status,
+#speedo.menu-open .engine-status {opacity:.65;}
+
+/* A radial FAN of small controls slides upward from behind the speed dial (reference video). */
+#control-layer {position:absolute;inset:0;z-index:27;opacity:0;visibility:hidden;transform:translateY(115px);
+  transition:opacity .26s,transform .48s cubic-bezier(.16,1,.3,1),visibility .48s;pointer-events:none;}
+#speedo.menu-open #control-layer {opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;}
+.control-button {position:absolute;display:flex;align-items:center;justify-content:center;padding:3px;border-radius:50%;
+  background:linear-gradient(160deg,#172b2f,#060e11);color:#fff;border:2px solid rgba(129,166,167,.75);
+  box-shadow:0 4px 12px #000,inset 0 0 8px rgba(40,110,117,.25);
+  outline:none;cursor:pointer;pointer-events:auto;opacity:0;transform:translateY(65px) scale(.3);
+  transition:opacity .2s ease,transform .46s cubic-bezier(.1,1.25,.2,1),box-shadow .2s;
+  transition-delay:var(--btn-delay,0s);touch-action:manipulation;}
+#speedo.menu-open .control-button {opacity:1;transform:translateY(0) scale(1);}
+.control-button img {width:57%;height:57%;object-fit:contain;pointer-events:none;}
+.control-button .btn-hint {position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:14px;
+  font-weight:800;white-space:nowrap;opacity:0;color:var(--accent-bright);pointer-events:none;}
+.control-button:hover {border-color:var(--accent);box-shadow:0 0 15px var(--accent-glow),inset 0 0 7px var(--accent);}
+.control-button:hover .btn-hint,.control-button:focus-visible .btn-hint {opacity:1;}
+.control-button:active {transform:scale(.93)!important;}
+.control-button.pending {border-color:var(--accent-bright);filter:drop-shadow(0 0 9px var(--accent-glow));}
+.control-button[data-action="engine"] {background:linear-gradient(140deg,var(--accent),var(--accent-deep));
+  border-color:var(--accent-bright);box-shadow:0 0 17px var(--accent-glow);}
+.control-button[data-action="lock"] {background:linear-gradient(140deg,#2a4f55,#071418);}
+#speedo.menu-open .control-button {transition-delay:var(--btn-delay,0s);}
+body.controls-active {pointer-events:auto!important;}
+#speedo.menu-open {pointer-events:auto!important;}
+#speedo.menu-open #control-layer {pointer-events:auto!important;}
+.status-toast {position:absolute;left:100px;top:238px;width:520px;padding:12px;z-index:40;text-align:center;
+  font-size:22px;font-weight:800;color:var(--accent-bright);background:rgba(8,20,25,.95);
+  border:1px solid var(--accent-deep);border-radius:10px;box-shadow:0 0 12px var(--accent-glow);
+  opacity:0;pointer-events:none;transition:opacity .2s;}
+.status-toast.show {opacity:1;}
+/* Game HUD motion is intentionally enabled independent of OS reduced-motion
+   preference. Adjust --wing-slide-duration if needed. */

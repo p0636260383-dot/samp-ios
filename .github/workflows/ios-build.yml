@@ -1,22 +1,73 @@
-name: iOS Build (Swift Package)
+name: iOS App and IPA
 
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - name: Swift version
-        run: swift --version
-      - name: Build for iOS (arm64)
+      - name: Verify Android UI snapshot
+        run: node tools/verify-assets.mjs
+      - name: Test protocol compatibility
+        run: swift test
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate iPhone and iPad project
+        run: xcodegen generate --spec iOS/project.yml
+      - name: Build simulator app
         run: |
-          SDK=$(xcrun --sdk iphoneos --show-sdk-path)
-          swift build -c release --triple arm64-apple-ios --sdk "$SDK"
-      - name: Build for iOS Simulator
+          set -o pipefail
+          xcodebuild -project iOS/RotCity.xcodeproj -scheme RotCity -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build/simulator CODE_SIGNING_ALLOWED=NO build 2>&1 | tee simulator-build.log
+      - name: Build device app
         run: |
-          SDK=$(xcrun --sdk iphonesimulator --show-sdk-path)
-          swift build -c release --triple arm64-apple-ios-simulator --sdk "$SDK"
+          set -o pipefail
+          xcodebuild -project iOS/RotCity.xcodeproj -scheme RotCity -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build/device \
+            CODE_SIGNING_ALLOWED=NO build 2>&1 | tee device-build.log
+      - name: Package unsigned IPA for external signing
+        run: |
+          set -euo pipefail
+          mkdir -p build/ipa/Payload
+          cp -R build/device/Build/Products/Release-iphoneos/RotCity.app build/ipa/Payload/
+          test -f build/ipa/Payload/RotCity.app/RotCity
+          test -f build/ipa/Payload/RotCity.app/rot-ui/pages.json
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' build/ipa/Payload/RotCity.app/Info.plist
+          (cd build/ipa && zip -qry ../RotCity-iOS-unsigned.ipa Payload)
+          shasum -a 256 build/RotCity-iOS-unsigned.ipa > build/SHA256SUMS.txt
+          cat > build/INSTALL.txt <<'EOF'
+          ROT CITY iOS prototype — UNSIGNED
+          This IPA must be re-signed with your Apple provisioning identity before installation.
+          Includes Android UI pages, compatible /dweb framing, server query and local microphone test.
+          It is not yet a playable GTA/SA-MP client. GTA engine, gameplay sync, SampVoice session
+          negotiation/Opus playback and game mod loading remain unimplemented.
+          No Apple signing certificates or private keys are bundled.
+          EOF
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RotCity-iOS-unsigned
+          path: |
+            build/RotCity-iOS-unsigned.ipa
+            build/SHA256SUMS.txt
+            build/INSTALL.txt
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: iOS-build-logs
+          path: '*-build.log'
+          if-no-files-found: ignore

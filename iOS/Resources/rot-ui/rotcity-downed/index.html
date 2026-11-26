@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>DOWNED // สภาวะบาดเจ็บสาหัส | ROT CITY</title>
+  <link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+  <div id="downedRoot" class="downed-root" style="display: none;">
+    <!-- Ambient Atmosphere: Vignette, Cyber Grid & Corner Ice/Circuit Overlays -->
+    <div id="vignette" class="vignette" aria-hidden="true"></div>
+    <div class="corner-tech top-left" aria-hidden="true"></div>
+    <div class="corner-tech top-right" aria-hidden="true"></div>
+    <div class="corner-tech bottom-left" aria-hidden="true"></div>
+    <div class="corner-tech bottom-right" aria-hidden="true"></div>
+
+    <!-- Top Server Status Bar -->
+    <header class="top-nav">
+      <div class="server-brand">
+        <div class="biohazard-ring">
+          <svg class="bio-icon" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="46" class="bio-outer-ring"/>
+            <path d="M50 20 A15 15 0 0 1 65 35 A15 15 0 0 1 50 50 A15 15 0 0 1 35 35 A15 15 0 0 1 50 20" class="bio-leaf"/>
+            <path d="M35 62 A15 15 0 0 1 50 50 A15 15 0 0 1 65 62 A15 15 0 0 1 50 74 A15 15 0 0 1 35 62" class="bio-leaf"/>
+            <circle cx="50" cy="50" r="8" class="bio-core"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h2 class="server-title">ROT CITY</h2>
+          <span class="server-sub">ไอ้โง่คนสุดท้าย | THAI ZOMBIE SURVIVAL</span>
+        </div>
+      </div>
+
+      <div class="server-meta">
+        <div class="meta-pill date-pill">
+          <span class="pill-icon">📅</span>
+          <span id="liveDate">15 พ.ย. 2026</span>
+          <span id="liveClock" class="clock-highlight">15:30:00</span>
+        </div>
+        <div class="meta-pill online-pill">
+          <span class="pill-icon">👥</span>
+          <span>ออนไลน์</span>
+          <strong id="onlineCount" class="online-val">1 / 50</strong>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Downed Stage Container -->
+    <main id="downedHud" class="downed-stage">
+      
+      <!-- Central DOWNED Distress Banner with Moving Heartbeat ECG -->
+      <section class="banner-section">
+        <div class="ecg-track-wrap" aria-hidden="true">
+          <svg class="ecg-pulse-svg" viewBox="0 0 1200 80" preserveAspectRatio="none">
+            <path class="ecg-bg-line" d="M0,40 L380,40 L400,38 L415,42 L430,40 L460,40 L475,10 L490,70 L505,25 L520,55 L535,40 L560,40 L640,40 L665,40 L680,10 L695,70 L710,25 L725,55 L740,40 L780,40 L1200,40"/>
+            <path class="ecg-glow-line" d="M0,40 L380,40 L400,38 L415,42 L430,40 L460,40 L475,10 L490,70 L505,25 L520,55 L535,40 L560,40 L640,40 L665,40 L680,10 L695,70 L710,25 L725,55 L740,40 L780,40 L1200,40"/>
+          </svg>
+        </div>
+
+        <div class="distress-title-group">
+          <h1 class="main-title glitch-text" data-text="DOWNED">DOWNED</h1>
+          <p class="sub-alert-th">คุณได้รับบาดเจ็บสาหัส</p>
+          <p class="sub-instruction">กรุณารอความช่วยเหลือจากเพื่อนร่วมทีม หรือให้เพื่อนกด <span class="key-inline">Y</span> หรือพิมพ์ <span class="cmd-inline">/revive</span></p>
+        </div>
+      </section>
+
+      <!-- Three-Column HUD Modules -->
+      <div class="hud-center-grid">
+        
+        <!-- LEFT MODULE: คำแนะนำ // GUIDANCE -->
+        <aside class="hud-panel panel-left">
+          <div class="panel-header">
+            <div class="panel-badge-icon">✚</div>
+            <span class="panel-title">คำแนะนำ</span>
+            <div class="tech-slashes">///////</div>
+          </div>
+          <div class="panel-body">
+            <div class="guide-item">
+              <span class="key-badge">Y</span>
+              <div class="guide-desc">
+                <strong>กด Y หรือ /revive เพื่อชุบชีวิต</strong>
+                <span>เพื่อนร่วมทีมต้องพก ผ้าพันแผล หรือ กล่องปฐมพยาบาล</span>
+              </div>
+            </div>
+            <div class="guide-item">
+              <span class="item-icon">👥</span>
+              <div class="guide-desc">
+                <strong>รอเพื่อนร่วมทีมหรือหน่วยแพทย์</strong>
+                <span>เปิดโอกาสให้เพื่อนเข้ามาช่วยเหลือในระยะ 2.8 เมตร</span>
+              </div>
+            </div>
+            <div class="guide-item">
+              <span class="item-icon">🛌</span>
+              <div class="guide-desc">
+                <strong>หรือรอเวลาฟื้นสติอัตโนมัติ</strong>
+                <span>เมื่อครบเวลา 5 นาที จะหมดสติและไปเกิดใหม่ที่โรงพยาบาล</span>
+              </div>
+            </div>
+            <div class="guide-item warn-item">
+              <span class="item-icon warn-icon">⚠️</span>
+              <div class="guide-desc">
+                <strong>ห้ามออกจากเกมระหว่างรอรักษา</strong>
+                <span>การตัดการเชื่อมต่ออาจทำให้สูญเสียสัมภาระในตัว</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- CENTER MODULE: RADAR COUNTDOWN DIAL -->
+        <section class="dial-center-module">
+          <div class="dial-outer-housing">
+            <!-- Animated Cyber Radar Segment Ring -->
+            <div class="radar-sweep-ring"></div>
+            <div class="radar-ticks-ring"></div>
+
+            <!-- SVG Progress Dial -->
+            <svg class="dial-svg" viewBox="0 0 240 240">
+              <circle class="dial-track" cx="120" cy="120" r="95"></circle>
+              <circle id="dialProgress" class="dial-meter" cx="120" cy="120" r="95"></circle>
+            </svg>
+
+            <!-- Core Counter Elements -->
+            <div class="dial-core-content">
+              <span class="core-subtext">ฟื้นสติอัตโนมัติใน</span>
+              <div class="timer-display">
+                <span id="timerMin">05</span><span class="timer-sep">:</span><span id="timerSec">00</span>
+              </div>
+              <span class="core-respawn-label">RESPAWN IN</span>
+              
+              <div class="vitals-live">
+                <span class="heart-pulse-icon">❤️</span>
+                <span id="bpmText" class="bpm-text">42 BPM</span>
+                <span class="vitals-status">ชีพจรต่ำ</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT MODULE: สถานะร่างกาย // BODY STATUS -->
+        <aside class="hud-panel panel-right">
+          <div class="panel-header">
+            <div class="panel-badge-icon">▲</div>
+            <span class="panel-title">สถานะร่างกาย</span>
+            <div class="tech-slashes">///////</div>
+          </div>
+          <div class="panel-body body-status-content">
+            <!-- Human Anatomy Wireframe with Laser Scanner -->
+            <div class="anatomy-view">
+              <div class="laser-scanner"></div>
+              
+              <!-- Injury Beacon Dots -->
+              <div class="distress-beacon beacon-head" title="บาดเจ็บที่ศีรษะ"></div>
+              <div class="distress-beacon beacon-chest" title="ชีพจรหัวใจอ่อนแรง"></div>
+              <div class="distress-beacon beacon-abdomen" title="เสียเลือดในช่องท้อง"></div>
+              <div class="distress-beacon beacon-leg-l" title="ขาซ้ายบาดเจ็บ"></div>
+              <div class="distress-beacon beacon-leg-r" title="ขาขวาบาดเจ็บ"></div>
+
+              <svg class="anatomy-svg" viewBox="0 0 100 200">
+                <!-- Futuristic Human Silhouette Path -->
+                <path class="silhouette-path" d="
+                  M50 15 
+                  C44 15 40 19 40 25 
+                  C40 31 43 35 46 37 
+                  L44 42 
+                  C35 44 26 50 23 58 
+                  L18 80 
+                  C17 84 21 86 24 84 
+                  L28 66 
+                  L30 98 
+                  C30 102 34 104 36 102 
+                  L39 82 
+                  L39 120 
+                  L34 175 
+                  C33 182 41 185 43 178 
+                  L47 130 
+                  L49 130 
+                  L53 178 
+                  C55 185 63 182 62 175 
+                  L57 120 
+                  L57 82 
+                  L60 102 
+                  C62 104 66 102 66 98 
+                  L68 66 
+                  L72 84 
+                  C75 86 79 84 78 80 
+                  L73 58 
+                  C70 50 61 44 52 42 
+                  L50 37 
+                  C53 35 56 31 56 25 
+                  C56 19 52 15 50 15 Z" />
+              </svg>
+            </div>
+
+            <!-- Vital Bars & Status Details -->
+            <div class="anatomy-stats">
+              <div class="stat-group">
+                <div class="stat-label-row">
+                  <span class="stat-icon heart-icon">🩸</span>
+                  <span class="stat-name">เลือด (HP)</span>
+                  <span id="hpPercent" class="stat-val critical-val">0 %</span>
+                </div>
+                <div class="stat-progress-bar">
+                  <div id="hpFill" class="stat-fill-hp" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div class="stat-group">
+                <div class="stat-label-row">
+                  <span class="stat-icon armor-icon">🛡️</span>
+                  <span class="stat-name">เกราะ (Armor)</span>
+                  <span id="armorPercent" class="stat-val zero-val">0 %</span>
+                </div>
+                <div class="stat-progress-bar">
+                  <div id="armorFill" class="stat-fill-armor" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div class="injury-condition-box">
+                <span class="condition-icon">🩹</span>
+                <div class="condition-desc">
+                  <span class="cond-sub">อาการบาดเจ็บ</span>
+                  <strong class="cond-status">บาดเจ็บสาหัส</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+
+      <!-- ACTIVE CPR RESUSCITATION POPUP CARD (Appears when teammate is reviving) -->
+      <section id="reviveBox" class="revive-status-bar" hidden>
+        <div class="revive-glow-badge">✚ CPR</div>
+        <div class="revive-meta">
+          <span class="revive-main-title">กำลังได้รับการปฐมพยาบาลและชุบชีวิต...</span>
+          <span id="rescuerName" class="rescuer-tag">เพื่อนร่วมทีมกำลังทำ CPR และห้ามเลือดให้คุณ</span>
+        </div>
+        <div class="revive-meter-wrap">
+          <div class="revive-track">
+            <div id="reviveBar" class="revive-progress-fill" style="width: 0%"></div>
+          </div>
+          <span id="revivePercent" class="revive-pc">0%</span>
+        </div>
+      </section>
+
+      <!-- Bottom Action Dock (3 Centered Buttons) -->
+      <footer class="action-dock">
+        <!-- Button 1: Call Help / Revive Prompt -->
+        <div class="dock-btn btn-call" id="callBtn">
+          <span class="dock-key">Y</span>
+          <span class="dock-icon">✚</span>
+          <div class="dock-text-wrap">
+            <strong class="dock-title">เรียกแพทย์</strong>
+            <span class="dock-sub">CALL MEDIC</span>
+          </div>
+        </div>
+
+        <!-- Button 2: Waiting Clock -->
+        <div class="dock-btn btn-wait" id="waitBtn">
+          <span class="dock-icon">🛌</span>
+          <div class="dock-text-wrap">
+            <strong class="dock-title">รอพยาบาล</strong>
+            <span class="dock-sub">RESPAWN ( <span id="dockCountdown">05:00</span> )</span>
+          </div>
+        </div>
+
+        <!-- Button 3: Give Up / Respawn At Hospital -->
+        <button type="button" class="dock-btn btn-giveup" id="giveupBtn">
+          <span class="dock-key key-danger">H</span>
+          <span class="dock-icon">🏠</span>
+          <div class="dock-text-wrap">
+            <strong class="dock-title">กลับฐาน</strong>
+            <span class="dock-sub">RESPAWN AT HOSPITAL</span>
+          </div>
+        </button>
+      </footer>
+
+      <!-- Bottom Hint -->
+      <div class="footer-hint">
+        <span class="hint-pulse">⚡</span>
+        <span>กด <b>[H]</b> เพื่อขอยอมแพ้และไปเกิดใหม่ทันที หรือรอเพื่อนเข้าใกล้ในระยะ 2.8 เมตรแล้วกด <b>[Y]</b></span>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="app.js?v=6"></script>
+</body>
+</html>

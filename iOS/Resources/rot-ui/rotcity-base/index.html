@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ROT CITY — แผงก่อสร้างฐาน</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="shell" class="shell" aria-hidden="true">
+    <div class="frame-rivets" aria-hidden="true">
+      <i style="left:-6px;top:-6px"></i><i style="right:-6px;top:-6px"></i>
+      <i style="left:-6px;bottom:-6px"></i><i style="right:-6px;bottom:-6px"></i>
+    </div>
+    <header class="head">
+      <div class="head-left">
+        <span class="badge">BASE // BUILD</span>
+        <h1>แผงก่อสร้างฐาน</h1>
+        <p id="subOwner" class="sub">—</p>
+      </div>
+      <div class="head-right">
+        <div class="meter" title="จำนวนวัตถุในฐาน">
+          <span id="objUsed">0</span><span class="dim">/</span><span id="objMax">40</span>
+          <small>ชิ้นส่วน</small>
+        </div>
+        <button type="button" id="btnClose" class="btn icon" title="ปิด">✕</button>
+      </div>
+    </header>
+
+    <div class="body">
+      <aside class="side">
+        <p class="side-label">หมวด</p>
+        <button type="button" class="cat active" data-cat="all">ทั้งหมด</button>
+        <button type="button" class="cat" data-cat="struct">โครงสร้าง</button>
+        <button type="button" class="cat" data-cat="door">ประตู / หน้าต่าง</button>
+        <button type="button" class="cat" data-cat="storage">เก็บของ</button>
+        <div class="side-foot">
+          <button type="button" id="btnRemove" class="btn warn">โหมดรื้อใกล้ตัว</button>
+        </div>
+      </aside>
+
+      <main class="grid-wrap">
+        <div id="grid" class="grid"></div>
+        <p id="emptyHint" class="hint hidden">ไม่มีชิ้นส่วนในหมวดนี้</p>
+      </main>
+
+      <section class="detail">
+        <h2 id="dName">เลือกชิ้นส่วน</h2>
+        <p id="dDesc" class="desc">คลิกการ์ดด้านซ้ายเพื่อดูวัตถุดิบ</p>
+        <ul id="dCost" class="cost-list"></ul>
+        <p id="dStatus" class="status"></p>
+        <button type="button" id="btnPlace" class="btn primary" disabled>วางชิ้นนี้</button>
+      </section>
+    </div>
+
+    <footer class="foot">
+      <div id="mats" class="mats"></div>
+      <p class="foot-hint">ยืนในรัศมีฐานตัวเอง · วางข้างหน้าตัว · ESC ปิด</p>
+    </footer>
+  </div>
+  <script src="../rotcity-shared/item-icons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROT CITY • pinkFrog Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --pf-bg: rgba(8, 8, 10, 0.74);
+      --pf-border: rgba(255, 255, 255, 0.10);
+      --pf-text: #ffffff;
+      --pf-muted: #9a9aa2;
+      --pf-accent: #38bdf8;
+      --pf-fs: 13px;
+    }
+    body.theme-cyber {
+      --pf-bg: rgba(9, 17, 28, 0.82);
+      --pf-border: rgba(56, 189, 248, 0.28);
+      --pf-accent: #38bdf8;
+    }
+    body.theme-light {
+      --pf-bg: rgba(241, 245, 249, 0.88);
+      --pf-border: rgba(15, 23, 42, 0.16);
+      --pf-text: #0f172a;
+      --pf-muted: #475569;
+      --pf-accent: #0284c7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
+      background: transparent !important;
+      font-family: 'Noto Sans Thai', Inter, 'Segoe UI', sans-serif;
+      color: var(--pf-text);
+      user-select: none;
+      pointer-events: none;
+    }
+    .hidden { display: none !important; }
+
+    /* Chat Container */
+    .hud {
+      position: fixed;
+      top: 16px; left: 16px;
+      width: 390px; max-width: 92vw;
+      display: flex; flex-direction: column; gap: 6px;
+      transition: opacity 0.25s ease;
+    }
+    .hud.pos-tr { top: 16px; left: auto; right: 16px; }
+    .hud.pos-bl { top: auto; bottom: 16px; left: 16px; }
+    .hud.pos-br { top: auto; bottom: 16px; left: auto; right: 16px; }
+    .hud.faded { opacity: 0; }
+    .hud.input-open { opacity: 1 !important; pointer-events: auto; }
+
+    .feed {
+      display: flex; flex-direction: column; gap: 6px;
+      max-height: 310px; overflow-y: auto;
+      padding-right: 2px;
+    }
+    .feed::-webkit-scrollbar { width: 4px; }
+    .feed::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 4px; }
+
+    .card {
+      width: 100%;
+      padding: 7px 11px 8px;
+      border-radius: 10px;
+      background: var(--pf-bg);
+      border: 1px solid var(--pf-border);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.32);
+      animation: msgIn 0.16s ease-out;
+    }
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .head { display: flex; align-items: center; gap: 7px; }
+    .cat-ic {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #3f3f46; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; overflow: hidden;
+    }
+    .cat-ic img { width: 12px; height: 12px; object-fit: contain; }
+    .cat-ic i { font-size: 9px; }
+    .cat-ic.admin { background: #dc2626; }
+    .cat-ic.me { background: #9333ea; }
+    .cat-ic.do { background: #0284c7; }
+    .cat-ic.globaldo { background: #0d9488; }
+    .cat-ic.anon { background: #334155; }
+    .cat-ic.ooc { background: #52525b; }
+
+    .who { display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1; }
+    .tag {
+      font-size: 11px; font-weight: 800; letter-spacing: .03em; line-height: 1;
+      text-transform: uppercase;
+    }
+    .tag.member { color: #a1a1aa; }
+    .tag.admin { color: #ff4545; }
+    .tag.me { color: #d8b4fe; }
+    .tag.do { color: #7dd3fc; }
+    .tag.globaldo { color: #5eead4; }
+    .tag.anon { color: #94a3b8; }
+    .tag.ooc { color: #cbd5e1; }
+
+    .name {
+      color: var(--pf-text); font-size: var(--pf-fs); font-weight: 700;
+      line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .time { font-size: 10.5px; color: var(--pf-muted); flex-shrink: 0; }
+    .pid { color: #c4c4c8; font-size: 11.5px; font-weight: 600; flex-shrink: 0; }
+    .text {
+      margin: 4px 0 0 25px;
+      color: var(--pf-text);
+      font-size: var(--pf-fs); font-weight: 400; line-height: 1.3;
+      word-break: break-word;
+    }
+
+    /* Input Bar */
+    .input-wrap { display: flex; flex-direction: column; gap: 6px; pointer-events: auto; }
+    .input-card {
+      display: flex; align-items: center; gap: 8px;
+      height: 40px; padding: 0 8px 0 12px;
+      border-radius: 10px; background: var(--pf-bg);
+      border: 1px solid var(--pf-accent);
+      box-shadow: 0 6px 22px rgba(0,0,0,0.45);
+    }
+    .chat-inp {
+      flex: 1; min-width: 0; background: transparent; border: none; outline: none;
+      color: var(--pf-text); font-family: inherit; font-size: 13.5px;
+    }
+    .chat-inp::placeholder { color: rgba(220,220,226,0.48); }
+    .btn-round {
+      width: 26px; height: 26px; border-radius: 50%; border: none;
+      background: #1c1c20; color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .btn-round:hover { background: var(--pf-accent); color: #04121f; }
+    .btn-round img { width: 13px; height: 13px; filter: invert(1); }
+
+    .tabs { display: flex; align-items: center; gap: 10px; padding: 0 2px; }
+    .tab {
+      font-size: 11.5px; font-weight: 800; letter-spacing: .05em;
+      cursor: pointer; padding: 5px 10px; border-radius: 8px;
+      color: var(--pf-muted); border: 1px solid transparent; background: transparent;
+    }
+    .tab.active { color: #fff; background: #111115; border-color: rgba(255,255,255,0.12); }
+    .tab-gear { margin-left: auto; }
+
+    /* Settings Modal */
+    .cfg-bg {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.58);
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: auto; z-index: 40;
+    }
+    .cfg-box {
+      width: 420px; max-width: 92vw;
+      background: #0c0e14; border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 14px; padding: 18px; color: #f8fafc;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.8);
+    }
+    .cfg-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .cfg-hd h3 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .cfg-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px;
+    }
+    .cfg-sel, .cfg-inp {
+      background: #161922; border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; border-radius: 7px; padding: 5px 9px; font-family: inherit; font-size: 12.5px;
+    }
+    .cfg-ft { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+    .cfg-btn {
+      padding: 7px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);
+      background: #181c26; color: #fff; font-weight: 600; font-size: 12.5px; cursor: pointer;
+    }
+    .cfg-btn.save { background: #38bdf8; color: #04121f; border: none; }
+  </style>
+</head>
+<body>
+  <div id="hud" class="hud">
+    <div id="feed" class="feed"></div>
+
+    <div id="inputWrap" class="input-wrap hidden">
+      <div class="input-card">
+        <input id="chatInp" class="chat-inp" type="text" maxlength="128" placeholder="พิมพ์ข้อความ หรือ /me /do /ooc /anon ..." />
+        <button id="btnSend" class="btn-round" title="ส่ง"><img src="./icons/send.svg" alt="" /></button>
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-scope="all">GLOBAL</button>
+        <button class="tab" data-scope="local">LOCAL</button>
+        <button id="btnOpenCfg" class="tab tab-gear" title="ตั้งค่าแชท"><i class="fa-solid fa-gear"></i> ตั้งค่า</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="cfgModal" class="cfg-bg hidden">
+    <div class="cfg-box">
+      <div class="cfg-hd">
+        <h3><i class="fa-solid fa-sliders" style="color:#38bdf8"></i> ตั้งค่า pinkFrog Chat</h3>
+        <button id="btnCloseCfg" class="btn-round"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="cfg-row">
+        <span>ธีมแชท</span>
+        <select id="cfgTheme" class="cfg-sel">
+          <option value="default">Remorse Dark</option>
+          <option value="cyber">Cyber Blue</option>
+          <option value="light">Glass Light</option>
+        </select>
+      </div>
+      <div class="cfg-row">
+        <span>ตำแหน่งกล่องแชท</span>
+        <select id="cfgPos" class="cfg-sel">
+          <option value="tl">บนซ้าย</option>
+          <option value="tr">บนขวา</option>
+          <option value="bl">ล่างซ้าย</option>
+          <option value="br">ล่างขวา</option>
+        </select>
+      </div>
+      <div class="cfg-row">
+        <span>ขนาดตัวอักษร</span>
+        <select id="cfgSize" class="cfg-sel">
+          <option value="11">เล็ก (11px)</option>
+          <option value="13" selected>ปกติ (13px)</option>
+          <option value="15">ใหญ่ (15px)</option>
+        </select>
+      </div>
+      <div class="cfg-row">
+        <span>แสดงเวลาข้อความ</span>
+        <input id="cfgTime" type="checkbox" checked />
+      </div>
+      <div class="cfg-row">
+        <span>จางลงเมื่อไม่มีข้อความ</span>
+        <input id="cfgFade" type="checkbox" checked />
+      </div>
+      <div class="cfg-row" style="border-bottom:none">
+        <span>คำต้องห้าม (คั่นด้วย ,)</span>
+        <input id="cfgBlocked" class="cfg-inp" type="text" placeholder="เช่น word1,word2" style="width:170px" />
+      </div>
+      <div class="cfg-ft">
+        <button id="btnClearFeed" class="cfg-btn">ล้างหน้าจอแชท</button>
+        <button id="btnSaveCfg" class="cfg-btn save">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => document.querySelectorAll(s);
+  const cef = window.cef;
+
+  const CAT_ICON = {
+    admin: './categoryIcons/admin.png',
+    me: './categoryIcons/me.png',
+    do: './categoryIcons/do.png',
+    globaldo: './categoryIcons/globaldo.png',
+    anon: './categoryIcons/anonymous.png',
+  };
+
+  let cfg = Object.assign({
+    theme: 'default',
+    pos: 'tl',
+    size: 13,
+    showTime: true,
+    autoFade: true,
+    blocked: '',
+  }, JSON.parse(localStorage.getItem('rotcity_pfchat_cfg') || '{}'));
+
+  let scope = 'all';
+  let messages = [];
+  let fadeTimer = null;
+
+  function decodeText(str) {
+    if (!str) return '';
+    if (str.includes('%')) {
+      const bytes = [];
+      for (let i = 0; i < str.length; i++) {
+        if (str[i] === '%' && i + 2 < str.length) {
+          const v = parseInt(str.slice(i + 1, i + 3), 16);
+          if (!isNaN(v)) { bytes.push(v); i += 2; continue; }
+        }
+        bytes.push(str.charCodeAt(i) & 0xFF);
+      }
+      return new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(bytes));
+    }
+    return str;
+  }
+
+  function applyCfg() {
+    document.body.classList.remove('theme-cyber', 'theme-light');
+    if (cfg.theme === 'cyber') document.body.classList.add('theme-cyber');
+    else if (cfg.theme === 'light') document.body.classList.add('theme-light');
+
+    const hud = $('#hud');
+    hud.classList.remove('pos-tr', 'pos-bl', 'pos-br');
+    if (cfg.pos !== 'tl') hud.classList.add('pos-' + cfg.pos);
+    document.documentElement.style.setProperty('--pf-fs', cfg.size + 'px');
+
+    $('#cfgTheme').value = cfg.theme;
+    $('#cfgPos').value = cfg.pos;
+    $('#cfgSize').value = String(cfg.size);
+    $('#cfgTime').checked = !!cfg.showTime;
+    $('#cfgFade').checked = !!cfg.autoFade;
+    $('#cfgBlocked').value = cfg.blocked || '';
+  }
+
+  function bumpFade() {
+    const hud = $('#hud');
+    hud.classList.remove('faded');
+    clearTimeout(fadeTimer);
+    if (cfg.autoFade && $('#inputWrap').classList.contains('hidden')) {
+      fadeTimer = setTimeout(() => hud.classList.add('faded'), 10000);
+    }
+  }
+
+  function filterBlocked(txt) {
+    if (!cfg.blocked) return txt;
+    const words = cfg.blocked.split(',').map((w) => w.trim()).filter(Boolean);
+    let out = txt;
+    words.forEach((w) => {
+      const re = new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      out = out.replace(re, '***');
+    });
+    return out;
+  }
+
+  function renderFeed() {
+    const box = $('#feed');
+    box.innerHTML = '';
+    const list = scope === 'local'
+      ? messages.filter((m) => m.cat === 'me' || m.cat === 'do' || m.cat === 'local')
+      : messages;
+
+    list.slice(-30).forEach((m) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const icSrc = CAT_ICON[m.cat];
+      const icHtml = icSrc ? `<img src="${icSrc}" alt="">` : `<i class="fa-solid fa-globe"></i>`;
+      const timeHtml = cfg.showTime ? `<span class="time">${m.time}</span>` : '';
+      const pidHtml = (m.pid >= 0) ? `<span class="pid">${m.pid}</span>` : '';
+      card.innerHTML = `
+        <div class="head">
+          <span class="cat-ic ${m.cat}">${icHtml}</span>
+          <div class="who">
+            <span class="tag ${m.cat}">${m.tag}</span>
+            <span class="name">${m.name}</span>
+          </div>
+          ${timeHtml}
+          ${pidHtml}
+        </div>
+        <div class="text"></div>
+      `;
+      card.querySelector('.text').textContent = filterBlocked(m.text);
+      box.appendChild(card);
+    });
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function pushMsg(cat, tag, name, pid, text) {
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    messages.push({
+      cat: String(cat || 'ooc').toLowerCase(),
+      tag: decodeText(tag || 'CHAT'),
+      name: decodeText(name || ''),
+      pid: Number(pid),
+      text: decodeText(text || ''),
+      time: `${hh}:${mm}`,
+    });
+    if (messages.length > 60) messages.shift();
+    renderFeed();
+    bumpFade();
+  }
+
+  function emit(ev, val) {
+    if (cef && typeof cef.emit === 'function') cef.emit(ev, String(val !== undefined ? val : '1'));
+  }
+
+  function openInput() {
+    $('#inputWrap').classList.remove('hidden');
+    $('#hud').classList.add('input-open');
+    $('#hud').classList.remove('faded');
+    setTimeout(() => $('#chatInp').focus(), 20);
+  }
+
+  function closeInput() {
+    $('#inputWrap').classList.add('hidden');
+    $('#hud').classList.remove('input-open');
+    $('#cfgModal').classList.add('hidden');
+    $('#chatInp').value = '';
+    bumpFade();
+    emit('rotchat.close', '1');
+  }
+
+  function sendChat() {
+    const raw = $('#chatInp').value.trim();
+    if (raw) {
+      emit('rotchat.send', encodeURIComponent(raw));
+    }
+    closeInput();
+  }
+
+  $('#btnSend').onclick = sendChat;
+  $('#chatInp').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); sendChat(); }
+    else if (e.key === 'Escape') { e.preventDefault(); closeInput(); }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !$('#inputWrap').classList.contains('hidden')) closeInput();
+  });
+
+  $$('.tab[data-scope]').forEach((t) => {
+    t.onclick = () => {
+      $$('.tab[data-scope]').forEach((x) => x.classList.remove('active'));
+      t.classList.add('active');
+      scope = t.dataset.scope;
+      renderFeed();
+    };
+  });
+
+  $('#btnOpenCfg').onclick = () => $('#cfgModal').classList.remove('hidden');
+  $('#btnCloseCfg').onclick = () => $('#cfgModal').classList.add('hidden');
+  $('#btnClearFeed').onclick = () => { messages = []; renderFeed(); $('#cfgModal').classList.add('hidden'); };
+  $('#btnSaveCfg').onclick = () => {
+    cfg.theme = $('#cfgTheme').value;
+    cfg.pos = $('#cfgPos').value;
+    cfg.size = parseInt($('#cfgSize').value, 10) || 13;
+    cfg.showTime = $('#cfgTime').checked;
+    cfg.autoFade = $('#cfgFade').checked;
+    cfg.blocked = $('#cfgBlocked').value;
+    localStorage.setItem('rotcity_pfchat_cfg', JSON.stringify(cfg));
+    applyCfg();
+    renderFeed();
+    $('#cfgModal').classList.add('hidden');
+  };
+
+  applyCfg();
+  bumpFade();
+
+  if (cef && typeof cef.on === 'function') {
+    cef.on('rotchat.msg', (cat, tag, name, pid, text) => pushMsg(cat, tag, name, pid, text));
+    cef.on('rotchat.open', () => openInput());
+    cef.on('rotchat.cfg', () => { openInput(); $('#cfgModal').classList.remove('hidden'); });
+    cef.on('rotchat.close', () => {
+      $('#inputWrap').classList.add('hidden');
+      $('#hud').classList.remove('input-open');
+      $('#cfgModal').classList.add('hidden');
+      bumpFade();
+    });
+    emit('rotchat.ready', '1');
+  }
+})();
+</script>
+</body>
+</html>

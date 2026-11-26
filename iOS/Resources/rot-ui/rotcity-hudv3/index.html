@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ROT CITY • Risk HUD V3</title>
+<link rel="stylesheet" href="fontawesome/css/all.min.css" />
+<style>
+  :root {
+    --rh-acc: #38bdf8;
+    --rh-bg: rgba(9, 14, 24, 0.86);
+    --rh-border: rgba(56, 189, 248, 0.30);
+    --rh-text: #f8fafc;
+    --rh-muted: #94a3b8;
+    --rh-scale: 1;
+  }
+  * { box-sizing: border-box; user-select: none; }
+  html, body {
+    margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+    background: transparent !important;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: var(--rh-text);
+    pointer-events: none;
+  }
+  .hidden { display: none !important; }
+
+  .hud-block {
+    position: fixed;
+    transform: scale(var(--rh-scale));
+    transform-origin: top left;
+    transition: box-shadow 0.15s;
+  }
+  body.move-mode .hud-block {
+    pointer-events: auto !important;
+    cursor: grab;
+    outline: 1.5px dashed var(--rh-acc);
+    outline-offset: 4px;
+    border-radius: 10px;
+  }
+  body.move-mode .hud-block:active { cursor: grabbing; }
+
+  /* Top-Right Brand + Stats */
+  .tr-box {
+    top: 14px; right: 16px; transform-origin: top right;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+  }
+  .brand-pill {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 13px; border-radius: 10px;
+    background: var(--rh-bg); border: 1px solid var(--rh-border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  }
+  .brand-pill b { font-size: 14px; letter-spacing: 1px; color: #fff; }
+  .brand-pill span { color: var(--rh-acc); font-weight: 800; }
+  .brand-pill small { display: block; font-size: 10px; color: var(--rh-muted); }
+
+  .stats-row { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 9px; border-radius: 8px; font-size: 11.5px; font-weight: 600;
+    background: var(--rh-bg); border: 1px solid rgba(255,255,255,0.10);
+  }
+  .chip i { color: var(--rh-acc); font-size: 11px; }
+
+  /* Top-Center Compass */
+  .compass {
+    top: 14px; left: 50%; transform: translateX(-50%) scale(var(--rh-scale));
+    transform-origin: top center;
+    display: flex; align-items: center; gap: 10px;
+    padding: 5px 14px; border-radius: 999px;
+    background: var(--rh-bg); border: 1px solid var(--rh-border);
+    font-size: 12px; font-weight: 700;
+  }
+  .cmp-dir { color: var(--rh-acc); min-width: 26px; text-align: center; }
+
+  /* Bottom-Left Status HUD */
+  .bl-box {
+    left: 16px; bottom: 16px; transform-origin: bottom left;
+    display: flex; flex-direction: column; gap: 7px; max-width: 92vw;
+  }
+  .status-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+  .stat-item {
+    display: flex; align-items: center; gap: 7px;
+    padding: 6px 10px; border-radius: 10px;
+    background: var(--rh-bg); border: 1px solid rgba(255,255,255,0.11);
+    min-width: 78px;
+  }
+  .stat-ic {
+    width: 26px; height: 26px; border-radius: 7px;
+    display: grid; place-items: center; font-size: 12px;
+    background: rgba(255,255,255,0.06);
+  }
+  .stat-bar-wrap { flex: 1; min-width: 38px; }
+  .stat-val { font-size: 11.5px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .bar-bg { height: 4px; border-radius: 4px; background: rgba(255,255,255,0.12); overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.25s ease; }
+
+  body.st-diamond .stat-ic { transform: rotate(45deg); border-radius: 5px; }
+  body.st-diamond .stat-ic i { transform: rotate(-45deg); }
+  body.st-line .stat-item { border-radius: 4px; border-left: 3px solid var(--rh-acc); }
+  body.st-tile .stat-item { border-radius: 14px; }
+
+  /* Move Mode Banner */
+  #move-banner {
+    position: fixed; top: 64px; left: 50%; transform: translateX(-50%);
+    background: rgba(11, 17, 30, 0.94); border: 1px solid var(--rh-acc);
+    border-radius: 12px; padding: 8px 14px; display: flex; align-items: center; gap: 10px;
+    pointer-events: auto; z-index: 45; font-size: 12.5px;
+  }
+
+  /* Settings Modal (/hud) */
+  #cfg-bg {
+    position: fixed; inset: 0; background: rgba(4, 8, 16, 0.58);
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: auto; z-index: 40;
+  }
+  .cfg-box {
+    width: 540px; max-width: 94vw; max-height: 90vh; overflow-y: auto;
+    background: #0b111e; border: 1px solid var(--rh-border);
+    border-radius: 16px; padding: 18px 20px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.85);
+  }
+  .cfg-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .cfg-hd h3 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+  .cfg-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+    padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 13px;
+  }
+  .btn {
+    min-height: 34px; padding: 0 13px; border-radius: 9px; border: 1px solid rgba(255,255,255,0.16);
+    background: #18233a; color: #fff; font-weight: 600; font-size: 12.5px; cursor: pointer; font-family: inherit;
+  }
+  .btn.primary { background: var(--rh-acc); color: #04121f; border: none; font-weight: 700; }
+  .btn.danger { background: rgba(239,68,68,0.18); border-color: rgba(239,68,68,0.45); color: #fecaca; }
+  .pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill-opt {
+    padding: 6px 11px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.16);
+    background: #141e33; color: #cbd5e1; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  .pill-opt.active { background: var(--rh-acc); color: #04121f; border-color: var(--rh-acc); font-weight: 700; }
+</style>
+</head>
+<body class="st-diamond">
+  <div id="hud-root" class="hidden">
+    <!-- Top Right -->
+    <div class="hud-block tr-box" id="blk-tr">
+      <div class="brand-pill" id="el-brand">
+        <div>
+          <b>ROT <span>CITY</span></b>
+          <small>RISK HUD V3</small>
+        </div>
+      </div>
+      <div class="stats-row" id="el-stats">
+        <div class="chip"><i class="fa-solid fa-id-badge"></i> <span id="v-id">ID 0</span></div>
+        <div class="chip"><i class="fa-solid fa-users"></i> <span id="v-online">1</span></div>
+        <div class="chip"><i class="fa-solid fa-coins" style="color:#fbbf24"></i> <span id="v-money">0</span></div>
+        <div class="chip"><i class="fa-solid fa-gun"></i> <span id="v-wpn">Fist</span></div>
+      </div>
+    </div>
+
+    <!-- Top Compass -->
+    <div class="hud-block compass" id="blk-cmp">
+      <span class="cmp-dir" id="v-dir">N</span>
+      <span style="opacity:.35">|</span>
+      <span id="v-zone">San Andreas</span>
+    </div>
+
+    <!-- Bottom Left -->
+    <div class="hud-block bl-box" id="blk-bl">
+      <div class="status-grid">
+        <div class="stat-item">
+          <div class="stat-ic" style="color:#ef4444"><i class="fa-solid fa-heart"></i></div>
+          <div class="stat-bar-wrap">
+            <div class="stat-val" id="v-hp">100%</div>
+            <div class="bar-bg"><div class="bar-fill" id="b-hp" style="width:100%;background:#ef4444"></div></div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-ic" style="color:#38bdf8"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="stat-bar-wrap">
+            <div class="stat-val" id="v-arm">0%</div>
+            <div class="bar-bg"><div class="bar-fill" id="b-arm" style="width:0%;background:#38bdf8"></div></div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-ic" style="color:#fb923c"><i class="fa-solid fa-burger"></i></div>
+          <div class="stat-bar-wrap">
+            <div class="stat-val" id="v-hun">100%</div>
+            <div class="bar-bg"><div class="bar-fill" id="b-hun" style="width:100%;background:#fb923c"></div></div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-ic" style="color:#22d3ee"><i class="fa-solid fa-droplet"></i></div>
+          <div class="stat-bar-wrap">
+            <div class="stat-val" id="v-thi">100%</div>
+            <div class="bar-bg"><div class="bar-fill" id="b-thi" style="width:100%;background:#22d3ee"></div></div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-ic" style="color:#a3e635"><i class="fa-solid fa-bolt"></i></div>
+          <div class="stat-bar-wrap">
+            <div class="stat-val" id="v-sta">100%</div>
+            <div class="bar-bg"><div class="bar-fill" id="b-sta" style="width:100%;background:#a3e635"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Move Mode Banner -->
+  <div id="move-banner" class="hidden">
+    <span>ลากกล่อง HUD บนหน้าจอเพื่อย้ายตำแหน่ง</span>
+    <button type="button" class="btn" onclick="resetPositions()">รีเซ็ตตำแหน่ง</button>
+    <button type="button" class="btn primary" onclick="exitMoveMode()">เสร็จสิ้น</button>
+  </div>
+
+  <!-- HUD Settings Modal -->
+  <div id="cfg-bg" class="hidden">
+    <div class="cfg-box">
+      <div class="cfg-hd">
+        <h3><i class="fa-solid fa-sliders" style="color:var(--rh-acc)"></i> ตั้งค่า Risk HUD V3</h3>
+        <button type="button" class="btn danger" onclick="closeCfg()">✕ ปิด</button>
+      </div>
+      <div class="cfg-row">
+        <span>โหมด HUD ที่ใช้งาน</span>
+        <div class="pills">
+          <button type="button" class="pill-opt" data-mode="1" onclick="pickMode(1)">Risk HUD V3</button>
+          <button type="button" class="pill-opt" data-mode="0" onclick="pickMode(0)">HUD เดิม</button>
+        </div>
+      </div>
+      <div class="cfg-row">
+        <span>สไตล์ HUD</span>
+        <div class="pills">
+          <button type="button" class="pill-opt" data-style="diamond" onclick="pickStyle('diamond')">Diamond</button>
+          <button type="button" class="pill-opt" data-style="line" onclick="pickStyle('line')">Line</button>
+          <button type="button" class="pill-opt" data-style="tile" onclick="pickStyle('tile')">Tile</button>
+        </div>
+      </div>
+      <div class="cfg-row">
+        <span>ขนาด HUD</span>
+        <div class="pills">
+          <button type="button" class="pill-opt" data-sc="0.85" onclick="pickScale(0.85)">เล็ก</button>
+          <button type="button" class="pill-opt" data-sc="1" onclick="pickScale(1)">ปกติ</button>
+          <button type="button" class="pill-opt" data-sc="1.15" onclick="pickScale(1.15)">ใหญ่</button>
+          <button type="button" class="pill-opt" data-sc="1.3" onclick="pickScale(1.3)">ใหญ่มาก</button>
+        </div>
+      </div>
+      <div class="cfg-row">
+        <span>สีหลัก</span>
+        <div class="pills">
+          <button type="button" class="pill-opt" data-col="#38bdf8" onclick="pickColor('#38bdf8')" style="color:#38bdf8">ฟ้า</button>
+          <button type="button" class="pill-opt" data-col="#10b981" onclick="pickColor('#10b981')" style="color:#10b981">เขียว</button>
+          <button type="button" class="pill-opt" data-col="#fbbf24" onclick="pickColor('#fbbf24')" style="color:#fbbf24">ทอง</button>
+          <button type="button" class="pill-opt" data-col="#f43f5e" onclick="pickColor('#f43f5e')" style="color:#f43f5e">แดง</button>
+          <button type="button" class="pill-opt" data-col="#a855f7" onclick="pickColor('#a855f7')" style="color:#a855f7">ม่วง</button>
+          <input id="c-color" type="color" value="#38bdf8" oninput="pickColor(this.value)" />
+        </div>
+      </div>
+      <div class="cfg-row">
+        <span>แสดงชิ้นส่วนบนจอ</span>
+        <div class="pills">
+          <button type="button" class="pill-opt" id="tg-brand" onclick="toggleEl('brand')">ชื่อเซิร์ฟ</button>
+          <button type="button" class="pill-opt" id="tg-stats" onclick="toggleEl('stats')">ID / เงิน / ปืน</button>
+          <button type="button" class="pill-opt" id="tg-cmp" onclick="toggleEl('compass')">เข็มทิศ</button>
+          <button type="button" class="pill-opt" id="tg-needs" onclick="toggleEl('needs')">หลอดสถานะ</button>
+        </div>
+      </div>
+      <div class="cfg-row" style="border-bottom:none">
+        <span>จัดตำแหน่งหน้าจอ</span>
+        <div class="pills">
+          <button type="button" class="btn" onclick="enterMoveMode()"><i class="fa-solid fa-arrows-up-down-left-right"></i> ย้ายตำแหน่ง HUD</button>
+          <button type="button" class="btn" onclick="resetPositions()">รีเซ็ตตำแหน่ง</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
+        <button type="button" class="btn primary" onclick="saveCfg()">บันทึกและใช้งาน</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const cef = window.cef;
+
+  let cfg = Object.assign({
+    mode: 0, style: 'diamond', color: '#38bdf8', scale: 1,
+    compass: true, brand: true, stats: true, needs: true,
+    pos: {}
+  }, JSON.parse(localStorage.getItem('rotcity_hudv3_ui') || '{}'));
+
+  function emit(ev, val) {
+    if (cef && typeof cef.emit === 'function') cef.emit(ev, String(val !== undefined ? val : '1'));
+  }
+
+  function applyPositions() {
+    ['blk-tr', 'blk-cmp', 'blk-bl'].forEach((id) => {
+      const el = $('#' + id);
+      const p = cfg.pos && cfg.pos[id];
+      if (p && p.left != null && p.top != null) {
+        el.style.left = p.left + 'px';
+        el.style.top = p.top + 'px';
+        el.style.right = 'auto';
+        el.style.bottom = 'auto';
+        el.style.transform = `scale(${cfg.scale || 1})`;
+      } else {
+        el.style.left = ''; el.style.top = ''; el.style.right = ''; el.style.bottom = ''; el.style.transform = '';
+      }
+    });
+  }
+
+  function applyCfg() {
+    document.body.classList.remove('st-diamond', 'st-line', 'st-tile');
+    document.body.classList.add('st-' + (cfg.style || 'diamond'));
+    document.documentElement.style.setProperty('--rh-acc', cfg.color || '#38bdf8');
+    document.documentElement.style.setProperty('--rh-scale', cfg.scale || 1);
+
+    $('#hud-root').classList.toggle('hidden', !cfg.mode);
+    $('#el-brand').classList.toggle('hidden', !cfg.brand);
+    $('#el-stats').classList.toggle('hidden', !cfg.stats);
+    $('#blk-cmp').classList.toggle('hidden', !cfg.compass);
+    $('#blk-bl').classList.toggle('hidden', !cfg.needs);
+    $('#c-color').value = cfg.color || '#38bdf8';
+
+    document.querySelectorAll('.pill-opt[data-mode]').forEach((b) => b.classList.toggle('active', Number(b.dataset.mode) === (cfg.mode ? 1 : 0)));
+    document.querySelectorAll('.pill-opt[data-style]').forEach((b) => b.classList.toggle('active', b.dataset.style === (cfg.style || 'diamond')));
+    document.querySelectorAll('.pill-opt[data-sc]').forEach((b) => b.classList.toggle('active', Math.abs(parseFloat(b.dataset.sc) - (cfg.scale || 1)) < 0.02));
+    document.querySelectorAll('.pill-opt[data-col]').forEach((b) => b.classList.toggle('active', b.dataset.col.toLowerCase() === (cfg.color || '#38bdf8').toLowerCase()));
+    $('#tg-brand').classList.toggle('active', !!cfg.brand);
+    $('#tg-stats').classList.toggle('active', !!cfg.stats);
+    $('#tg-cmp').classList.toggle('active', !!cfg.compass);
+    $('#tg-needs').classList.toggle('active', !!cfg.needs);
+    applyPositions();
+  }
+
+  window.pickMode = (m) => { cfg.mode = Number(m) ? 1 : 0; applyCfg(); };
+  window.pickStyle = (s) => { cfg.style = s; applyCfg(); };
+  window.pickScale = (sc) => { cfg.scale = parseFloat(sc) || 1; applyCfg(); };
+  window.pickColor = (c) => { cfg.color = c; applyCfg(); };
+  window.toggleEl = (k) => { cfg[k] = !cfg[k]; applyCfg(); };
+
+  window.enterMoveMode = () => {
+    cfg.mode = 1;
+    applyCfg();
+    $('#cfg-bg').classList.add('hidden');
+    $('#move-banner').classList.remove('hidden');
+    document.body.classList.add('move-mode');
+  };
+  window.exitMoveMode = () => {
+    document.body.classList.remove('move-mode');
+    $('#move-banner').classList.add('hidden');
+    $('#cfg-bg').classList.remove('hidden');
+    localStorage.setItem('rotcity_hudv3_ui', JSON.stringify(cfg));
+  };
+  window.resetPositions = () => {
+    cfg.pos = {};
+    localStorage.setItem('rotcity_hudv3_ui', JSON.stringify(cfg));
+    applyPositions();
+  };
+
+  // Drag handler for Move Mode (mouse + touch)
+  ['blk-tr', 'blk-cmp', 'blk-bl'].forEach((id) => {
+    const el = $('#' + id);
+    let dragging = false, dx = 0, dy = 0;
+    const start = (cx, cy) => {
+      if (!document.body.classList.contains('move-mode')) return;
+      dragging = true;
+      const r = el.getBoundingClientRect();
+      dx = cx - r.left; dy = cy - r.top;
+    };
+    const move = (cx, cy) => {
+      if (!dragging) return;
+      const nx = Math.max(0, Math.min(window.innerWidth - 80, cx - dx));
+      const ny = Math.max(0, Math.min(window.innerHeight - 40, cy - dy));
+      cfg.pos[id] = { left: Math.round(nx), top: Math.round(ny) };
+      applyPositions();
+    };
+    const end = () => { dragging = false; };
+    el.addEventListener('mousedown', (e) => { start(e.clientX, e.clientY); e.preventDefault(); });
+    document.addEventListener('mousemove', (e) => move(e.clientX, e.clientY));
+    document.addEventListener('mouseup', end);
+    el.addEventListener('touchstart', (e) => { if (e.touches.length) start(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
+    document.addEventListener('touchmove', (e) => { if (e.touches.length) move(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
+    document.addEventListener('touchend', end);
+  });
+
+  window.closeCfg = () => {
+    document.body.classList.remove('move-mode');
+    $('#move-banner').classList.add('hidden');
+    $('#cfg-bg').classList.add('hidden');
+    emit('rothudv3.close', '1');
+  };
+  window.saveCfg = () => {
+    localStorage.setItem('rotcity_hudv3_ui', JSON.stringify(cfg));
+    applyCfg();
+    emit('rothudv3.save', `${cfg.mode}|${cfg.style}|${cfg.color}|${cfg.compass ? 1 : 0}`);
+    window.closeCfg();
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (document.body.classList.contains('move-mode')) window.exitMoveMode();
+      else if (!$('#cfg-bg').classList.contains('hidden')) window.closeCfg();
+    }
+  });
+
+  applyCfg();
+
+  if (cef && typeof cef.on === 'function') {
+    cef.on('rothudv3.cfg', (mode, style, color, cmp) => {
+      cfg.mode = Number(mode) ? 1 : 0;
+      if (style) cfg.style = style;
+      if (color) cfg.color = color;
+      cfg.compass = !!Number(cmp);
+      localStorage.setItem('rotcity_hudv3_ui', JSON.stringify(cfg));
+      applyCfg();
+    });
+    cef.on('rothudv3.openCfg', () => {
+      applyCfg();
+      $('#cfg-bg').classList.remove('hidden');
+    });
+    cef.on('rothudv3.data', (id, online, hp, arm, hun, thi, sta, money, wpn, dir, zone) => {
+      const clamp = (v) => Math.max(0, Math.min(100, Number(v) || 0));
+      $('#v-id').textContent = `ID ${id}`;
+      $('#v-online').textContent = String(online);
+      $('#v-money').textContent = String(money);
+      $('#v-wpn').textContent = String(wpn || 'Fist');
+      $('#v-dir').textContent = String(dir || 'N');
+      $('#v-zone').textContent = String(zone || 'San Andreas');
+
+      const pHp = clamp(hp), pArm = clamp(arm), pHun = clamp(hun), pThi = clamp(thi), pSta = clamp(sta);
+      $('#v-hp').textContent = pHp + '%'; $('#b-hp').style.width = pHp + '%';
+      $('#v-arm').textContent = pArm + '%'; $('#b-arm').style.width = pArm + '%';
+      $('#v-hun').textContent = pHun + '%'; $('#b-hun').style.width = pHun + '%';
+      $('#v-thi').textContent = pThi + '%'; $('#b-thi').style.width = pThi + '%';
+      $('#v-sta').textContent = pSta + '%'; $('#b-sta').style.width = pSta + '%';
+    });
+    cef.on('wardrobe:apply_outfit', (jsonStr) => {
+      try {
+        const d = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;
+        if (!d) return;
+        const sex = Number(d.sex) ? 1 : 0;
+        cef.emit('skin:beginPreview', String(sex));
+        cef.emit('skin:changeSex', sex);
+        const models = Array.isArray(d.models) ? d.models : [];
+        const texs = Array.isArray(d.texs) ? d.texs : [];
+        const colors = Array.isArray(d.colors) ? d.colors : [];
+        for (let s = 0; s < 12; s++) {
+          const m = Number(models[s]) || 0;
+          const t = Number(texs[s]) || 0;
+          const c = colors[s] !== undefined ? Number(colors[s]) : 255;
+          cef.emit('skin:previewPart', `${s},0,${m}`);
+          if (m > 0) {
+            cef.emit('skin:previewPart', `${s},1,${t}`);
+            cef.emit('skin:previewPart', `${s},2,${c}`);
+          }
+        }
+        cef.emit('skin:finishPreview', '1');
+      } catch (e) {}
+    });
+    emit('rothudv3.ready', '1');
+  }
+})();
+</script>
+</body>
+</html>

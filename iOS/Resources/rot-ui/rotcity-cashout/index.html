@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ROT CITY - Play-to-Earn Cashout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="cashout-modal">
+    <header class="cashout-header">
+      <div class="header-title">
+        <span class="icon">💰</span>
+        <div>
+          <h2>ระบบถอนเงินจริง (CASHOUT REWARDS)</h2>
+          <p class="subtitle">แลกเปลี่ยนไบโอคอร์ (Bio-Core) เป็นเงินบาทเข้าบัญชีธนาคารหรือพร้อมเพย์</p>
+        </div>
+      </div>
+      <button class="btn-close" id="btn-close">✕</button>
+    </header>
+
+    <div class="rates-banner">
+      <div class="rate-card">
+        <span class="rate-label">ยอดไบโอคอร์ของคุณ</span>
+        <span class="rate-val highlight-cp" id="my-cp-val">0 CP</span>
+      </div>
+      <div class="rate-card">
+        <span class="rate-label">อัตราแลกเปลี่ยน</span>
+        <span class="rate-val">1 CP = 1.00 บาท</span>
+      </div>
+      <div class="rate-card">
+        <span class="rate-label">ถอนขั้นต่ำ / ค่าธรรมเนียม</span>
+        <span class="rate-val">100 CP / 15%</span>
+      </div>
+    </div>
+
+    <main class="cashout-body">
+      <!-- Step 1: CP Amount -->
+      <div class="form-group">
+        <label>1. ระบุจำนวนไบโอคอร์ (CP) ที่ต้องการถอน:</label>
+        <div class="input-with-calc">
+          <input type="number" id="input-cp" min="100" placeholder="ขั้นต่ำ 100 CP">
+          <div class="calc-box">
+            <span>เงินจริงที่จะได้รับ: </span>
+            <strong class="highlight-thb" id="calc-baht">0 บาท</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Bank / Channel -->
+      <div class="form-group">
+        <label>2. เลือกธนาคาร / ช่องทางรับเงิน:</label>
+        <select id="select-bank">
+          <option value="พร้อมเพย์ (PromptPay)">พร้อมเพย์ (PromptPay)</option>
+          <option value="ธนาคารกสิกรไทย (KBank)">ธนาคารกสิกรไทย (KBank)</option>
+          <option value="ธนาคารไทยพาณิชย์ (SCB)">ธนาคารไทยพาณิชย์ (SCB)</option>
+          <option value="ธนาคารกรุงไทย (KTB)">ธนาคารกรุงไทย (KTB)</option>
+          <option value="ธนาคารกรุงเทพ (BBL)">ธนาคารกรุงเทพ (BBL)</option>
+          <option value="ธนาคารกรุงศรีอยุธยา (BAY)">ธนาคารกรุงศรีอยุธยา (BAY)</option>
+          <option value="ธนาคารทหารไทยธนชาต (TTB)">ธนาคารทหารไทยธนชาต (TTB)</option>
+          <option value="ทรูมันนี่ วอลเล็ท (TrueMoney Wallet)">ทรูมันนี่ วอลเล็ท (TrueMoney Wallet)</option>
+        </select>
+      </div>
+
+      <!-- Step 3: Account Number -->
+      <div class="form-group">
+        <label>3. เลขที่บัญชีธนาคาร / เบอร์พร้อมเพย์:</label>
+        <input type="text" id="input-acc-num" placeholder="เช่น 0812345678 หรือ 123-4-56789-0">
+      </div>
+
+      <!-- Step 4: Account Name -->
+      <div class="form-group">
+        <label>4. ชื่อ-นามสกุลจริง เจ้าของบัญชี:</label>
+        <input type="text" id="input-acc-name" placeholder="ชื่อ นามสกุล (ต้องตรงกับบัญชี)">
+      </div>
+    </main>
+
+    <footer class="cashout-footer">
+      <p class="notice-text">⚠️ แอดมินจะตรวจสอบประวัติการได้มาของพอยท์และดำเนินการโอนเงินภายใน 24 ชั่วโมง</p>
+      <div class="footer-buttons">
+        <button class="btn-cancel" id="btn-cancel">ยกเลิก</button>
+        <button class="btn-submit" id="btn-submit">ยืนยันการขอถอนเงิน</button>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const inputCp = document.getElementById("input-cp");
+    const calcBaht = document.getElementById("calc-baht");
+    const btnSubmit = document.getElementById("btn-submit");
+    const btnClose = document.getElementById("btn-close");
+    const btnCancel = document.getElementById("btn-cancel");
+
+    inputCp.addEventListener("input", () => {
+      const cp = parseInt(inputCp.value, 10) || 0;
+      const fee = Math.floor(cp * 0.15);
+      const baht = Math.max(0, cp - fee);
+      calcBaht.textContent = `${baht.toLocaleString()} บาท`;
+    });
+
+    btnSubmit.addEventListener("click", () => {
+      alert("คำขอนี้ถูกส่งไปยังเซิร์ฟเวอร์แล้ว (รองรับการสั่งการผ่าน Native Dialog หรือ CEF Event)");
+    });
+
+    function closeUI() {
+      if (window.cef && typeof window.cef.emit === "function") {
+        window.cef.emit("rotcashout.close");
+      }
+    }
+    btnClose.addEventListener("click", closeUI);
+    btnCancel.addEventListener("click", closeUI);
+  </script>
+</body>
+</html>

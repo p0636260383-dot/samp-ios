@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROT CITY CEF Check</title>
+<style>
+  body { color: #f1f5f9; font: 16px sans-serif; }
+  section { position: absolute; top: 12%; right: 5%; background: #142531; padding: 12px 16px; border-radius: 8px; }
+  p { margin: 4px 0; }
+</style>
+</head>
+<body>
+<section>
+  <strong>ROT CITY UI</strong>
+  <p id="status">โหลดหน้าได้ กำลังเช็กการส่งข้อมูลกับเซิร์ฟเวอร์…</p>
+  <p>พิมพ์ /cefcheck อีกครั้งเพื่อซ่อน</p>
+</section>
+<script>
+  if (window.cef) {
+    window.cef.on("rotcheck.status", function () {
+      document.getElementById("status").textContent = "รับส่งข้อมูลกับเซิร์ฟเวอร์ได้";
+    });
+    window.cef.emit("rotcheck.ready");
+  }
+</script>
+</body>
+</html>

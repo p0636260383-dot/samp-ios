@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="th">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rot City | กระดานภารกิจ</title>
+<link rel="stylesheet" href="ui.css">
+<main id="board" aria-label="กระดานภารกิจ">
+  <h1>ภารกิจเอาชีวิตรอด</h1>
+  <div class="daily">ปฏิบัติการ <span>// รายวัน</span></div>
+  <nav id="missions" aria-label="รายการภารกิจ"></nav>
+  <section class="detail" aria-labelledby="mission-title">
+    <header><img id="hero" alt=""><h2 id="mission-title"></h2></header>
+    <p id="description"></p>
+    <div class="progress-section">
+      <strong>ความคืบหน้า</strong>
+      <div class="progress-row"><progress id="progress" aria-label="ความคืบหน้า"></progress><b id="count"></b></div>
+    </div>
+    <strong>รางวัล</strong>
+    <div class="rewards" id="rewards"></div>
+  </section>
+  <div class="actions">
+    <button id="accept" type="button">รับภารกิจ</button>
+    <button id="cancel" type="button">ยกเลิก</button>
+  </div>
+  <footer>ROT CITY // กระดานภารกิจ</footer>
+</main>
+<script src="ui.js"></script>
+</html>

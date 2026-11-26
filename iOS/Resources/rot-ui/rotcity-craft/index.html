@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ROT CITY Craft</title>
+<script src="../rotcity-shared/item-icons.js"></script>
+<style>
+:root {
+  --cyan: #18c4e8;
+  --cyan-light: #8ff0ff;
+  --steel: #14313c;
+  --plate: #08151e;
+  --line: #5a7882;
+  --dark: #020e14;
+  --text: #deedf3;
+  --muted: #a2c0cb;
+  --ok: #5dff9a;
+  --bad: #ff6b5a;
+  --warn: #ffb84d;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%;
+  background: transparent;
+  font-family: "Segoe UI", "Tahoma", "Arial", sans-serif;
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+}
+body.hidden { display: none; }
+
+.frame {
+  position: absolute;
+  left: 50%; top: 48%;
+  transform: translate(-50%, -50%);
+  width: min(940px, 94vw);
+  height: min(580px, 88vh);
+  border-radius: 10px;
+  padding: 3px;
+  background:
+    linear-gradient(145deg, #2a4a55, #0a1520 40%, #152830);
+  box-shadow:
+    0 0 0 1px rgba(24,196,232,.2),
+    0 22px 60px rgba(0,0,0,.75),
+    inset 0 0 30px rgba(0,0,0,.4);
+}
+.shell {
+  position: relative;
+  width: 100%; height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  background:
+    linear-gradient(165deg, rgba(8,28,38,.96), rgba(3,12,18,.98)),
+    url("textures/steel-grit.webp") center/cover;
+  border: 1px solid #3c5962;
+}
+.shell::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: url("textures/grime.png") center/cover;
+  opacity: .28; mix-blend-mode: screen;
+}
+.shell::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: url("textures/cracked-glass.svg") right top / 420px no-repeat;
+  opacity: .14;
+}
+.frame-rivets i {
+  position: absolute; z-index: 6; width: 8px; height: 8px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #8e9b97, #26363c 50%, #0b1619);
+  box-shadow: 0 0 0 1px #1a2a30;
+}
+.frame-rivets i:nth-child(1) { top: 10px; left: 10px; }
+.frame-rivets i:nth-child(2) { top: 10px; right: 10px; }
+.frame-rivets i:nth-child(3) { bottom: 10px; left: 10px; }
+.frame-rivets i:nth-child(4) { bottom: 10px; right: 10px; }
+
+.topbar {
+  position: relative; z-index: 4;
+  flex: 0 0 78px;
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 4px ridge #3c5962;
+  background:
+    linear-gradient(90deg, rgba(10,31,41,.96) 0%, rgba(8,24,32,.8) 50%, rgba(6,15,23,.75)),
+    url("textures/skyline.svg") center bottom / 100% auto no-repeat;
+  box-shadow: inset 0 4px 12px rgba(115,164,179,.12), inset 0 -6px 8px rgba(0,0,0,.45);
+}
+.crest {
+  width: 42px; height: 42px;
+  border: 1px solid var(--cyan);
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 800; color: var(--cyan);
+  letter-spacing: 1px;
+  background: rgba(0,30,40,.7);
+  box-shadow: inset 0 0 12px rgba(24,196,232,.2);
+}
+.titles { flex: 1; min-width: 0; }
+.titles h1 {
+  font-size: 14px; letter-spacing: 2.5px; font-weight: 700;
+  color: var(--cyan-light); text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(24,196,232,.35);
+}
+.titles p { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.tabs { display: flex; gap: 6px; }
+.tab {
+  padding: 8px 14px;
+  border: 1px solid #3c5962;
+  background: rgba(0,16,24,.75);
+  color: var(--muted);
+  font-size: 12px; cursor: pointer;
+  border-radius: 3px;
+  letter-spacing: .5px;
+}
+.tab.active {
+  border-color: var(--cyan);
+  color: var(--cyan-light);
+  background: rgba(18,70,90,.5);
+  box-shadow: 0 0 12px rgba(24,196,232,.15), inset 0 0 10px rgba(24,196,232,.1);
+}
+.btn-x {
+  width: 34px; height: 34px;
+  border: 1px solid #5a4040;
+  background: rgba(50,12,12,.55);
+  color: #f8a0a0; cursor: pointer; font-size: 14px; font-weight: 700;
+  border-radius: 3px;
+}
+.btn-x:hover { border-color: #f66; color: #fff; }
+
+.body {
+  position: relative; z-index: 3;
+  flex: 1; min-height: 0;
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+}
+.list {
+  overflow-y: auto;
+  padding: 10px 10px 14px;
+  border-right: 1px solid rgba(60,89,98,.7);
+  background: rgba(0,0,0,.18);
+}
+.list::-webkit-scrollbar { width: 7px; }
+.list::-webkit-scrollbar-thumb {
+  background: linear-gradient(#1a6a80, #0d3a48);
+  border-radius: 4px;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  background:
+    linear-gradient(120deg, rgba(10,28,36,.9), rgba(6,16,22,.88));
+  border: 1px solid rgba(60,89,98,.55);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color .12s, box-shadow .12s;
+}
+.card:hover {
+  border-color: rgba(24,196,232,.45);
+}
+.card.sel {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 1px rgba(24,196,232,.25), inset 0 0 18px rgba(24,196,232,.08);
+}
+.card .ico {
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  background: rgba(0,0,0,.4);
+  border: 1px solid #3c5962;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.card .ico img, .card .ico svg { max-width: 44px; max-height: 44px; }
+.card .meta h3 {
+  font-size: 13px; color: var(--text); font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.card .meta p { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.badge {
+  font-size: 10px; padding: 4px 8px;
+  border: 1px solid; border-radius: 2px;
+  font-weight: 700; letter-spacing: .5px;
+}
+.badge.ok { color: var(--ok); border-color: rgba(93,255,154,.5); background: rgba(20,60,40,.35); }
+.badge.no { color: var(--bad); border-color: rgba(255,107,90,.45); background: rgba(50,15,12,.35); }
+
+.detail {
+  padding: 14px 16px 16px;
+  display: flex; flex-direction: column;
+  background:
+    linear-gradient(180deg, rgba(6,18,26,.55), rgba(2,10,14,.7));
+}
+.detail-head {
+  display: flex; gap: 12px; align-items: center;
+  margin-bottom: 12px;
+}
+.detail-head .big-ico {
+  width: 64px; height: 64px;
+  display: grid; place-items: center;
+  border: 1px solid var(--line);
+  background: rgba(0,0,0,.4);
+  border-radius: 6px;
+  box-shadow: inset 0 0 16px rgba(24,196,232,.08);
+}
+.detail-head .big-ico img, .detail-head .big-ico svg { max-width: 54px; max-height: 54px; }
+.detail h2 {
+  font-size: 16px; color: var(--cyan-light);
+  letter-spacing: .5px; font-weight: 700;
+}
+.detail .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.ings {
+  flex: 1; overflow-y: auto;
+  border: 1px solid rgba(60,89,98,.5);
+  background: rgba(0,0,0,.28);
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 12px;
+  min-height: 120px;
+}
+.ing {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 7px 8px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  background: rgba(8,24,32,.65);
+  border-left: 3px solid var(--line);
+  border-radius: 2px;
+}
+.ing.have { border-left-color: var(--ok); }
+.ing.miss { border-left-color: var(--bad); }
+.ing .ico { width: 36px; height: 36px; display: grid; place-items: center; }
+.ing .ico img, .ing .ico svg { max-width: 30px; max-height: 30px; }
+
+.actions { display: flex; gap: 8px; }
+.btn {
+  flex: 1; padding: 12px;
+  border: 1px solid #1a6a80;
+  background: linear-gradient(180deg, rgba(24,100,120,.55), rgba(8,35,48,.9));
+  color: var(--text); font-size: 13px; font-weight: 700;
+  cursor: pointer; letter-spacing: 1.5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+.btn:disabled {
+  opacity: .38; cursor: not-allowed;
+  border-color: #3a4a50;
+}
+.btn:hover:not(:disabled) {
+  border-color: var(--cyan);
+  box-shadow: 0 0 16px rgba(24,196,232,.22);
+  color: #fff;
+}
+.hint {
+  font-size: 10px; color: #6a8a96;
+  text-align: center; margin-top: 8px;
+  line-height: 1.4;
+}
+.notice {
+  position: absolute; bottom: 16px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  padding: 9px 18px;
+  background: rgba(4,18,26,.95);
+  border: 1px solid var(--cyan);
+  font-size: 12px;
+  opacity: 0; transition: opacity .2s;
+  pointer-events: none;
+  border-radius: 3px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5);
+}
+.notice.show { opacity: 1; }
+</style>
+</head>
+<body class="hidden">
+<div class="frame">
+  <div class="frame-rivets"><i></i><i></i><i></i><i></i></div>
+  <div class="shell">
+    <div class="topbar">
+      <div class="crest">ROT</div>
+      <div class="titles">
+        <h1>Workbench // Craft</h1>
+        <p>โต๊ะคราฟต์ผู้รอดชีวิต · โทนเดียวกับคลัง</p>
+      </div>
+      <div class="tabs">
+        <button class="tab active" id="tabItem" type="button">คราฟของทั่วไป</button>
+        <button class="tab" id="tabWeapon" type="button">คราฟอาวุธ</button>
+        <button class="tab" id="tabVeh" type="button">คราฟรถ</button>
+      </div>
+      <button class="btn-x" id="btnClose" type="button">X</button>
+    </div>
+    <div class="body">
+      <div class="list" id="list"></div>
+      <div class="detail">
+        <div class="detail-head">
+          <div class="big-ico" id="dIcon"></div>
+          <div>
+            <h2 id="dTitle">เลือกสูตร</h2>
+            <div class="sub" id="dSub">วัตถุดิบและผลลัพธ์จะแสดงที่นี่</div>
+          </div>
+        </div>
+        <div class="ings" id="dIngs"></div>
+        <div class="actions">
+          <button class="btn" id="btnCraft" type="button" disabled>Craft</button>
+        </div>
+        <div class="hint">
+          ชื่อภาษาไทย/ไอคอนจาก item-icons.js (UTF-8)<br/>
+          ใส่รูปจริง: ICON_URLS[id] ใน rotcity-shared/item-icons.js
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notice" id="notice"></div>
+<script>
+/**
+ * Server ควรส่งเฉพาะรหัสตัวเลข (ไม่ส่งชื่อไทยจาก Pawn)
+ * rotcraft.recipe args:
+ *   kind, index, can(0/1), resultId, qty, secs, ingsPacked
+ * ingsPacked: "itemId|have|need;itemId|have|need"
+ * สำหรับรถ: resultId = model, name key แยกใน VEH_NAMES
+ */
+const VEH_NAMES = {
+  462: "มอเตอร์ Faggio",
+  461: "มอเตอร์ PCJ-600",
+  404: "รถ Perennial",
+  482: "รถตู้ Burrito",
+  495: "รถ Sandking"
+};
+const VEH_ICONS = {
+  462: "🏍️", 461: "🏍️", 404: "🚗", 482: "🚐", 495: "🚙"
+};
+
+const recipes = { item: [], weapon: [], veh: [] };
+let tab = "item";
+let selected = -1;
+
+function emit(name, ...args) {
+  try {
+    if (typeof cef !== "undefined" && cef.emit) return cef.emit(name, ...args);
+    if (window.cef && window.cef.emit) return window.cef.emit(name, ...args);
+  } catch (e) {}
+}
+
+function showNotice(t) {
+  const n = document.getElementById("notice");
+  n.textContent = t || "";
+  n.classList.add("show");
+  clearTimeout(showNotice._t);
+  showNotice._t = setTimeout(() => n.classList.remove("show"), 2200);
+}
+
+function itemName(id) {
+  if (window.RotItems && RotItems.getName) return RotItems.getName(id);
+  return "Item #" + id;
+}
+function itemIcon(id, size) {
+  if (window.RotItems && RotItems.iconHTML) return RotItems.iconHTML(id, size || 40);
+  return "•";
+}
+function vehName(model) {
+  return VEH_NAMES[model] || ("ยานพาหนะ #" + model);
+}
+
+function renderList() {
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  const arr = recipes[tab] || [];
+  arr.forEach((r, i) => {
+    const el = document.createElement("div");
+    el.className = "card" + (selected === i ? " sel" : "");
+    let title, sub, ico;
+    if (tab === "item" || tab === "weapon") {
+      title = r.name || itemName(r.resultId);
+      sub = itemName(r.resultId) + (r.qty ? (" x" + r.qty) : "");
+      ico = itemIcon(r.resultId, 40);
+    } else {
+      title = r.name || vehName(r.resultId);
+      sub = "Model " + r.resultId;
+      ico = "<span style='font-size:26px'>" + (VEH_ICONS[r.resultId] || "🚗") + "</span>";
+    }
+    el.innerHTML =
+      '<div class="ico">' + ico + '</div>' +
+      '<div class="meta"><h3></h3><p></p></div>' +
+      '<span class="badge ' + (r.can ? "ok" : "no") + '">' + (r.can ? "OK" : "ขาด") + "</span>";
+    el.querySelector("h3").textContent = title;
+    el.querySelector("p").textContent = sub;
+    el.onclick = () => { selected = i; renderList(); renderDetail(); };
+    list.appendChild(el);
+  });
+  if (!arr.length) {
+    list.innerHTML = '<div class="card"><div class="meta"><h3>ยังไม่มีสูตร</h3><p>รอข้อมูลจากเซิร์ฟเวอร์</p></div></div>';
+  }
+}
+
+function renderDetail() {
+  const arr = recipes[tab] || [];
+  const r = arr[selected];
+  const title = document.getElementById("dTitle");
+  const sub = document.getElementById("dSub");
+  const ings = document.getElementById("dIngs");
+  const btn = document.getElementById("btnCraft");
+  const dIcon = document.getElementById("dIcon");
+  if (!r) {
+    title.textContent = "เลือกสูตร";
+    sub.textContent = tab === "veh" ? "คราฟต์รถจะเกิดข้างตัวคุณ" : "คราฟต์ไอเทมเข้ากระเป๋า";
+    ings.innerHTML = "";
+    dIcon.innerHTML = "";
+    btn.disabled = true;
+    return;
+  }
+  if (tab === "item" || tab === "weapon") {
+    title.textContent = r.name || itemName(r.resultId);
+    sub.textContent = itemName(r.resultId) + " x" + (r.qty || 1) + (r.secs ? (" · ~" + r.secs + " วินาที") : "");
+    dIcon.innerHTML = itemIcon(r.resultId, 54);
+  } else {
+    title.textContent = r.name || vehName(r.resultId);
+    sub.textContent = "Model " + r.resultId + " · เกิดข้างตัว";
+    dIcon.innerHTML = "<span style='font-size:32px'>" + (VEH_ICONS[r.resultId] || "🚗") + "</span>";
+  }
+  ings.innerHTML = "";
+  (r.ings || []).forEach(ing => {
+    const row = document.createElement("div");
+    const ok = ing.have >= ing.need;
+    row.className = "ing " + (ok ? "have" : "miss");
+    row.innerHTML =
+      '<div class="ico">' + itemIcon(ing.id, 30) + '</div>' +
+      '<div></div><div></div>';
+    row.children[1].textContent = itemName(ing.id);
+    row.children[2].textContent = ing.have + "/" + ing.need;
+    ings.appendChild(row);
+  });
+  btn.disabled = !r.can;
+}
+
+function setTab(t) {
+  tab = (t === "weapon" || t === "veh") ? t : "item";
+  selected = (recipes[tab] && recipes[tab].length) ? 0 : -1;
+  document.getElementById("tabItem").classList.toggle("active", tab === "item");
+  document.getElementById("tabWeapon").classList.toggle("active", tab === "weapon");
+  document.getElementById("tabVeh").classList.toggle("active", tab === "veh");
+  renderList();
+  renderDetail();
+}
+
+document.getElementById("tabItem").onclick = () => setTab("item");
+document.getElementById("tabWeapon").onclick = () => setTab("weapon");
+document.getElementById("tabVeh").onclick = () => setTab("veh");
+document.getElementById("btnClose").onclick = () => emit("rotcraft.close");
+document.getElementById("btnCraft").onclick = () => {
+  if (selected < 0) return;
+  emit("rotcraft.do", tab, String(selected));
+};
+
+function parseIngs(packed) {
+  const ings = [];
+  String(packed || "").split(";").forEach(p => {
+    if (!p) return;
+    const parts = p.split("|");
+    const id = parseInt(parts[0], 10);
+    if (isNaN(id)) return;
+    ings.push({
+      id: id,
+      have: parseInt(parts[1], 10) || 0,
+      need: parseInt(parts[2], 10) || 0
+    });
+  });
+  return ings;
+}
+
+function onEvent(name, ...args) {
+  if (name === "rotcraft.tab") {
+    setTab(String(args[0] || "item"));
+  }
+  if (name === "rotcraft.open" || name === "rotcraft.openui") {
+    document.body.classList.remove("hidden");
+  }
+  if (name === "rotcraft.closeui") {
+    document.body.classList.add("hidden");
+  }
+  if (name === "rotcraft.begin") {
+    const kind = String(args[0] || "item");
+    recipes[kind] = [];
+  }
+  if (name === "rotcraft.recipe") {
+    // kind, index, can, resultId, qty, secs, ingsPacked [, optional ascii name]
+    const kind = String(args[0] || "item");
+    const idx = parseInt(args[1], 10) || 0;
+    const can = parseInt(args[2], 10) === 1;
+    const resultId = parseInt(args[3], 10) || 0;
+    const qty = parseInt(args[4], 10) || 1;
+    const secs = parseInt(args[5], 10) || 0;
+    const packed = String(args[6] || "");
+    const nameOverride = args[7] != null ? String(args[7]) : "";
+    recipes[kind][idx] = {
+      can: can,
+      resultId: resultId,
+      qty: qty,
+      secs: secs,
+      ings: parseIngs(packed),
+      name: nameOverride
+    };
+  }
+  if (name === "rotcraft.end") {
+    if (selected < 0 && recipes[tab] && recipes[tab].length) selected = 0;
+    renderList();
+    renderDetail();
+    document.body.classList.remove("hidden");
+  }
+  if (name === "rotcraft.notice") {
+    showNotice(String(args[0] || ""));
+  }
+}
+
+if (typeof cef !== "undefined" && cef.on) {
+  ["rotcraft.open","rotcraft.openui","rotcraft.closeui","rotcraft.begin","rotcraft.recipe","rotcraft.end","rotcraft.notice"]
+    .forEach(ev => cef.on(ev, (...a) => onEvent(ev, ...a)));
+}
+window.addEventListener("message", (e) => {
+  if (e.data && e.data.event) onEvent(e.data.event, ...(e.data.args || []));
+});
+
+emit("rotcraft.ready");
+</script>
+</body>
+</html>

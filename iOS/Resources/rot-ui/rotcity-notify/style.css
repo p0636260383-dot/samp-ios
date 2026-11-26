@@ -1,0 +1,288 @@
+/* ==========================================================================
+   ROT CITY - CYBER ITEM NOTIFICATION TOAST SYSTEM
+   Designed to match the high-tech survival metallic HUD
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent !important;
+  font-family: "Kanit", "Prompt", "Segoe UI", Tahoma, sans-serif;
+  pointer-events: none;
+}
+
+/* Container stacked on the right side of the screen */
+.notify-container {
+  position: fixed;
+  right: 25px;
+  top: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 999999;
+}
+
+/* ==========================================================================
+   THEME COLOR SCHEMES
+   ========================================================================== */
+/* 1. RECEIVE (ได้รับไอเทม) - Bright Cyber Cyan */
+.toast-card.theme-receive {
+  --theme-color: #00e5ff;
+  --theme-glow: rgba(0, 229, 255, 0.7);
+  --theme-glow-soft: rgba(0, 229, 255, 0.25);
+  --theme-badge-bg: rgba(0, 45, 68, 0.85);
+  --theme-badge-border: #00e5ff;
+  --frame-filter: none;
+}
+
+/* 2. DROP (ทิ้งไอเทม) - Crimson Coral Red */
+.toast-card.theme-drop {
+  --theme-color: #ff4757;
+  --theme-glow: rgba(255, 71, 87, 0.75);
+  --theme-glow-soft: rgba(255, 71, 87, 0.25);
+  --theme-badge-bg: rgba(68, 16, 22, 0.85);
+  --theme-badge-border: #ff4757;
+  --frame-filter: hue-rotate(165deg) saturate(1.4);
+}
+
+/* 3. USE (ใช้ไอเทม) - Golden Amber / Bright Orange */
+.toast-card.theme-use {
+  --theme-color: #ffa502;
+  --theme-glow: rgba(255, 165, 2, 0.75);
+  --theme-glow-soft: rgba(255, 165, 2, 0.25);
+  --theme-badge-bg: rgba(68, 40, 0, 0.85);
+  --theme-badge-border: #ffa502;
+  --frame-filter: hue-rotate(205deg) saturate(1.4);
+}
+
+/* 4. STORE (เก็บไอเทม / เก็บขึ้นเก็บ) - Deep Electric Sky Blue */
+.toast-card.theme-store {
+  --theme-color: #00a8ff;
+  --theme-glow: rgba(0, 168, 255, 0.75);
+  --theme-glow-soft: rgba(0, 168, 255, 0.25);
+  --theme-badge-bg: rgba(0, 34, 68, 0.85);
+  --theme-badge-border: #00a8ff;
+  --frame-filter: hue-rotate(30deg) saturate(1.3);
+}
+
+/* 5. GIVE (ให้ไอเทม) - Royal Neon Violet / Purple */
+.toast-card.theme-give {
+  --theme-color: #a55eea;
+  --theme-glow: rgba(165, 94, 234, 0.75);
+  --theme-glow-soft: rgba(165, 94, 234, 0.25);
+  --theme-badge-bg: rgba(42, 18, 66, 0.85);
+  --theme-badge-border: #a55eea;
+  --frame-filter: hue-rotate(85deg) saturate(1.4);
+}
+
+/* 6. SELL (ขายไอเทม) - Neon Emerald / Mint Green */
+.toast-card.theme-sell {
+  --theme-color: #2ed573;
+  --theme-glow: rgba(46, 213, 115, 0.75);
+  --theme-glow-soft: rgba(46, 213, 115, 0.25);
+  --theme-badge-bg: rgba(10, 54, 24, 0.85);
+  --theme-badge-border: #2ed573;
+  --frame-filter: hue-rotate(315deg) saturate(1.3);
+}
+
+/* ==========================================================================
+   TOAST CARD LAYOUT
+   ========================================================================== */
+.toast-card {
+  position: relative;
+  width: 380px;
+  height: 85px;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.75));
+  transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.25), opacity 0.35s ease;
+  transform: translateX(120%);
+  opacity: 0;
+}
+
+.toast-card.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast-card.hide {
+  transform: translateX(120%);
+  opacity: 0;
+}
+
+/* Background metallic frame */
+.toast-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  filter: var(--frame-filter);
+  z-index: 1;
+}
+
+/* Hexagon badge on the left */
+.toast-badge {
+  position: absolute;
+  left: 16px;
+  top: 17px;
+  width: 50px;
+  height: 50px;
+  background: var(--theme-badge-bg);
+  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+  border: 1.5px solid var(--theme-badge-border);
+  box-shadow: 0 0 12px var(--theme-glow), inset 0 0 8px var(--theme-glow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+.toast-badge-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px var(--theme-glow));
+}
+
+/* Action title and subtitle */
+.toast-action-info {
+  position: absolute;
+  left: 74px;
+  top: 20px;
+  width: 106px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+}
+
+.toast-action-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 0 10px var(--theme-glow), 0 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.3px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.toast-action-sub {
+  font-size: 8.5px;
+  font-weight: 700;
+  color: rgba(220, 240, 255, 0.7);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-top: 3px;
+  white-space: nowrap;
+}
+
+/* 3D Item graphic floating in center-right */
+.toast-item-slot {
+  position: absolute;
+  left: 182px;
+  top: 10px;
+  width: 56px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.toast-item-img {
+  max-width: 54px;
+  max-height: 58px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.85));
+  animation: floatItem 3s infinite ease-in-out;
+}
+
+/* Item Name in pure Thai */
+.toast-item-name {
+  position: absolute;
+  left: 240px;
+  top: 28px;
+  max-width: 80px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 2;
+}
+
+/* The ONLY Quantity Pill - displays the REAL item amount */
+.toast-qty-pill {
+  position: absolute;
+  right: 20px;
+  top: 22px;
+  min-width: 48px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 13px;
+  background: rgba(4, 18, 28, 0.85);
+  border: 1.5px solid var(--theme-color);
+  box-shadow: 0 0 10px var(--theme-glow), inset 0 0 6px var(--theme-glow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 0 0 8px var(--theme-glow);
+  z-index: 3;
+}
+
+/* Hazard Stripes (Decorative bottom right slashes /////) */
+.toast-stripes {
+  position: absolute;
+  right: 24px;
+  top: 54px;
+  display: flex;
+  gap: 3px;
+  z-index: 2;
+  opacity: 0.85;
+}
+
+.toast-stripes span {
+  width: 4px;
+  height: 8px;
+  background: var(--theme-color);
+  transform: skewX(-25deg);
+  border-radius: 1px;
+  box-shadow: 0 0 6px var(--theme-glow);
+}
+
+/* Keyframes */
+@keyframes floatItem {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.05);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px var(--theme-glow));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px var(--theme-glow));
+  }
+}

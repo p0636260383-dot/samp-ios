@@ -1,0 +1,54 @@
+name: RotCity
+options:
+  bundleIdPrefix: com.rotcity
+  deploymentTarget:
+    iOS: "15.0"
+packages:
+  RotCityCore:
+    path: ..
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.2.0
+    CODE_SIGN_STYLE: Automatic
+targets:
+  RotCity:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      - path: Resources/rot-ui
+        type: folder
+        buildPhase: resources
+      - path: Resources/Brand
+        type: folder
+        buildPhase: resources
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: ROT CITY
+        UILaunchScreen: {}
+        UIRequiresFullScreen: true
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        NSMicrophoneUsageDescription: ใช้ไมโครโฟนสำหรับระบบพูดคุย ROT CITY เมื่อคุณกดพูด
+        NSLocalNetworkUsageDescription: เชื่อมต่อและตรวจสถานะเซิร์ฟเวอร์ SA-MP เดียวกับ Android
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.rotcity.ios
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SUPPORTS_MACCATALYST: NO
+    dependencies:
+      - package: RotCityCore
+        product: RotCityIOS
+schemes:
+  RotCity:
+    build:
+      targets:
+        RotCity: all
+    run:
+      config: Debug
+    archive:
+      config: Release

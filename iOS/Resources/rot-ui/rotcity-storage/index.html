@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ROT CITY Storage</title>
+<script src="../rotcity-shared/item-icons.js"></script>
+<style>
+  :root {
+    --cyan: #18c4e8;
+    --cyan-light: #8ff0ff;
+    --steel: #14313c;
+    --plate: #08151e;
+    --line: #5a7882;
+    --dark: #020e14;
+    --text: #deedf3;
+    --muted: #a2c0c7;
+  }
+  * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+  html, body {
+    margin: 0; width: 100%; height: 100%;
+    background: transparent;
+    font-family: Tahoma, "Noto Sans Thai", Arial, sans-serif;
+    color: var(--text);
+    overflow: hidden;
+  }
+  body.hidden { display: none; }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  #app {
+    pointer-events: auto;
+    width: min(1100px, calc(100vw - 60px));
+    height: min(640px, calc(100vh - 110px));
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 5px solid #293a41;
+    border-top-color: #78878a;
+    border-left-color: #738186;
+    border-right-color: #4e575a;
+    border-bottom-color: #754531;
+    border-radius: 13px 16px 14px 12px;
+    box-shadow:
+      0 0 0 3px #071116, 0 0 0 6px #22272a, 0 0 0 8px #49352d,
+      0 22px 47px rgba(0,0,0,.64),
+      inset 0 0 0 2px #132a33, inset 0 0 33px rgba(0,0,0,.58);
+    background:
+      linear-gradient(125deg, rgba(20,42,49,.90), rgba(2,13,20,.96) 42%, rgba(12,32,41,.96)),
+      url("textures/steel-grit.webp") center/cover;
+  }
+  #app::before {
+    content: "";
+    position: absolute; pointer-events: none; z-index: 9; inset: -5px;
+    border: 1px solid rgba(194,217,213,.49); border-radius: 13px;
+    background:
+      radial-gradient(circle at 8px 8px, #111b1e 0 3px, #8d9994 4px 6px, #1c2021 7px, transparent 8px) top left / 22px 22px no-repeat,
+      radial-gradient(circle at 8px 8px, #111b1e 0 3px, #8d9994 4px 6px, #1c2021 7px, transparent 8px) top right / 22px 22px no-repeat;
+  }
+
+  .frame-rivets { position: absolute; z-index: 11; inset: -17px; pointer-events: none; }
+  .frame-rivets i {
+    position: absolute; width: 26px; height: 26px;
+    border: 3px solid #4e5f60; border-radius: 50%;
+    box-shadow: 0 1px 2px #a5b7b7 inset, 0 2px 7px #020708, 0 0 0 2px #0c1113;
+    background: radial-gradient(circle at 40% 35%, #8e9b97, #26363c 45%, #0b1619 70%);
+  }
+  .frame-rivets i:nth-child(1) { top: 4px; left: 5px; }
+  .frame-rivets i:nth-child(2) { top: 4px; right: 5px; }
+  .frame-rivets i:nth-child(3) { bottom: 4px; left: 5px; }
+  .frame-rivets i:nth-child(4) { bottom: 4px; right: 5px; }
+
+  .grunge {
+    position: absolute; inset: 0; pointer-events: none; z-index: 8;
+    border-radius: 10px; opacity: .4;
+    background: url("textures/grime.png") center/cover;
+    mix-blend-mode: screen;
+  }
+
+  .topbar {
+    position: relative; z-index: 4;
+    flex: 0 0 88px;
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 22px;
+    border-bottom: 5px ridge #3c5962;
+    background:
+      linear-gradient(90deg, rgba(10,31,41,.96) 0%, rgba(8,24,32,.78) 40%, rgba(6,15,23,.7) 100%),
+      url("textures/cracked-glass.svg") right -20px top -40px / 400px auto no-repeat,
+      url("textures/skyline.svg") center bottom / 100% auto no-repeat;
+    box-shadow: inset 0 5px 16px rgba(115,164,179,.15), inset 0 -9px 9px rgba(0,0,0,.5);
+    overflow: hidden;
+  }
+  .topbar::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+    background: repeating-linear-gradient(99deg, #2b2522 0 14px, #805132 18px 23px, #0c1c23 27px 59px);
+    opacity: .8;
+  }
+  .crest {
+    flex: 0 0 58px; height: 58px;
+    display: grid; place-items: center;
+    font: 48px Georgia, serif; color: #41e6ff;
+    border: 2px solid #3d8a9c; border-radius: 5px;
+    background: linear-gradient(140deg, #062737, #07151c);
+    box-shadow: 0 0 0 3px rgba(10,14,17,.8), inset 0 0 22px rgba(23,170,221,.3), 0 0 18px rgba(0,153,203,.18);
+    text-shadow: 0 0 8px #17b6dc;
+  }
+  .headcopy small {
+    font: bold 11px Arial, sans-serif;
+    letter-spacing: 2px; color: #a2c0c7;
+  }
+  .headcopy h1 {
+    margin: 4px 0 0; font-size: 24px; color: #f1f3f2;
+    text-shadow: 0 2px 3px #000;
+  }
+  .header-end {
+    margin-left: auto; display: flex; align-items: center; gap: 18px;
+  }
+  .pulse {
+    font: bold 10px Arial, sans-serif;
+    letter-spacing: 1.2px; color: #6ce5ec;
+    text-shadow: 0 0 7px #03768b;
+  }
+  .pulse i {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: #1ef3ff; box-shadow: 0 0 8px #16d5e5; margin-right: 5px;
+  }
+  .xbtn {
+    width: 40px; height: 38px; border-radius: 4px;
+    background: linear-gradient(142deg, #425159, #111a20 60%);
+    color: #e8fbff; border: 2px outset #6e8890;
+    font-size: 26px; line-height: 26px; cursor: pointer;
+  }
+  .xbtn:hover { border-color: #28d4f1; color: white; }
+
+  .status {
+    position: relative; z-index: 4;
+    flex: 0 0 56px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; padding: 8px 14px;
+    background: linear-gradient(180deg, rgba(9,22,26,.98), rgba(26,42,48,.95));
+    border-bottom: 3px solid #31444b;
+  }
+  .stat {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 11px;
+    border: 2px solid #435660;
+    border-top-color: #70888c; border-bottom-color: #1c2529;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #1c2d34, #071820 58%);
+    font-size: 12px; color: #c4d3d7;
+  }
+  .stat b { margin-left: auto; color: #edf3f6; white-space: nowrap; }
+  .meter {
+    flex: 1; height: 10px;
+    border: 2px inset #536773;
+    background: #0d151b; overflow: hidden; border-radius: 2px;
+  }
+  .fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(180deg, #b5effb, #00c5ee 38%, #07819c);
+    box-shadow: 0 0 8px #0dbeec;
+  }
+  .stat.stash .fill {
+    background: linear-gradient(180deg, #b5fbe8, #00eeb8 38%, #078c6e);
+  }
+
+  .hint {
+    position: relative; z-index: 4;
+    text-align: center; font-size: 11px; color: #a8c2cc;
+    padding: 6px 12px 2px;
+  }
+  .hint strong { color: var(--cyan-light); }
+
+  .toolbar {
+    position: relative; z-index: 4;
+    display: flex; gap: 8px; justify-content: center;
+    padding: 4px 14px 8px;
+  }
+  .toolbar button {
+    padding: 8px 14px; border-radius: 5px;
+    font: bold 12px Tahoma, Arial;
+    color: #d5e2e3;
+    border: 2px outset #5f767b;
+    background: linear-gradient(180deg, #384a51, #101e24);
+    cursor: pointer;
+  }
+  .toolbar button.primary {
+    color: #071b24;
+    border: 2px outset #63dff5;
+    background: linear-gradient(180deg, #0c93b4, #14cbee 42%, #08718e);
+    text-shadow: 0 1px #84e1f4;
+  }
+  .toolbar button:disabled { opacity: .42; cursor: not-allowed; filter: grayscale(.5); }
+  .toolbar button:not(:disabled):hover { filter: brightness(1.15); }
+
+  .layout {
+    position: relative; z-index: 4;
+    flex: 1; min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 6px 12px 8px;
+    background: linear-gradient(110deg, rgba(9,25,34,.66), rgba(6,14,20,.68));
+  }
+  .panel {
+    min-height: 0;
+    display: flex; flex-direction: column;
+    border: 3px ridge #586d76;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 2px #0b2029, 0 1px 4px #000b;
+    background:
+      linear-gradient(90deg, rgba(4,17,25,.93), rgba(7,27,39,.91)),
+      url("textures/steel-grit.webp") center/cover;
+    overflow: hidden;
+  }
+  .panel.drop-hover {
+    border-color: #2ce5ff;
+    box-shadow: 0 0 12px rgba(23,200,255,.45), inset 0 0 0 2px #0b2029;
+  }
+  .panel-head {
+    flex: 0 0 36px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 12px;
+    border-bottom: 2px solid #1a343a;
+    background: linear-gradient(105deg, #c0b9ae, #707c7d 70%, #202b30);
+    color: #142027; font-weight: 900; font-size: 13px;
+  }
+  .panel-head span { font-weight: 600; font-size: 10px; color: #1a2a30; opacity: .85; }
+
+  .grid {
+    flex: 1; min-height: 0;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    grid-auto-rows: 100px;
+    gap: 8px;
+    padding: 10px 8px 16px;
+    align-content: start;
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(6,18,26,.04), rgba(2,14,20,.5)),
+      url("textures/hazard.svg") left 4% bottom 6% / 110px 110px no-repeat;
+  }
+  .grid::-webkit-scrollbar { width: 6px; }
+  .grid::-webkit-scrollbar-thumb {
+    background: linear-gradient(#437783, #123c4e);
+    border: 1px solid #152b34;
+  }
+
+  .slot {
+    position: relative;
+    min-width: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 2px; padding: 8px 4px 5px;
+    overflow: hidden;
+    cursor: grab;
+    color: #e6ecec;
+    background:
+      linear-gradient(140deg, rgba(59,77,82,.6), rgba(11,27,34,.87) 60%),
+      url("textures/steel-grit.webp") center/cover;
+    border: 2px outset #60727a;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px #122631, 0 2px 4px #000a;
+    text-align: center;
+  }
+  .slot::after {
+    content: ""; pointer-events: none;
+    position: absolute; inset: 3px;
+    border: 1px solid rgba(169,204,208,.1);
+    border-radius: 3px;
+  }
+  .slot:hover { border-color: #62c5df; background: linear-gradient(140deg, #175266, #071c29); }
+  .slot.selected {
+    border: 2px solid #54e3ff;
+    box-shadow: 0 0 8px rgba(4,198,255,.69), inset 0 0 13px rgba(4,198,255,.25);
+    background: linear-gradient(160deg, rgba(4,112,143,.66), rgba(9,33,45,.95));
+  }
+  .slot.dragging-source { opacity: .3; }
+  .ri-icon {
+    height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    filter: drop-shadow(0 2px 4px #000);
+  }
+  .ri-icon svg { width: 34px; height: 34px; }
+  .ri-icon img { width: 34px; height: 34px; object-fit: contain; }
+  .ri-name {
+    max-width: 100%;
+    font-size: 11px; font-weight: bold;
+    text-shadow: 0 1px 2px black;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .ri-qty { color: #d7edf0; font-size: 11px; }
+  .empty-hint {
+    grid-column: 1 / -1;
+    text-align: center; color: #7a96a0;
+    padding: 48px 8px; font-size: 13px;
+  }
+
+  .tape {
+    position: relative; z-index: 4;
+    height: 11px;
+    background: repeating-linear-gradient(-45deg, rgba(237,183,44,.6) 0 13px, #162129 13px 26px);
+    border-top: 2px solid #4a4132;
+    opacity: .75;
+  }
+  footer {
+    position: relative; z-index: 4;
+    height: 32px; flex: 0 0 32px;
+    padding: 0 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 11px; color: #a7c5cc;
+    border-top: 2px ridge #50666c;
+    background: linear-gradient(180deg, #1b323c, #0b1b25);
+  }
+  footer span { font: 10px Arial; letter-spacing: 1px; color: #a6bec6; }
+
+  #ghost {
+    position: fixed; pointer-events: none; z-index: 100;
+    display: none; min-width: 90px; padding: 8px;
+    background: rgba(8,20,28,.96);
+    border: 2px solid var(--cyan);
+    border-radius: 6px;
+    text-align: center;
+    box-shadow: 0 10px 28px rgba(0,0,0,.55);
+  }
+  #ghost.show { display: block; }
+  #ghost .ri-icon { height: 34px; }
+  #ghost .ri-name { font-size: 10px; margin-top: 3px; }
+
+  .notice {
+    position: fixed; left: 50%; top: 14%;
+    transform: translateX(-50%);
+    background: #102833;
+    border: 1px solid #4589a0;
+    padding: 8px 14px; border-radius: 4px;
+    font-size: 12px; color: #e2f7f9;
+    opacity: 0; pointer-events: none;
+    transition: .15s; z-index: 200;
+  }
+  .notice.show { opacity: 1; }
+</style>
+</head>
+<body class="hidden">
+  <div class="notice" id="notice"></div>
+  <div id="ghost"></div>
+
+  <div id="app">
+    <div class="frame-rivets"><i></i><i></i><i></i><i></i></div>
+    <div class="grunge"></div>
+
+    <header class="topbar">
+      <div class="crest">◇</div>
+      <div class="headcopy">
+        <small>ROT CITY // SECURE STASH</small>
+        <h1>คลังส่วนตัว</h1>
+      </div>
+      <div class="header-end">
+        <div class="pulse"><i></i>SAFE ZONE</div>
+        <button type="button" class="xbtn" id="btnClose">×</button>
+      </div>
+    </header>
+
+    <section class="status">
+      <div class="stat">
+        <label>กระเป๋า</label>
+        <div class="meter"><div class="fill" id="bagBar" style="width:0%"></div></div>
+        <b id="bagW">0.0 / 35.0 กก.</b>
+      </div>
+      <div class="stat stash">
+        <label>คลัง</label>
+        <div class="meter"><div class="fill" id="stashBar" style="width:0%"></div></div>
+        <b id="stashW">0.0 / 60.0 · 0/40</b>
+      </div>
+    </section>
+
+    <div class="hint"><strong>กดค้างลาก</strong> ข้ามฝั่ง · หรือคลิกเลือกแล้วกดปุ่ม · ดับเบิลคลิก = ย้ายทั้งหมด</div>
+
+    <div class="toolbar">
+      <button type="button" class="primary" id="btnToStash" disabled>ฝากเข้าคลัง →</button>
+      <button type="button" id="btnToBag" disabled>← ถอนเข้ากระเป๋า</button>
+      <button type="button" id="btnMoveAll" disabled>ย้ายทั้งหมด</button>
+      <button type="button" id="btnRefresh">รีเฟรช</button>
+    </div>
+
+    <div class="layout">
+      <section class="panel" id="panelBag" data-side="bag">
+        <div class="panel-head">กระเป๋าผู้รอดชีวิต <span>ลากมาวาง = ถอน</span></div>
+        <div class="grid" id="gridBag"></div>
+      </section>
+      <section class="panel" id="panelStash" data-side="stash">
+        <div class="panel-head">คลังเก็บของ <span>ลากมาวาง = ฝาก</span></div>
+        <div class="grid" id="gridStash"></div>
+      </section>
+    </div>
+
+    <div class="tape"></div>
+    <footer>
+      <div>โทนเดียวกับกระเป๋า v2.7 · ลากของข้ามฝั่งได้</div>
+      <span>ROT CITY · STORAGE · LEGACY</span>
+    </footer>
+  </div>
+
+<script>
+if (typeof RotItems === "undefined") {
+  window.RotItems = {
+    getIcon: function() { return { svg: "", icon: "•", color: "#8af" }; },
+    getName: function(id) { return "#" + id; },
+    slotHTML: function(id, amount) {
+      return '<div class="ri-icon">•</div><div class="ri-name">#' + id + '</div><div class="ri-qty">x' + amount + '</div>';
+    }
+  };
+}
+const state = {
+  bag: new Map(), stash: new Map(),
+  bagWeight: 0, bagMax: 350, stashWeight: 0, stashMax: 600,
+  stashStacks: 0, stashStackMax: 40,
+  selected: null, drag: null, _dragMoved: false
+};
+function kg(w) { return (w / 10).toFixed(1); }
+function showNotice(msg) {
+  var n = document.getElementById("notice");
+  n.textContent = msg; n.classList.add("show");
+  clearTimeout(showNotice._t);
+  showNotice._t = setTimeout(function(){ n.classList.remove("show"); }, 1800);
+}
+function emit(eventName, arg0) {
+  try {
+    if (typeof cef !== "undefined" && cef.emit) {
+      if (typeof arg0 === "undefined") cef.emit(eventName); else cef.emit(eventName, String(arg0));
+      return;
+    }
+  } catch (e) {}
+  try {
+    if (window.cef && window.cef.emit) {
+      if (typeof arg0 === "undefined") window.cef.emit(eventName); else window.cef.emit(eventName, String(arg0));
+    }
+  } catch (e) {}
+}
+function doMove(fromSide, toSide, item, amount) {
+  if (amount < 1 || fromSide === toSide) return;
+  emit("rotstorage.move",
+    (fromSide === "bag" ? "0" : "1") + " " + (toSide === "bag" ? "0" : "1") + " " + item + " " + amount);
+  showNotice("กำลังย้าย " + RotItems.getName(item) + "...");
+}
+function updateToolbar() {
+  var s = state.selected;
+  document.getElementById("btnToStash").disabled = !(s && s.side === "bag");
+  document.getElementById("btnToBag").disabled = !(s && s.side === "stash");
+  document.getElementById("btnMoveAll").disabled = !s;
+}
+function renderGrid(map, gridId, side) {
+  var grid = document.getElementById(gridId);
+  grid.innerHTML = "";
+  if (map.size === 0) { grid.innerHTML = '<div class="empty-hint">ว่าง</div>'; return; }
+  var ids = Array.from(map.keys()).sort(function(a,b){ return a-b; });
+  for (var i = 0; i < ids.length; i++) {
+    var id = ids[i], it = map.get(id);
+    var el = document.createElement("div");
+    el.className = "slot" + (state.selected && state.selected.side === side && state.selected.item === id ? " selected" : "");
+    el.dataset.side = side; el.dataset.item = String(id); el.dataset.amount = String(it.amount);
+    el.innerHTML = RotItems.slotHTML(id, it.amount);
+    el.addEventListener("mousedown", onSlotMouseDown);
+    el.addEventListener("click", onSlotClick);
+    el.addEventListener("dblclick", onSlotDblClick);
+    grid.appendChild(el);
+  }
+}
+function onSlotClick(e) {
+  if (state._dragMoved) return;
+  var el = e.currentTarget;
+  state.selected = { side: el.dataset.side, item: parseInt(el.dataset.item,10), amount: parseInt(el.dataset.amount,10) };
+  refresh();
+}
+function onSlotDblClick(e) {
+  e.preventDefault();
+  var el = e.currentTarget, side = el.dataset.side;
+  doMove(side, side === "bag" ? "stash" : "bag", parseInt(el.dataset.item,10), parseInt(el.dataset.amount,10));
+}
+function onSlotMouseDown(e) {
+  if (e.button !== 0) return;
+  e.preventDefault();
+  state._dragMoved = false;
+  var el = e.currentTarget;
+  var item = parseInt(el.dataset.item,10), amount = parseInt(el.dataset.amount,10);
+  state.drag = { side: el.dataset.side, item: item, amount: amount, el: el, startX: e.clientX, startY: e.clientY };
+  el.classList.add("dragging-source");
+  var ghost = document.getElementById("ghost");
+  ghost.innerHTML = '<div class="ri-icon">' + RotItems.iconHTML(item, 34) + '</div><div class="ri-name">' + RotItems.getName(item) + " x" + amount + "</div>";
+  ghost.classList.add("show");
+  ghost.style.left = (e.clientX + 14) + "px"; ghost.style.top = (e.clientY + 14) + "px";
+  document.addEventListener("mousemove", onDragMove);
+  document.addEventListener("mouseup", onDragEnd);
+}
+function onDragMove(e) {
+  if (!state.drag) return;
+  if (Math.abs(e.clientX - state.drag.startX) + Math.abs(e.clientY - state.drag.startY) > 6) state._dragMoved = true;
+  var ghost = document.getElementById("ghost");
+  ghost.style.left = (e.clientX + 14) + "px"; ghost.style.top = (e.clientY + 14) + "px";
+  document.querySelectorAll(".panel").forEach(function(p){ p.classList.remove("drop-hover"); });
+  var under = document.elementFromPoint(e.clientX, e.clientY);
+  var panel = under && under.closest ? under.closest(".panel") : null;
+  if (panel && panel.dataset.side !== state.drag.side) panel.classList.add("drop-hover");
+}
+function onDragEnd(e) {
+  document.removeEventListener("mousemove", onDragMove);
+  document.removeEventListener("mouseup", onDragEnd);
+  document.getElementById("ghost").classList.remove("show");
+  document.querySelectorAll(".panel").forEach(function(p){ p.classList.remove("drop-hover"); });
+  if (!state.drag) return;
+  var drag = state.drag;
+  if (drag.el) drag.el.classList.remove("dragging-source");
+  if (state._dragMoved) {
+    var under = document.elementFromPoint(e.clientX, e.clientY);
+    var panel = under && under.closest ? under.closest(".panel") : null;
+    if (panel && panel.dataset.side && panel.dataset.side !== drag.side)
+      doMove(drag.side, panel.dataset.side, drag.item, drag.amount);
+  }
+  state.drag = null;
+  setTimeout(function(){ state._dragMoved = false; }, 0);
+}
+function refresh() {
+  document.getElementById("bagW").textContent = kg(state.bagWeight) + " / " + kg(state.bagMax) + " กก.";
+  document.getElementById("stashW").textContent = kg(state.stashWeight) + " / " + kg(state.stashMax) + " · " + state.stashStacks + "/" + state.stashStackMax;
+  document.getElementById("bagBar").style.width = (state.bagMax > 0 ? Math.min(100, state.bagWeight*100/state.bagMax) : 0) + "%";
+  document.getElementById("stashBar").style.width = (state.stashMax > 0 ? Math.min(100, state.stashWeight*100/state.stashMax) : 0) + "%";
+  renderGrid(state.bag, "gridBag", "bag");
+  renderGrid(state.stash, "gridStash", "stash");
+  updateToolbar();
+}
+document.getElementById("btnClose").onclick = function(){ emit("rotstorage.close"); };
+document.addEventListener("keydown", function(e){ if (e.key === "Escape") emit("rotstorage.close"); });
+document.getElementById("btnToStash").onclick = function(){
+  if (state.selected && state.selected.side === "bag") doMove("bag","stash",state.selected.item,state.selected.amount);
+};
+document.getElementById("btnToBag").onclick = function(){
+  if (state.selected && state.selected.side === "stash") doMove("stash","bag",state.selected.item,state.selected.amount);
+};
+document.getElementById("btnMoveAll").onclick = function(){
+  if (!state.selected) return;
+  doMove(state.selected.side, state.selected.side==="bag"?"stash":"bag", state.selected.item, state.selected.amount);
+};
+document.getElementById("btnRefresh").onclick = function(){ emit("rotstorage.refresh","1"); showNotice("รีเฟรช..."); };
+function handleServerEvent(name, args) {
+  args = (args || []).map(function(a){ return (typeof a === "string" && /^-?\d+$/.test(a)) ? parseInt(a,10) : a; });
+  if (name === "rotstorage.open") document.body.classList.remove("hidden");
+  if (name === "rotstorage.closeui") { document.body.classList.add("hidden"); state.selected = null; }
+  if (name === "rotstorage.begin") {
+    state.bag.clear(); state.stash.clear();
+    state.bagWeight = +args[0]||0; state.bagMax = +args[1]||350;
+    state.stashWeight = +args[2]||0; state.stashMax = +args[3]||600;
+    state.stashStacks = +args[4]||0; state.stashStackMax = +args[5]||40;
+  }
+  if (name === "rotstorage.bag.item") {
+    var id=+args[0], amount=+args[1], weight=+args[2];
+    if (amount>0) state.bag.set(id,{amount:amount,weight:weight});
+  }
+  if (name === "rotstorage.stash.item") {
+    var id2=+args[0], amount2=+args[1], weight2=+args[2];
+    if (amount2>0) state.stash.set(id2,{amount:amount2,weight:weight2});
+  }
+  if (name === "rotstorage.end") {
+    if (state.selected) {
+      var map = state.selected.side==="bag"?state.bag:state.stash;
+      if (!map.has(state.selected.item)) state.selected=null;
+      else state.selected.amount = map.get(state.selected.item).amount;
+    }
+    refresh();
+  }
+  if (name === "rotstorage.notice") showNotice(String(args[0]||""));
+}
+function bindCef() {
+  var events = ["rotstorage.open","rotstorage.closeui","rotstorage.begin","rotstorage.bag.item","rotstorage.stash.item","rotstorage.end","rotstorage.notice"];
+  try {
+    if (typeof cef !== "undefined" && cef.on) {
+      events.forEach(function(ev){ cef.on(ev, function(){ handleServerEvent(ev, Array.prototype.slice.call(arguments)); }); });
+      document.body.classList.remove("hidden"); emit("rotstorage.ready"); return;
+    }
+  } catch(e) {}
+  window.rotStorageEvent = handleServerEvent;
+  document.body.classList.remove("hidden"); emit("rotstorage.ready");
+}
+bindCef();
+</script>
+</body>
+</html>

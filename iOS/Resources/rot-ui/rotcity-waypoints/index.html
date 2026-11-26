@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OXLYN Waypoints — Studio</title>
+    <!-- Font Awesome 7 Free — bundled locally (no CDN). fa-pro-compat.css maps
+         the Pro-only styles/icons this UI uses onto the Free set. -->
+    <link rel="stylesheet" href="fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="fontawesome/css/fa-pro-compat.css" />
+    <!-- Premium webfonts for the in-world marker & HUD (techy nav look) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Oxanium:wght@600;700;800&display=swap" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <!-- 3D destination billboard (projected to screen by Lua, styled here with a
+         proper webfont + CSS gold divider). Lives outside #root → always renders. -->
+    <div id="marker3d" class="hidden">
+        <div class="m-dist"><b class="m-num">0</b><span class="m-unit">M</span></div>
+        <div class="m-div"></div>
+        <div class="m-label">WAYPOINT</div>
+        <div class="m-chev"></div>
+    </div>
+
+    <!-- Turn-by-turn AR HUD overlay. Lives OUTSIDE #root so it renders any time
+         a route exists (no NUI focus needed) and previews live in the editor. -->
+    <div id="hud" class="hidden"></div>
+
+    <!-- The whole document stays transparent so the live in-world GPS shows
+         through behind the panel. No backdrop-filter anywhere (CEF renders the
+         game black behind it) — we use a solid translucent panel instead. -->
+    <div id="root" class="hidden" aria-hidden="true">
+
+        <!-- A whisper-thin dim so the panel reads against bright scenes. -->
+        <div id="scrim"></div>
+
+        <section id="studio" class="studio" role="dialog" aria-label="Waypoint Studio">
+
+            <!-- ── Header ─────────────────────────────────────────────── -->
+            <header class="hd">
+                <div class="hd-brand">
+                    <div class="hd-logo"><i class="fa-sharp fa-solid fa-location-arrow"></i></div>
+                    <div class="hd-titles">
+                        <h1 id="ui-title">Waypoint Studio</h1>
+                        <p id="ui-sub">Customize your GPS — every change previews live</p>
+                    </div>
+                    <span class="hd-badge">OXLYN</span>
+                </div>
+
+                <!-- Live readout: speed + next-corner risk + route state. -->
+                <div class="hd-live">
+                    <div class="live-cell">
+                        <span class="live-k" id="lk-speed">Speed</span>
+                        <span class="live-v"><b id="lv-speed">0</b><i>km/h</i></span>
+                    </div>
+                    <div class="live-sep"></div>
+                    <div class="live-cell">
+                        <span class="live-k" id="lk-corner">Next corner</span>
+                        <span class="live-v"><span id="lv-risk" class="risk-pill">—</span></span>
+                    </div>
+                    <div class="live-sep"></div>
+                    <div class="live-cell">
+                        <span class="live-k" id="lk-state">Route</span>
+                        <span class="live-v"><span id="lv-state" class="state-dot">—</span></span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ── Body: tab rail + content ───────────────────────────── -->
+            <div class="bd">
+                <nav class="rail" id="rail"></nav>
+                <div class="content" id="content"></div>
+            </div>
+
+            <!-- ── Footer ─────────────────────────────────────────────── -->
+            <footer class="ft">
+                <div class="ft-left">
+                    <button class="btn btn-demo" id="btn-demo">
+                        <i class="fa-sharp fa-solid fa-play"></i>
+                        <span id="t-demo">Demo route</span>
+                    </button>
+                    <span class="dirty" id="dirty-tag"></span>
+                </div>
+                <div class="ft-right">
+                    <button class="btn btn-ghost" id="btn-reset"><i class="fa-sharp fa-solid fa-rotate-left"></i><span id="t-reset">Reset</span></button>
+                    <button class="btn btn-ghost" id="btn-close"><i class="fa-sharp fa-solid fa-xmark"></i><span id="t-close">Close</span></button>
+                    <button class="btn btn-primary" id="btn-save"><i class="fa-sharp fa-solid fa-floppy-disk"></i><span id="t-save">Save</span></button>
+                </div>
+            </footer>
+        </section>
+
+        <!-- ── Colour picker popover (single shared instance) ─────────── -->
+        <div id="cp" class="cp hidden">
+            <div class="cp-sv" id="cp-sv"><div class="cp-sv-cursor" id="cp-sv-cursor"></div></div>
+            <div class="cp-hue" id="cp-hue"><div class="cp-hue-cursor" id="cp-hue-cursor"></div></div>
+            <div class="cp-foot">
+                <span class="cp-swatch" id="cp-swatch"></span>
+                <input type="text" class="cp-hex" id="cp-hex" maxlength="7" spellcheck="false" />
+            </div>
+            <div class="cp-presets" id="cp-presets"></div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

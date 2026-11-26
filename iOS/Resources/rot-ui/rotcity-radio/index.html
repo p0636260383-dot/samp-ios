@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ROT CITY — Tactical Radio v2</title>
+  <style>
+    :root {
+      --bg: rgba(9, 17, 26, 0.88);
+      --border: rgba(44, 198, 255, 0.36);
+      --cyan: #2cc6ff;
+      --cyan-bright: #8ce4ff;
+      --green: #27d8a5;
+      --red: #ff4d5a;
+      --amber: #ffcf4a;
+      --text: #eaf6ff;
+      --muted: #86a4ba;
+    }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    html, body {
+      margin: 0; width: 100%; height: 100%; overflow: hidden;
+      background: transparent !important;
+      color: var(--text); user-select: none; pointer-events: none;
+    }
+    [hidden] { display: none !important; }
+
+    /* Compact Right-Side Radio HUD Widget */
+    .radio-hud {
+      position: fixed; top: 46%; right: 16px; transform: translateY(-50%);
+      width: 230px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 10px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.55), inset 0 1px 0 rgba(140,228,255,0.12);
+      overflow: hidden; pointer-events: auto;
+    }
+    .radio-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 7px 9px;
+      background: linear-gradient(90deg, rgba(44,198,255,0.22), rgba(13,25,38,0.72));
+      border-bottom: 1px solid rgba(44,198,255,0.2);
+    }
+    .radio-freq-badge { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12.5px; color: var(--cyan-bright); }
+    .radio-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); flex-shrink: 0; }
+    .radio-dot.off { background: var(--red); box-shadow: none; }
+    .radio-actions { display: flex; align-items: center; gap: 4px; }
+    .icon-btn {
+      width: 22px; height: 22px; border-radius: 5px;
+      border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4);
+      color: var(--text); font-size: 11px; cursor: pointer; display: grid; place-items: center;
+    }
+    .icon-btn:hover { background: rgba(44,198,255,0.24); border-color: var(--cyan); }
+    .radio-body { padding: 6px 8px; max-height: 190px; overflow-y: auto; }
+    .radio-body.collapsed { display: none; }
+    .empty-msg { font-size: 11px; color: var(--muted); text-align: center; padding: 6px 2px; }
+    .member-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 4px 7px; border-radius: 6px; margin-bottom: 4px; font-size: 11.5px;
+      background: rgba(255,255,255,0.04); border: 1px solid transparent;
+    }
+    .member-row.speaking { background: rgba(44,198,255,0.18); border-color: rgba(44,198,255,0.48); color: #fff; }
+    .member-name { display: flex; align-items: center; gap: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px; }
+    .you-tag { font-size: 9px; padding: 1px 4px; border-radius: 3px; background: rgba(44,198,255,0.24); color: var(--cyan-bright); }
+    .talk-wave { display: inline-flex; align-items: flex-end; gap: 2px; height: 11px; opacity: 0; flex-shrink: 0; }
+    .member-row.speaking .talk-wave { opacity: 1; }
+    .talk-wave span { width: 2.5px; background: var(--green); border-radius: 2px; animation: eq 0.55s ease-in-out infinite alternate; }
+    .talk-wave span:nth-child(2) { animation-delay: .15s; }
+    .talk-wave span:nth-child(3) { animation-delay: .3s; }
+    @keyframes eq { from { height: 3px; } to { height: 11px; } }
+    .radio-foot {
+      padding: 5px 8px; font-size: 10px; color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    /* Walkie-Talkie Handheld Modal (Zerio Radio v2 style) */
+    .modal-wrap {
+      position: fixed; inset: 0; display: flex; align-items: center; justify-content: flex-end;
+      padding: 24px 260px 24px 24px; pointer-events: auto;
+    }
+    .wt-shell {
+      width: 310px; border-radius: 20px; position: relative;
+      background: linear-gradient(170deg, #1b222c 0%, #0d1219 100%);
+      border: 2px solid #2d3b4e;
+      box-shadow: 0 26px 70px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.12);
+      padding: 14px;
+    }
+    .wt-antenna {
+      position: absolute; top: -32px; right: 26px; width: 16px; height: 32px;
+      background: linear-gradient(90deg, #181f28, #334155, #181f28);
+      border-radius: 6px 6px 0 0; border: 1px solid #3f4f63; border-bottom: none;
+    }
+    .wt-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .wt-brand { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: var(--cyan-bright); }
+    .wt-screen {
+      background: linear-gradient(180deg, #071923 0%, #041017 100%);
+      border: 1px solid rgba(44,198,255,0.35); border-radius: 10px;
+      padding: 10px 12px; margin-bottom: 10px; position: relative; overflow: hidden;
+    }
+    .wt-screen::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: url('radio_overlay.png') center/cover no-repeat; opacity: 0.08;
+    }
+    .wt-scr-top { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+    .wt-freq-display { font-size: 26px; font-weight: 800; color: var(--cyan-bright); letter-spacing: 1px; line-height: 1.1; }
+    .wt-freq-display.off { color: var(--red); }
+    .wt-sub { font-size: 11px; color: var(--green); margin-top: 4px; }
+
+    .wt-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 10px; }
+    .wt-tab {
+      padding: 6px; border-radius: 7px; border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04); color: var(--muted); font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+    .wt-tab.active { background: rgba(44,198,255,0.2); border-color: var(--cyan); color: #fff; }
+
+    .wt-pane { display: none; }
+    .wt-pane.active { display: block; }
+
+    .wt-row { display: flex; gap: 6px; margin-bottom: 8px; }
+    .wt-inp {
+      flex: 1; min-width: 0; height: 34px; padding: 0 10px; border-radius: 8px;
+      border: 1px solid rgba(44,198,255,0.28); background: rgba(0,0,0,0.45);
+      color: #fff; font-size: 13px; outline: none;
+    }
+    .wt-btn {
+      height: 34px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(44,198,255,0.35);
+      background: rgba(44,198,255,0.18); color: #fff; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+    .wt-btn:hover { background: rgba(44,198,255,0.32); }
+    .wt-btn.danger { background: rgba(255,77,90,0.2); border-color: rgba(255,77,90,0.5); color: #ffb4b9; }
+    .wt-btn.sos {
+      width: 100%; height: 36px; margin-top: 6px;
+      background: linear-gradient(135deg, #dc2626, #ef4444); border: none; color: #fff;
+      font-weight: 800; letter-spacing: 0.5px;
+    }
+    .chip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 8px; }
+    .chip {
+      padding: 6px 4px; border-radius: 7px; border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05); color: #dbeafe; font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+    .chip:hover { border-color: var(--cyan); background: rgba(44,198,255,0.18); }
+    .fav-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 6px 8px; border-radius: 7px; background: rgba(255,255,255,0.04); margin-bottom: 5px; font-size: 12px;
+    }
+    .toggle-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 12px;
+    }
+    @media (max-width: 720px) {
+      .modal-wrap { justify-content: center; padding: 12px; }
+    }
+    html[data-rot-page="rotcity-radio"] .radio-hud {
+      top: 58px;
+      right: 12px;
+      transform: none;
+      width: 168px;
+      border-radius: 8px;
+    }
+    html[data-rot-page="rotcity-radio"] .radio-head { padding: 4px 7px; }
+    html[data-rot-page="rotcity-radio"] .radio-freq-badge { font-size: 11px; gap: 4px; }
+    html[data-rot-page="rotcity-radio"] .icon-btn { width: 19px; height: 19px; font-size: 10px; }
+    html[data-rot-page="rotcity-radio"] .radio-body { padding: 4px 6px; max-height: 76px; }
+    html[data-rot-page="rotcity-radio"] .member-row { padding: 2px 5px; font-size: 10px; margin-bottom: 2px; }
+    html[data-rot-page="rotcity-radio"] .member-name { max-width: 118px; }
+    html[data-rot-page="rotcity-radio"] .radio-foot { padding: 3px 6px; font-size: 9px; }
+    html[data-rot-page="rotcity-radio"] .modal-wrap {
+      justify-content: flex-end;
+      align-items: center;
+      padding: 8px 12px;
+    }
+    html[data-rot-page="rotcity-radio"] .wt-antenna { display: none; }
+    html[data-rot-page="rotcity-radio"] .wt-shell {
+      width: min(260px, 44vw);
+      max-height: calc(100vh - 16px);
+      overflow-y: auto;
+      padding: 10px;
+      border-radius: 14px;
+    }
+    html[data-rot-page="rotcity-radio"] .wt-top { margin-bottom: 6px; }
+    html[data-rot-page="rotcity-radio"] .wt-screen { padding: 7px 9px; margin-bottom: 7px; }
+    html[data-rot-page="rotcity-radio"] .wt-freq-display { font-size: 20px; }
+    html[data-rot-page="rotcity-radio"] .wt-tabs { gap: 4px; margin-bottom: 7px; }
+    html[data-rot-page="rotcity-radio"] .wt-tab { padding: 4px; font-size: 10px; }
+    html[data-rot-page="rotcity-radio"] .wt-inp,
+    html[data-rot-page="rotcity-radio"] .wt-btn { height: 29px; font-size: 11px; }
+    html[data-rot-page="rotcity-radio"] .wt-btn.sos { height: 30px; margin-top: 4px; font-size: 11px; }
+    html[data-rot-page="rotcity-radio"] .chip { padding: 4px 2px; font-size: 10px; }
+  </style>
+</head>
+<body>
+  <!-- Right-Side Radio HUD (hidden when radio is off) -->
+  <aside id="radioHud" class="radio-hud" hidden>
+    <div class="radio-head">
+      <div class="radio-freq-badge">
+        <span id="hudDot" class="radio-dot off"></span>
+        <span id="hudFreq">RADIO OFF</span>
+      </div>
+      <div class="radio-actions">
+        <button id="btnFavQuick" class="icon-btn" title="บันทึกช่องโปรด">★</button>
+        <button id="btnOpenModal" class="icon-btn" title="เปิดเครื่องวิทยุ">⚙</button>
+        <button id="btnCollapse" class="icon-btn" title="ย่อ/ขยาย">▾</button>
+      </div>
+    </div>
+    <div id="radioBody" class="radio-body">
+      <div class="empty-msg">พิมพ์ /radio &lt;ช่อง&gt; หรือกด ⚙</div>
+    </div>
+    <div class="radio-foot">
+      <span id="hudCount">สมาชิก: 0</span>
+      <span>B พูด • [⚙] ตั้งค่า</span>
+    </div>
+  </aside>
+
+  <!-- Handheld Walkie-Talkie Modal -->
+  <div id="radioModal" class="modal-wrap" hidden>
+    <div class="wt-shell">
+      <div class="wt-antenna"></div>
+      <div class="wt-top">
+        <span class="wt-brand">ROT-COMMS V2</span>
+        <button id="btnCloseModal" class="icon-btn" title="ปิด">✕</button>
+      </div>
+      <div class="wt-screen">
+        <div class="wt-scr-top">
+          <span id="wtStatus">STANDBY</span>
+          <span id="wtCsLabel">CALLSIGN: -</span>
+        </div>
+        <div id="wtFreq" class="wt-freq-display off">OFFLINE</div>
+        <div id="wtSub" class="wt-sub">เลือกช่อง 1 - 9999 เพื่อสื่อสาร</div>
+      </div>
+
+      <div class="wt-tabs">
+        <button class="wt-tab active" data-pane="tune">จูนคลื่น</button>
+        <button class="wt-tab" data-pane="fav">ช่องโปรด</button>
+        <button class="wt-tab" data-pane="cfg">ตั้งค่า</button>
+      </div>
+
+      <!-- Tune Pane -->
+      <div class="wt-pane active" id="pane-tune">
+        <div class="wt-row">
+          <input id="freqInput" class="wt-inp" type="number" min="1" max="9999" placeholder="ช่อง (1 - 9999)" />
+          <button id="btnTune" class="wt-btn">เชื่อมต่อ</button>
+        </div>
+        <div class="chip-grid">
+          <button class="chip" data-f="1">CH 1</button>
+          <button class="chip" data-f="77">CH 77</button>
+          <button class="chip" data-f="911">CH 911</button>
+          <button class="chip" id="btnOffChip" style="color:#fca5a5">ปิด</button>
+        </div>
+        <button id="btnPanic" class="wt-btn sos">🚨 ส่งสัญญาณฉุกเฉิน SOS (ปักหมุด GPS)</button>
+      </div>
+
+      <!-- Favorites & Recents Pane -->
+      <div class="wt-pane" id="pane-fav">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:5px">ช่องโปรด (กดเพื่อเข้าทันที)</div>
+        <div id="favList"></div>
+        <div style="font-size:11px;color:var(--muted);margin:8px 0 5px">ใช้งานล่าสุด</div>
+        <div id="recentList"></div>
+      </div>
+
+      <!-- Settings Pane -->
+      <div class="wt-pane" id="pane-cfg">
+        <div class="wt-row">
+          <input id="csInput" class="wt-inp" type="text" maxlength="20" placeholder="Callsign (เช่น ALPHA-1)" />
+          <button id="btnSaveCs" class="wt-btn">ตั้งชื่อ</button>
+        </div>
+        <div class="toggle-row">
+          <span>โหมดไม่ระบุตัวตน (Anonymous)</span>
+          <input id="chkAnon" type="checkbox" />
+        </div>
+        <div class="toggle-row">
+          <span>เสียงกดปุ่มวิทยุ (SFX)</span>
+          <input id="chkSfx" type="checkbox" checked />
+        </div>
+        <div class="toggle-row" style="border-bottom:none">
+          <span>แสดงรายชื่อสมาชิกด้านขวา</span>
+          <input id="chkShowList" type="checkbox" checked />
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => document.querySelectorAll(s);
+  const cef = window.cef;
+
+  function encSafe(str, maxEncodedLen = 640) {
+    const clean = String(str == null ? '' : str).replace(/[\r\n\t]+/g, ' ');
+    let out = encodeURIComponent(clean);
+    if (out.length <= maxEncodedLen) return out;
+    const chars = Array.from(clean);
+    while (chars.length > 0) {
+      chars.pop();
+      out = encodeURIComponent(chars.join(''));
+      if (out.length <= maxEncodedLen) return out;
+    }
+    return '';
+  }
+
+  function decUriSafe(str) {
+    const s = String(str == null ? '' : str);
+    try {
+      return decodeURIComponent(s);
+    } catch (_) {
+      return s;
+    }
+  }
+
+  const sfxOn = new Audio('sounds/on.ogg');
+  const sfxOff = new Audio('sounds/off.ogg');
+  const sfxClick = new Audio('sounds/click.ogg');
+  let sfxEnabled = localStorage.getItem('rotradio_sfx') !== '0';
+  $('#chkSfx').checked = sfxEnabled;
+
+  function playSfx(a) {
+    if (!sfxEnabled) return;
+    try { a.currentTime = 0; a.play().catch(() => {}); } catch (_) {}
+  }
+
+  let favs = JSON.parse(localStorage.getItem('rotradio_favs') || '[1,77,911]');
+  let recents = JSON.parse(localStorage.getItem('rotradio_recents') || '[]');
+  let curState = { freq: 0, openModal: false, anon: false, callsign: '', members: [] };
+
+  function emit(ev, arg) {
+    if (cef && typeof cef.emit === 'function') cef.emit(ev, String(arg !== undefined ? arg : '1'));
+  }
+
+  function addRecent(f) {
+    if (f <= 0) return;
+    recents = [f, ...recents.filter((x) => x !== f)].slice(0, 6);
+    localStorage.setItem('rotradio_recents', JSON.stringify(recents));
+  }
+
+  function renderSavedLists() {
+    const fBox = $('#favList');
+    fBox.innerHTML = favs.length ? '' : '<div class="empty-msg">ยังไม่มีช่องโปรด</div>';
+    favs.forEach((f) => {
+      const row = document.createElement('div');
+      row.className = 'fav-item';
+      row.innerHTML = `<span>★ CH-${f}</span><div style="display:flex;gap:5px"><button class="wt-btn" style="height:24px;font-size:11px">จูน</button><button class="wt-btn danger" style="height:24px;font-size:11px">ลบ</button></div>`;
+      row.querySelectorAll('button')[0].onclick = () => tuneTo(f);
+      row.querySelectorAll('button')[1].onclick = () => {
+        favs = favs.filter((x) => x !== f);
+        localStorage.setItem('rotradio_favs', JSON.stringify(favs));
+        renderSavedLists();
+      };
+      fBox.appendChild(row);
+    });
+
+    const rBox = $('#recentList');
+    rBox.innerHTML = recents.length ? '' : '<div class="empty-msg">ยังไม่มีประวัติล่าสุด</div>';
+    recents.forEach((f) => {
+      const row = document.createElement('div');
+      row.className = 'fav-item';
+      row.innerHTML = `<span>CH-${f}</span><button class="wt-btn" style="height:24px;font-size:11px">จูน</button>`;
+      row.querySelector('button').onclick = () => tuneTo(f);
+      rBox.appendChild(row);
+    });
+  }
+
+  function tuneTo(f) {
+    const n = parseInt(f, 10) || 0;
+    playSfx(n > 0 ? sfxOn : sfxOff);
+    if (n > 0) addRecent(n);
+    emit('rotradio.tune', n);
+    renderSavedLists();
+  }
+
+  function renderState(st) {
+    curState = st || curState;
+    const f = Number(curState.freq) || 0;
+    const on = f > 0;
+    $('#radioHud').hidden = !on;
+    $('#hudDot').classList.toggle('off', !on);
+    $('#hudFreq').textContent = on ? `CH-${f}` : 'RADIO OFF';
+    $('#wtFreq').textContent = on ? `CH-${f}` : 'OFFLINE';
+    $('#wtFreq').classList.toggle('off', !on);
+    $('#wtStatus').textContent = on ? 'CONNECTED' : 'STANDBY';
+    const decodedCs = decUriSafe(curState.callsign || '');
+    $('#wtCsLabel').textContent = 'CALLSIGN: ' + (decodedCs || '-');
+    $('#wtSub').textContent = on ? `กำลังเชื่อมต่อ (${(curState.members || []).length} คนในคลื่น)` : 'เลือกช่อง 1 - 9999 เพื่อสื่อสาร';
+    $('#chkAnon').checked = !!curState.anon;
+    if (document.activeElement !== $('#csInput')) $('#csInput').value = decodedCs;
+
+    const body = $('#radioBody');
+    const members = curState.members || [];
+    $('#hudCount').textContent = `สมาชิก: ${members.length}`;
+    if (!on) {
+      body.innerHTML = '<div class="empty-msg">พิมพ์ /radio &lt;ช่อง&gt; หรือกด ⚙</div>';
+    } else if (!members.length) {
+      body.innerHTML = '<div class="empty-msg">ยังไม่มีสมาชิกในช่องนี้</div>';
+    } else {
+      body.innerHTML = '';
+      members.forEach((m) => {
+        const div = document.createElement('div');
+        div.className = 'member-row' + (m.speaking ? ' speaking' : '');
+        const decodedName = decUriSafe(m.name || '');
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'member-name';
+        nameSpan.textContent = decodedName;
+        if (m.self) {
+          const youTag = document.createElement('span');
+          youTag.className = 'you-tag';
+          youTag.textContent = 'คุณ';
+          nameSpan.appendChild(youTag);
+        }
+        const wave = document.createElement('span');
+        wave.className = 'talk-wave';
+        for (let i = 0; i < 3; i++) wave.appendChild(document.createElement('span'));
+        div.appendChild(nameSpan);
+        div.appendChild(wave);
+        body.appendChild(div);
+      });
+    }
+
+    if (curState.openModal) {
+      $('#radioModal').hidden = false;
+      renderSavedLists();
+    }
+  }
+
+  // UI Events
+  $$('.wt-tab').forEach((btn) => {
+    btn.onclick = () => {
+      playSfx(sfxClick);
+      $$('.wt-tab').forEach((b) => b.classList.remove('active'));
+      $$('.wt-pane').forEach((p) => p.classList.remove('active'));
+      btn.classList.add('active');
+      $('#pane-' + btn.dataset.pane).classList.add('active');
+    };
+  });
+
+  $('#btnCollapse').onclick = () => { playSfx(sfxClick); $('#radioBody').classList.toggle('collapsed'); };
+  $('#btnOpenModal').onclick = () => {
+    playSfx(sfxClick);
+    $('#radioModal').hidden = false;
+    renderSavedLists();
+    emit('rotradio.focus', 1);
+  };
+  $('#btnCloseModal').onclick = () => {
+    playSfx(sfxClick);
+    $('#radioModal').hidden = true;
+    emit('rotradio.focus', 0);
+  };
+  $('#btnFavQuick').onclick = () => {
+    const f = Number(curState.freq) || 0;
+    if (f <= 0) return;
+    playSfx(sfxClick);
+    if (!favs.includes(f)) {
+      favs = [f, ...favs].slice(0, 10);
+      localStorage.setItem('rotradio_favs', JSON.stringify(favs));
+      renderSavedLists();
+    }
+  };
+  $('#btnTune').onclick = () => tuneTo($('#freqInput').value);
+  $('#btnOffChip').onclick = () => tuneTo(0);
+  $$('.chip[data-f]').forEach((c) => { c.onclick = () => tuneTo(c.dataset.f); });
+  $('#btnPanic').onclick = () => { playSfx(sfxOn); emit('rotradio.panic', 1); };
+  $('#btnSaveCs').onclick = () => { playSfx(sfxClick); emit('rotradio.callsign', encSafe($('#csInput').value.trim(), 560)); };
+  $('#chkAnon').onchange = () => { playSfx(sfxClick); emit('rotradio.anon', $('#chkAnon').checked ? 1 : 0); };
+  $('#chkSfx').onchange = () => { sfxEnabled = $('#chkSfx').checked; localStorage.setItem('rotradio_sfx', sfxEnabled ? '1' : '0'); };
+  $('#chkShowList').onchange = () => { $('#radioBody').classList.toggle('collapsed', !$('#chkShowList').checked); };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !$('#radioModal').hidden) {
+      $('#radioModal').hidden = true;
+      emit('rotradio.focus', 0);
+    }
+  });
+
+  if (cef && typeof cef.on === 'function') {
+    cef.on('rotradio.state', (jsonStr) => {
+      try { renderState(JSON.parse(jsonStr)); } catch (_) {}
+    });
+    emit('rotradio.ready', 1);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+/* ROT CITY - Real Money Cashout Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: 'Kanit', sans-serif;
+  background-color: transparent;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cashout-modal {
+  width: 680px;
+  max-width: 95vw;
+  background: linear-gradient(135deg, rgba(16, 20, 26, 0.98) 0%, rgba(10, 12, 16, 0.99) 100%);
+  border: 1px solid rgba(0, 255, 170, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(0, 255, 170, 0.05);
+  border-radius: 8px;
+  color: #e0e6ed;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.cashout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 22px;
+  background: rgba(0, 0, 0, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  font-size: 26px;
+}
+
+.header-title h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #00ffaa;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: #8b9bb4;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  color: #8b9bb4;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.btn-close:hover {
+  background: rgba(255, 60, 60, 0.2);
+  color: #ff4d4d;
+}
+
+.rates-banner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 14px 22px;
+  background: rgba(0, 255, 170, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.rate-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rate-label {
+  font-size: 11px;
+  color: #8b9bb4;
+}
+
+.rate-val {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.highlight-cp {
+  color: #00ffcc;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.cashout-body {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #c0cadb;
+}
+
+.input-with-calc {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  background: #0d1116;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 9px 12px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 13px;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #00ffaa;
+  box-shadow: 0 0 10px rgba(0, 255, 170, 0.2);
+}
+
+.calc-box {
+  min-width: 190px;
+  background: rgba(0, 255, 170, 0.08);
+  border: 1px solid rgba(0, 255, 170, 0.3);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.highlight-thb {
+  color: #00ffaa;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.cashout-footer {
+  padding: 14px 22px;
+  background: rgba(0, 0, 0, 0.45);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notice-text {
+  font-size: 11px;
+  color: #8b9bb4;
+  max-width: 380px;
+}
+
+.footer-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-cancel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #8b9bb4;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #00b36b, #00ffaa);
+  border: none;
+  color: #000;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0, 255, 170, 0.35);
+  transition: all 0.2s;
+}
+
+.btn-submit:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 20px rgba(0, 255, 170, 0.6);
+}

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>ROT CITY • Garage &amp; Vehicle Recovery</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="backdrop">
+    <main class="garage-shell" role="dialog" aria-label="ROT CITY Garage">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-badge">G</div>
+          <div>
+            <div class="eyebrow">CYBER-BLUE VEHICLE TERMINAL</div>
+            <h1>โรงรถ &amp; กู้ซากยานพาหนะ</h1>
+          </div>
+        </div>
+        <div class="resources">
+          <div class="res-pill merit">
+            <span class="res-label">แต้มผลงาน</span>
+            <strong id="meritValue">0</strong>
+          </div>
+          <div class="res-pill scrap">
+            <span class="res-label">เศษเหล็ก</span>
+            <strong id="scrapValue">0</strong>
+          </div>
+          <button id="btnRefresh" class="icon-btn" title="รีเฟรชข้อมูล">↻</button>
+          <button id="btnClose" class="icon-btn close" title="ปิด (ESC)">✕</button>
+        </div>
+      </header>
+
+      <div id="toast" class="toast" hidden></div>
+
+      <section class="summary-bar">
+        <div class="summary-item">รถทั้งหมด: <strong id="totalCount">0</strong> คัน</div>
+        <div class="summary-item">เก็บในโรงรถ: <strong id="storedCount">0</strong></div>
+        <div class="summary-item">อยู่ในโลก: <strong id="worldCount">0</strong></div>
+        <div class="summary-item">พังรอซ่อม: <strong id="wreckCount">0</strong></div>
+        <div class="summary-cost">ค่ากู้ซาก: <span id="recoverCostText">500 แต้มผลงาน + 5 เศษเหล็ก</span></div>
+      </section>
+
+      <section id="vehicleList" class="vehicle-grid"></section>
+
+      <footer class="footer-note">
+        <span>นำรถมาจอดในระยะ 35 ม. เพื่อเก็บเข้าโรงรถ (Despawn ป้องกันรถหาย/โดนขโมย)</span>
+        <span>กด ESC เพื่อปิดหน้าต่าง</span>
+      </footer>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

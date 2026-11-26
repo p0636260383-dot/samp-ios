@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ROT CITY • Weapon Bench &amp; Survival Camp</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="backdrop">
+    <main class="shell" role="dialog" aria-label="Weapon Bench & Survival Camp">
+      <div class="scanline"></div>
+
+      <header class="topbar">
+        <div class="brand">
+          <div class="emblem-wrap">
+            <img src="assets/bench_emblem.png" alt="Workbench" />
+          </div>
+          <div>
+            <div class="eyebrow">ROT CITY • TACTICAL WORKBENCH &amp; CAMP</div>
+            <h1>โต๊ะอัปเกรดปืน, แคมป์ไฟ &amp; เครื่องย่อยไอเทม</h1>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button id="btnRefresh" class="icon-btn">↻</button>
+          <button id="btnClose" class="icon-btn close">✕</button>
+        </div>
+      </header>
+
+      <div class="resource-bar">
+        <span>🔩 เศษเหล็ก: <strong id="rScrap">0</strong></span>
+        <span>🧵 ผ้า: <strong id="rRag">0</strong></span>
+        <span>🪵 ไม้: <strong id="rWood">0</strong></span>
+        <span>🥩 เนื้อดิบ: <strong id="rRaw">0</strong></span>
+        <span>🍖 เนื้อสุก: <strong id="rCooked">0</strong></span>
+        <span>💰 แต้มผลงาน: <strong id="rMoney">$0</strong></span>
+      </div>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="bench">🔧 โต๊ะอัปเกรดปืน (Lv.1–5)</button>
+        <button class="tab" data-tab="fire">🔥 แคมป์ไฟ &amp; ปิ้งเนื้อ</button>
+        <button class="tab" data-tab="recycle">♻️ เครื่องย่อยไอเทม</button>
+      </nav>
+
+      <div class="content-scroll">
+        <!-- TAB 1: WEAPON UPGRADE BENCH -->
+        <section id="tab-bench" class="panel">
+          <div class="wpn-card">
+            <div class="wpn-head">
+              <div>
+                <div class="tag-lv" id="wpnLvBadge">LV.1</div>
+                <h2 id="wpnName">ถืออาวุธไว้ในมือ</h2>
+                <p id="wpnBonus" class="sub">ความทนทานสูงสุด 100 • ลดสึกหรอ 0%</p>
+              </div>
+              <div class="wpn-btns">
+                <button id="btnRepair" class="btn btn-ghost">ซ่อมอาวุธ (5 เศษเหล็ก)</button>
+                <button id="btnUpgrade" class="btn btn-cyan">อัปเกรดอาวุธ</button>
+              </div>
+            </div>
+            <div class="dura-bar"><div id="duraFill"></div></div>
+            <div class="dura-meta">
+              <span id="duraText">ความทนทาน: 0 / 100</span>
+              <span id="upgCostText">ค่าอัปเกรดถัดไป: -</span>
+            </div>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-box">
+              <h3>โบนัสระดับอาวุธ (Lv.1 – Lv.5)</h3>
+              <p>อัปเกรดแต่ละระดับเพิ่ม Max Durability +25 (สูงสุด 200 ที่ Lv.5) และลดโอกาสสึกหรอ -4% ต่อระดับ (สูงสุด -16%)</p>
+            </div>
+            <div class="info-box">
+              <h3>การซ่อมบำรุงอัตโนมัติ</h3>
+              <p>ทุกครั้งที่อัปเกรดระดับสำเร็จ ความทนทานของอาวุธจะถูกฟื้นฟูเต็มหลอดใหม่ทันที</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 2: CAMPFIRE -->
+        <section id="tab-fire" class="panel" hidden>
+          <div class="camp-grid">
+            <div class="action-card">
+              <h3>🔥 ก่อกองไฟในป่า</h3>
+              <p>ใช้ <strong>ไม้ 2 ชิ้น</strong> วางกองไฟ (อยู่ได้ 3 นาที) ยืนใกล้ๆ ฟื้นเลือด +3 HP ทุก 3 วินาที</p>
+              <button id="btnPlaceFire" class="btn btn-cyan">วางแคมป์ไฟ (ไม้ x2)</button>
+            </div>
+            <div class="action-card">
+              <h3>🍖 ปิ้งเนื้อดิบ → เนื้อสุก</h3>
+              <p>นำเนื้อดิบที่ได้จากการล่ามาปิ้งที่แคมป์ไฟ เป็นเนื้อสุกสำหรับฟื้นพลังและความหิว</p>
+              <button id="btnCookMeat" class="btn btn-cyan">ปิ้งเนื้อดิบ x1</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 3: RECYCLER -->
+        <section id="tab-recycle" class="panel" hidden>
+          <div id="recycleList" class="recycle-list"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ROT CITY — บัญชีผู้รอดชีวิต</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Transparent fullscreen CEF viewport; ONLY the centered metal frame is opaque. -->
+  <main class="auth-shell" aria-label="ระบบบัญชี ROT CITY">
+    <section class="worn-frame" id="authCard">
+      <div class="bolt top-left"></div><div class="bolt top-right"></div>
+      <div class="bolt bottom-left"></div><div class="bolt bottom-right"></div>
+      <header class="title-row">
+        <span class="bio-icon" aria-hidden="true">☣</span>
+        <div class="headline">
+          <div class="brand">DIAMOND <span>ROLEPLAY</span></div>
+          <h1 id="screenTitle">กำลังเชื่อมต่อ</h1>
+          <div class="subtitle" id="screenSubtitle">SURVIVOR AUTHENTICATION</div>
+        </div>
+        <span class="stamp">ROT CITY<br>ZONE 01</span>
+      </header>
+      <div class="hazard"><span>◆</span><span id="ribbonText">กำลังตรวจสอบตัวละครกับเซิร์ฟเวอร์...</span></div>
+      <p id="notice" class="notice" role="alert" aria-live="polite" hidden></p>
+
+      <section id="loadingPanel" class="loading-panel">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>กำลังตรวจสอบข้อมูลบัญชี</p>
+        <small>รอสัญญาณจาก ROT CITY</small>
+      </section>
+
+      <form id="registerForm" autocomplete="off" novalidate hidden>
+        <label>ชื่อตัวละคร
+          <input type="text" id="regName" class="locked" readonly value="กำลังตรวจสอบ..." aria-label="ชื่อตัวละครล็อกอัตโนมัติ">
+        </label>
+        <label>วันเดือนปีเกิด</label>
+        <div class="dob-row">
+          <select id="birthDay" aria-label="วัน" required><option value="">วัน</option></select>
+          <select id="birthMonth" aria-label="เดือน" required><option value="">เดือน</option></select>
+          <select id="birthYear" aria-label="ปี พ.ศ." required><option value="">ปี พ.ศ.</option></select>
+        </div>
+        <div class="field-label">เพศ</div>
+        <div class="gender-row">
+          <label><input type="radio" name="gender" value="0" checked><span>ชาย</span></label>
+          <label><input type="radio" name="gender" value="1"><span>หญิง</span></label>
+          <label><input type="radio" name="gender" value="2"><span>ไม่ระบุ</span></label>
+        </div>
+        <label>รหัสผ่าน
+          <span class="password-row"><input type="password" id="regPassword" minlength="8" maxlength="64" autocomplete="new-password" placeholder="8–64 ตัวอักษร" required><button type="button" data-toggle="regPassword" title="แสดง/ซ่อนรหัสผ่าน">◉</button></span>
+        </label>
+        <label>ยืนยันรหัสผ่าน
+          <span class="password-row"><input type="password" id="regConfirm" minlength="8" maxlength="64" autocomplete="new-password" placeholder="กรอกรหัสผ่านอีกครั้ง" required><button type="button" data-toggle="regConfirm" title="แสดง/ซ่อนรหัสผ่าน">◉</button></span>
+        </label>
+        <button class="action" type="submit" id="registerBtn">✚ &nbsp; สมัครตัวละคร</button>
+      </form>
+
+      <form id="loginForm" autocomplete="off" novalidate hidden>
+        <label>ชื่อตัวละคร
+          <input type="text" id="loginName" class="locked" readonly value="กำลังตรวจสอบ..." aria-label="ชื่อตัวละครล็อกอัตโนมัติ">
+        </label>
+        <label>รหัสผ่าน
+          <span class="password-row"><input type="password" id="loginPassword" maxlength="64" autocomplete="current-password" placeholder="รหัสผ่านตัวละคร" required><button type="button" data-toggle="loginPassword" title="แสดง/ซ่อนรหัสผ่าน">◉</button></span>
+        </label>
+        <button class="action" type="submit" id="loginBtn">➜ &nbsp; เข้าสู่ระบบ</button>
+      </form>
+
+      <footer class="foot">
+        <span id="connection">กำลังตรวจสอบ CEF...</span>
+        <span class="foot-right">INFECTED AREA · ACCESS CONTROL</span>
+      </footer>
+      <div class="steel-scratches" aria-hidden="true"></div>
+    </section>
+  </main>
+  <script src="../rotcity-shared/cef-thai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

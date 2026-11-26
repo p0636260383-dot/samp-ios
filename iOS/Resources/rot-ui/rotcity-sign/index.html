@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>INTERACTION SIGN HUD | ROT CITY</title>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <!-- Fullscreen Transparent Canvas -->
+  <div id="signRoot" class="sign-root">
+    <div id="signCard" class="sign-card hidden">
+      <!-- Cyber Leader Line Glow Node -->
+      <div id="signCalloutPin" class="callout-pin green"></div>
+
+      <!-- Main Banner Graphic with Dual State Layers (Smooth Crossfade) -->
+      <div id="bannerWrapper" class="banner-wrapper">
+        <img id="bannerImgGreen" class="banner-img green-layer" src="" alt="Ready Banner">
+        <img id="bannerImgRed" class="banner-img red-layer" src="" alt="Locked Banner">
+
+        <!-- Interactive Hotspot Button (Right Side) -->
+        <button id="signActionButton" class="action-hotspot" type="button" aria-label="Interact Button">
+          <span class="hotspot-ripple" id="hotspotRipple"></span>
+        </button>
+
+        <!-- Distance & Key Prompt Badges -->
+        <div id="signPromptBar" class="sign-prompt-bar">
+          <span id="keyPromptBadge" class="prompt-badge key-badge">
+            <span class="key-tag">N</span>
+            <span class="prompt-text">กดใช้งาน</span>
+          </span>
+          <span id="touchPromptBadge" class="prompt-badge touch-badge">
+            <span class="touch-icon">👆</span>
+            <span class="prompt-text">แตะป้าย</span>
+          </span>
+          <span id="distBadge" class="prompt-badge dist-badge">
+            <span id="distValue">0.0m</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="sign.js?v=1"></script>
+</body>
+</html>

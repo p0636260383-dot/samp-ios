@@ -1,0 +1,496 @@
+/* Android WebView only. The original PC styles provide the textures and colors. */
+html[data-mobile-ui] {
+  --panel-width: min(88vw, 850px);
+  --panel-height: min(88vh, 525px);
+  -webkit-text-size-adjust: 100%;
+}
+
+[data-mobile-ui="rotcity-hud"] {
+  --hud-scale: .14;
+  --hud-left: max(6px, env(safe-area-inset-left));
+  --hud-bottom: max(6px, env(safe-area-inset-bottom));
+}
+[data-mobile-ui="rotcity-hud"] .identity strong { font-size: 40px; }
+[data-mobile-ui="rotcity-hud"] .meta { font-size: 25px; gap: 20px; }
+[data-mobile-ui="rotcity-hud"] .track b { font-size: 29px; top: 1px; }
+[data-mobile-ui="rotcity-hud"] .need strong { font-size: 36px; }
+[data-mobile-ui="rotcity-hud"] .need small { font-size: 23px; }
+[data-mobile-ui="rotcity-hud"] .brand { font-size: 19px; }
+[data-mobile-ui="diamond_hud"] #hud {
+  --ui-scale: .082;
+  --hud-left: max(6px, env(safe-area-inset-left));
+  --hud-bottom: max(6px, env(safe-area-inset-bottom));
+}
+[data-mobile-ui="speedo_cef"] #speedo {
+  --speedo-scale: .15;
+  --speedo-bottom: max(58px, calc(env(safe-area-inset-bottom) + 54px));
+  left: 50%;
+  right: auto;
+  bottom: var(--speedo-bottom);
+  transform-origin: center bottom;
+  transform: translateX(-50%) scale(var(--speedo-scale));
+}
+@media (max-width: 419px) {
+  [data-mobile-ui="rotcity-hud"] { --hud-scale: .11; }
+  [data-mobile-ui="diamond_hud"] #hud { --ui-scale: .065; }
+}
+@media (min-width: 580px) {
+  [data-mobile-ui="rotcity-hud"] { --hud-scale: .23; }
+  [data-mobile-ui="diamond_hud"] #hud { --ui-scale: .14; }
+  [data-mobile-ui="speedo_cef"] #speedo { --speedo-scale: .20; }
+}
+
+[data-mobile-ui="rotcity-inventory"] .hotbar { bottom: max(6px, env(safe-area-inset-bottom)); }
+[data-mobile-ui="rotcity-inventory"] .hotbar-slots { gap: clamp(2px, .65vw, 6px); }
+[data-mobile-ui="rotcity-inventory"] .quick-cell {
+  width: clamp(22px, 6.4vw, 46px);
+  height: clamp(22px, 6vw, 43px);
+  padding: 1px;
+  border-width: 2px;
+}
+[data-mobile-ui="rotcity-inventory"] .qicon { font-size: clamp(12px, 3vw, 24px); line-height: 1; }
+[data-mobile-ui="rotcity-inventory"] .qicon svg { max-width: 80%; max-height: 22px; }
+[data-mobile-ui="rotcity-inventory"] .qname { font-size: clamp(6px, 1.25vw, 9px); }
+[data-mobile-ui="rotcity-inventory"] #hotbarToast {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+[data-mobile-ui="rotcity-inventory"] .inv-shell,
+[data-mobile-ui="rotcity-storage"] #app,
+[data-mobile-ui="rotcity-craft"] .frame {
+  width: var(--panel-width);
+  height: var(--panel-height);
+}
+[data-mobile-ui="rotcity-inventory"] .inv-shell,
+[data-mobile-ui="rotcity-craft"] .frame { top: 50%; }
+
+@media (max-height: 480px) {
+  [data-mobile-ui] .topbar {
+    flex: 0 0 clamp(29px, 14vh, 53px);
+    min-height: 0;
+    padding: 2px 7px;
+    gap: 5px;
+  }
+  [data-mobile-ui] .topbar .crest {
+    flex: 0 0 clamp(20px, 9vh, 36px);
+    width: clamp(20px, 9vh, 36px);
+    height: clamp(20px, 9vh, 36px);
+    font-size: clamp(11px, 5vh, 21px);
+  }
+  [data-mobile-ui] .topbar h1 { font-size: clamp(11px, 4.8vh, 19px); line-height: 1.1; }
+  [data-mobile-ui] .topbar .pulse,
+  [data-mobile-ui] .topbar .titles p,
+  [data-mobile-ui] .topbar .headcopy small { display: none; }
+  [data-mobile-ui] .topbar .xbtn,
+  [data-mobile-ui] .topbar .btn-x {
+    flex: 0 0 28px;
+    width: 28px;
+    height: 26px;
+    padding: 0;
+    font-size: 13px;
+  }
+  [data-mobile-ui] .status {
+    flex: 0 0 22px;
+    min-height: 0;
+    padding: 2px 4px;
+    gap: 3px;
+  }
+  [data-mobile-ui] .stat { min-width: 0; padding: 1px 3px; gap: 2px; font-size: 8px; }
+  [data-mobile-ui] .stat .meter { min-width: 0; height: 4px; }
+  [data-mobile-ui] .stat-icon,
+  [data-mobile-ui] footer { display: none; }
+
+  [data-mobile-ui="rotcity-inventory"] .inv-shell,
+  [data-mobile-ui="rotcity-storage"] #app { border-width: 3px; }
+  [data-mobile-ui="rotcity-inventory"] .layout,
+  [data-mobile-ui="rotcity-storage"] .layout {
+    grid-template-rows: minmax(0, 1fr);
+    padding: 3px;
+    gap: 3px;
+  }
+  [data-mobile-ui="rotcity-inventory"] .items-pane { padding: 3px 3px 1px; }
+  [data-mobile-ui="rotcity-inventory"] .items-pane::after { height: 3px; }
+  [data-mobile-ui="rotcity-inventory"] .section-title { display: none; }
+  [data-mobile-ui="rotcity-inventory"] .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    flex: 0 0 auto;
+    margin-bottom: 2px;
+    gap: 2px;
+  }
+  [data-mobile-ui="rotcity-inventory"] .tab { flex: none; padding: 2px 4px; min-height: 19px; line-height: 12px; }
+  [data-mobile-ui="rotcity-inventory"] .grid,
+  [data-mobile-ui="rotcity-storage"] .grid {
+    grid-template-columns: repeat(auto-fill, minmax(43px, 1fr));
+    grid-auto-rows: clamp(43px, 23vh, 75px);
+    padding: 2px;
+    gap: 3px;
+  }
+  [data-mobile-ui="rotcity-inventory"] .tile,
+  [data-mobile-ui="rotcity-storage"] .slot { padding: 2px; min-height: 0; }
+  [data-mobile-ui="rotcity-inventory"] .tile .icon,
+  [data-mobile-ui="rotcity-storage"] .ri-icon { height: 19px; font-size: 17px; line-height: 19px; }
+  [data-mobile-ui="rotcity-inventory"] .tile .icon svg,
+  [data-mobile-ui="rotcity-storage"] .ri-icon svg { width: 19px; height: 19px; }
+  [data-mobile-ui="rotcity-inventory"] .tile .title,
+  [data-mobile-ui="rotcity-storage"] .ri-name { font-size: 8px; line-height: 1.1; }
+  [data-mobile-ui="rotcity-inventory"] .detail { overflow-y: auto; }
+
+  [data-mobile-ui="rotcity-storage"] .layout { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  [data-mobile-ui="rotcity-storage"] .panel-head { flex-basis: 16px; padding: 0 4px; font-size: 9px; }
+  [data-mobile-ui="rotcity-storage"] .panel-head span,
+  [data-mobile-ui="rotcity-storage"] .hint,
+  [data-mobile-ui="rotcity-storage"] .tape { display: none; }
+  [data-mobile-ui="rotcity-storage"] .toolbar { gap: 3px; padding: 2px 3px; }
+  [data-mobile-ui="rotcity-storage"] .toolbar button { min-height: 22px; padding: 1px 4px; font-size: 9px; }
+
+  [data-mobile-ui="rotcity-craft"] .body {
+    grid-template: minmax(0, 1fr) / minmax(0, 1.15fr) minmax(0, 1fr);
+  }
+  [data-mobile-ui="rotcity-craft"] .list,
+  [data-mobile-ui="rotcity-craft"] .detail { min-height: 0; padding: 3px; overflow-y: auto; }
+  [data-mobile-ui="rotcity-craft"] .tab { padding: 3px 5px; font-size: 9px; }
+  [data-mobile-ui="rotcity-craft"] .card {
+    grid-template-columns: 23px minmax(0, 1fr) auto;
+    gap: 4px;
+    padding: 3px;
+    min-height: 29px;
+    margin-bottom: 3px;
+  }
+  [data-mobile-ui="rotcity-craft"] .card .ico,
+  [data-mobile-ui="rotcity-craft"] .detail-head .big-ico { width: 23px; height: 23px; }
+  [data-mobile-ui="rotcity-craft"] .card .ico svg,
+  [data-mobile-ui="rotcity-craft"] .detail-head .big-ico svg { max-width: 21px; max-height: 21px; }
+  [data-mobile-ui="rotcity-craft"] .card .meta h3,
+  [data-mobile-ui="rotcity-craft"] .detail h2 { font-size: 10px; }
+  [data-mobile-ui="rotcity-craft"] .card .meta p,
+  [data-mobile-ui="rotcity-craft"] .detail .sub,
+  [data-mobile-ui="rotcity-craft"] .badge { font-size: 8px; }
+  [data-mobile-ui="rotcity-craft"] .detail-head { gap: 4px; margin-bottom: 3px; }
+  [data-mobile-ui="rotcity-craft"] .ings { min-height: 0; margin-bottom: 3px; padding: 2px; }
+  [data-mobile-ui="rotcity-craft"] .ing { grid-template-columns: 18px minmax(0, 1fr) auto; gap: 3px; padding: 2px; font-size: 9px; }
+  [data-mobile-ui="rotcity-craft"] .ing .ico,
+  [data-mobile-ui="rotcity-craft"] .ing .ico svg { width: 17px; height: 17px; }
+  [data-mobile-ui="rotcity-craft"] .btn { min-height: 24px; padding: 2px 5px; font-size: 10px; }
+  [data-mobile-ui="rotcity-craft"] .hint { display: none; }
+}
+
+@media (max-height: 190px) {
+  html[data-mobile-ui] { --panel-height: 94vh; }
+  [data-mobile-ui] .topbar { flex-basis: 24px; padding-block: 0; }
+  [data-mobile-ui] .topbar .header-end { align-self: center; margin-top: 0; }
+  [data-mobile-ui] .topbar .xbtn,
+  [data-mobile-ui] .topbar .btn-x { height: 22px; line-height: 18px; }
+  [data-mobile-ui] .status { flex-basis: 18px; }
+  [data-mobile-ui="rotcity-inventory"] .tabs::-webkit-scrollbar { height: 3px; }
+  [data-mobile-ui="rotcity-storage"] .toolbar button { min-height: 20px; }
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE OVERRIDES FOR ALL ROT CITY UI PANELS
+   ========================================================================== */
+
+/* 1. rotcity-login (Survivor Login & Register) */
+[data-mobile-ui="rotcity-login"] .auth-shell {
+  padding: max(6px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+}
+[data-mobile-ui="rotcity-login"] .worn-frame {
+  width: min(460px, 92vw);
+  max-height: 94vh;
+  padding: 10px 16px 8px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+[data-mobile-ui="rotcity-login"] .title-row {
+  padding: 0 0 6px;
+  gap: 8px;
+}
+[data-mobile-ui="rotcity-login"] .bio-icon {
+  font-size: 26px;
+}
+[data-mobile-ui="rotcity-login"] .brand {
+  font-size: 14px;
+}
+[data-mobile-ui="rotcity-login"] h1 {
+  font-size: 17px;
+  margin: 2px 0;
+}
+[data-mobile-ui="rotcity-login"] .subtitle {
+  font-size: 9px;
+}
+[data-mobile-ui="rotcity-login"] .stamp {
+  font-size: 8px;
+  padding: 3px;
+}
+[data-mobile-ui="rotcity-login"] .hazard {
+  margin: 6px 0;
+  padding: 5px 8px;
+  min-height: 28px;
+  font-size: 11px;
+}
+[data-mobile-ui="rotcity-login"] label,
+[data-mobile-ui="rotcity-login"] .field-label {
+  font-size: 11px;
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
+[data-mobile-ui="rotcity-login"] input[type=text],
+[data-mobile-ui="rotcity-login"] input[type=password],
+[data-mobile-ui="rotcity-login"] select {
+  height: 32px;
+  font-size: 12px;
+  padding: 0 8px;
+}
+[data-mobile-ui="rotcity-login"] .dob-row {
+  gap: 5px;
+  margin-top: 4px;
+}
+[data-mobile-ui="rotcity-login"] .gender-row span {
+  padding: 5px 3px;
+  font-size: 11px;
+}
+[data-mobile-ui="rotcity-login"] .action {
+  height: 38px;
+  margin: 10px 0 4px;
+  font-size: 14px;
+}
+[data-mobile-ui="rotcity-login"] .foot {
+  margin-top: 6px;
+  padding-top: 5px;
+  font-size: 8px;
+}
+
+/* 2. rotcity-action (Action Progress Bar) */
+[data-mobile-ui="rotcity-action"] .action-root {
+  padding-bottom: max(18px, env(safe-area-inset-bottom));
+}
+[data-mobile-ui="rotcity-action"] .action-bar {
+  transform-origin: bottom center;
+  transform: scale(0.36);
+}
+@media (max-height: 480px) {
+  [data-mobile-ui="rotcity-action"] .action-bar {
+    transform: scale(0.30);
+  }
+}
+
+/* 3. rotcity-airdrop (Airdrop Banner HUD) */
+[data-mobile-ui="rotcity-airdrop"] .airdrop-root {
+  padding-top: max(4px, env(safe-area-inset-top));
+}
+[data-mobile-ui="rotcity-airdrop"] .airdrop-banner {
+  transform-origin: top center;
+  transform: scale(0.42);
+}
+@media (max-height: 480px) {
+  [data-mobile-ui="rotcity-airdrop"] .airdrop-banner {
+    transform: scale(0.35);
+  }
+}
+
+/* 4. rotcity-base (Base Construction Panel) */
+[data-mobile-ui="rotcity-base"] .shell {
+  width: min(860px, 94vw);
+  height: min(510px, 92vh);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-width: 3px;
+  border-radius: 10px;
+}
+[data-mobile-ui="rotcity-base"] .head {
+  padding: 4px 10px;
+  min-height: 34px;
+}
+[data-mobile-ui="rotcity-base"] .head h1 {
+  font-size: 14px;
+}
+[data-mobile-ui="rotcity-base"] .body {
+  grid-template-columns: minmax(80px, 16%) minmax(0, 1fr) minmax(130px, 26%);
+  gap: 5px;
+  padding: 4px;
+}
+[data-mobile-ui="rotcity-base"] .side .cat {
+  padding: 4px 6px;
+  font-size: 9px;
+  min-height: 24px;
+}
+[data-mobile-ui="rotcity-base"] .grid {
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 3px;
+  padding: 3px;
+}
+[data-mobile-ui="rotcity-base"] .detail {
+  padding: 5px;
+  font-size: 9px;
+  overflow-y: auto;
+}
+[data-mobile-ui="rotcity-base"] .foot {
+  padding: 3px 8px;
+  font-size: 8px;
+}
+
+/* 5. rotcity-downed (Downed / Bleedout State Screen) */
+[data-mobile-ui="rotcity-downed"] .top-nav {
+  top: max(4px, env(safe-area-inset-top));
+  left: max(8px, env(safe-area-inset-left));
+  right: max(8px, env(safe-area-inset-right));
+  transform: scale(0.72);
+  transform-origin: top center;
+}
+[data-mobile-ui="rotcity-downed"] .downed-stage {
+  padding: 6px;
+  transform: scale(0.58);
+  transform-origin: center center;
+}
+@media (max-height: 480px) {
+  [data-mobile-ui="rotcity-downed"] .downed-stage {
+    transform: scale(0.48);
+  }
+}
+@media (max-height: 380px) {
+  [data-mobile-ui="rotcity-downed"] .downed-stage {
+    transform: scale(0.42);
+  }
+}
+
+/* 6. rotcity-notify (Item Floating Notifications) */
+[data-mobile-ui="rotcity-notify"] .notify-container {
+  top: max(34px, env(safe-area-inset-top));
+  right: max(10px, env(safe-area-inset-right));
+  transform-origin: top right;
+  transform: scale(0.62);
+}
+@media (max-height: 480px) {
+  [data-mobile-ui="rotcity-notify"] .notify-container {
+    transform: scale(0.50);
+  }
+}
+
+/* 7. rotcity-quest (Survivor Quest Board) */
+[data-mobile-ui="rotcity-quest"] #board {
+  --board-scale: 0.44;
+}
+@media (max-height: 480px) {
+  [data-mobile-ui="rotcity-quest"] #board {
+    --board-scale: 0.38;
+  }
+}
+@media (max-height: 380px) {
+  [data-mobile-ui="rotcity-quest"] #board {
+    --board-scale: 0.32;
+  }
+}
+
+/* 8. rotcity-toxic (Toxic Zone Status Panel) */
+[data-mobile-ui="rotcity-toxic"] body {
+  padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right));
+}
+[data-mobile-ui="rotcity-toxic"] .panel {
+  width: min(290px, 36vw);
+  padding: 8px 10px;
+  transform-origin: top right;
+  transform: scale(0.80);
+}
+@media (max-height: 480px) {
+  [data-mobile-ui="rotcity-toxic"] .panel {
+    transform: scale(0.68);
+  }
+}
+
+/* 9. diamond_admin (Admin Dashboard) */
+[data-mobile-ui="diamond_admin"] .app-shell {
+  width: 96vw;
+  height: 94vh;
+  margin: auto;
+  border-radius: 8px;
+  grid-template-columns: minmax(120px, 18%) minmax(0, 1fr);
+}
+[data-mobile-ui="diamond_admin"] .brand strong {
+  font-size: 12px;
+}
+[data-mobile-ui="diamond_admin"] .nav {
+  padding: 4px 6px;
+  font-size: 9px;
+}
+[data-mobile-ui="diamond_admin"] .topbar {
+  padding: 3px 8px;
+  height: 34px;
+}
+[data-mobile-ui="diamond_admin"] .content {
+  padding: 6px;
+  overflow-y: auto;
+}
+[data-mobile-ui="diamond_admin"] .card {
+  padding: 6px;
+  margin-bottom: 5px;
+}
+
+/* 10. diamond_phone (Smartphone CEF) */
+[data-mobile-ui="diamond_phone"] #shell {
+  right: max(8px, env(safe-area-inset-right));
+  bottom: max(4px, env(safe-area-inset-bottom));
+}
+[data-mobile-ui="diamond_phone"] .phone {
+  height: 94vh;
+  width: min(235px, calc(94vh * 0.50));
+  border-radius: 26px;
+  padding: 5px;
+}
+[data-mobile-ui="diamond_phone"] .phone:before,
+[data-mobile-ui="diamond_phone"] .phone:after {
+  border-radius: 22px;
+}
+[data-mobile-ui="diamond_phone"] .topline {
+  height: 20px;
+  padding: 2px 10px 0;
+  font-size: 8px;
+}
+[data-mobile-ui="diamond_phone"] .island {
+  width: 58px;
+  height: 15px;
+  top: 3px;
+  border-radius: 8px;
+}
+[data-mobile-ui="diamond_phone"] .screen {
+  height: calc(100% - 64px);
+}
+[data-mobile-ui="diamond_phone"] #appHeader {
+  height: 36px;
+  padding: 2px 6px;
+}
+[data-mobile-ui="diamond_phone"] .headname strong {
+  font-size: 12px;
+}
+[data-mobile-ui="diamond_phone"] .headname small {
+  font-size: 8px;
+}
+[data-mobile-ui="diamond_phone"] .dock {
+  height: 40px;
+  bottom: 12px;
+  border-radius: 12px;
+}
+[data-mobile-ui="diamond_phone"] .dock button {
+  font-size: 7px;
+  padding: 1px 3px;
+}
+[data-mobile-ui="diamond_phone"] .dock b {
+  font-size: 15px;
+}
+[data-mobile-ui="diamond_phone"] .app .appicon {
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  border-radius: 9px;
+}
+[data-mobile-ui="diamond_phone"] .homebar {
+  bottom: 4px;
+  width: 65px;
+  height: 3px;
+}
+[data-mobile-ui="diamond_phone"] .outside-controls {
+  display: none;
+}
