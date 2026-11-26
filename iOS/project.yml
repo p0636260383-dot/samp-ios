@@ -38,6 +38,8 @@ targets:
         NSMicrophoneUsageDescription: ใช้ไมโครโฟนสำหรับระบบพูดคุย ROT CITY เมื่อคุณกดพูด
         NSLocalNetworkUsageDescription: เชื่อมต่อและตรวจสถานะเซิร์ฟเวอร์ SA-MP เดียวกับ Android
         ITSAppUsesNonExemptEncryption: false
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.rotcity.ios

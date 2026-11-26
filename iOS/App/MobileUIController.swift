@@ -20,11 +20,15 @@ final class MobileUIController: UIViewController, WKScriptMessageHandler, WKNavi
     private var pages: [Int: Page] = [:]
     private(set) var registry: [String: String] = [:]
     private let assets: URL
+    private let patchedAssets: URL
 
     init() {
         assets = Bundle.main.bundleURL.appendingPathComponent("rot-ui", isDirectory: true)
+        patchedAssets = GameDataManager.uiPatchDir
         super.init(nibName: nil, bundle: nil)
-        if let data = try? Data(contentsOf: assets.appendingPathComponent("pages.json")),
+        let patchedPages = patchedAssets.appendingPathComponent("pages.json")
+        let bundledPages = assets.appendingPathComponent("pages.json")
+        if let data = (try? Data(contentsOf: patchedPages)) ?? (try? Data(contentsOf: bundledPages)),
            let decoded = try? JSONDecoder().decode([String: String].self, from: data) { registry = decoded }
     }
     required init?(coder: NSCoder) { fatalError("Use init()") }
@@ -60,7 +64,7 @@ final class MobileUIController: UIViewController, WKScriptMessageHandler, WKNavi
         if let old = pages.removeValue(forKey: id) { destroy(old) }
         guard pages.count < 24 else { return }
         let configuration = WKWebViewConfiguration()
-        configuration.setURLSchemeHandler(UIAssetHandler(root: assets), forURLScheme: "rotui")
+        configuration.setURLSchemeHandler(UIAssetHandler(root: assets, overrideRoot: patchedAssets), forURLScheme: "rotui")
         let content = WKUserContentController()
         content.add(WeakScriptHandler(self), name: "DiamondUi")
         let panel = clean.components(separatedBy: "/")[0]
@@ -147,15 +151,29 @@ private final class WeakScriptHandler: NSObject, WKScriptMessageHandler {
 
 private final class UIAssetHandler: NSObject, WKURLSchemeHandler {
     let root: URL
-    init(root: URL) { self.root = root.standardizedFileURL }
+    let overrideRoot: URL
+    init(root: URL, overrideRoot: URL) {
+        self.root = root.standardizedFileURL
+        self.overrideRoot = overrideRoot.standardizedFileURL
+    }
     func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
         guard let url = urlSchemeTask.request.url, url.host == "bundle" else {
             urlSchemeTask.didFailWithError(URLError(.badURL)); return
         }
         let path = url.path
-        let target = root.appendingPathComponent(String(path.dropFirst())).standardizedFileURL
-        guard !path.contains("\\"), target.path.hasPrefix(root.path + "/"),
-              let data = try? Data(contentsOf: target) else {
+        let rel = String(path.dropFirst())
+        let patched = overrideRoot.appendingPathComponent(rel).standardizedFileURL
+        let bundled = root.appendingPathComponent(rel).standardizedFileURL
+        guard !path.contains("\\") else {
+            urlSchemeTask.didFailWithError(URLError(.fileDoesNotExist)); return
+        }
+        let target: URL
+        let data: Data
+        if patched.path.hasPrefix(overrideRoot.path + "/"), let d = try? Data(contentsOf: patched) {
+            target = patched; data = d
+        } else if bundled.path.hasPrefix(root.path + "/"), let d = try? Data(contentsOf: bundled) {
+            target = bundled; data = d
+        } else {
             urlSchemeTask.didFailWithError(URLError(.fileDoesNotExist)); return
         }
         let ext = target.pathExtension.lowercased()

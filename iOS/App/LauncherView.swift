@@ -11,6 +11,7 @@ struct LauncherView: View {
     @State private var showingGame = false
     @State private var nicknameError: String?
     @StateObject private var microphone = VoiceCapture()
+    @StateObject private var dataManager = GameDataManager()
     private let accent = Color(red: 0.35, green: 0.78, blue: 1)
 
     var body: some View {
@@ -22,7 +23,7 @@ struct LauncherView: View {
                 }
                 ScrollView {
                     HStack(alignment: .top, spacing: 32) {
-                        VStack(alignment: .leading, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 14) {
                             Text("ROT CITY").font(.system(size: 46, weight: .black)).foregroundColor(accent)
                             Text("SAN ANDREAS MULTIPLAYER · iOS").font(.caption).tracking(2)
                             Text(ServerConfiguration.rotCity.address).font(.system(.body, design: .monospaced))
@@ -46,10 +47,45 @@ struct LauncherView: View {
                             .buttonStyle(.borderedProminent)
                             .tint(.green)
                         }.frame(maxWidth: 400, alignment: .leading)
-                        VStack(alignment: .leading, spacing: 14) {
-                            Text("เวอร์ชันทดสอบระบบ iOS").font(.title3.bold())
-                            Text("เชื่อมต่อเซิร์ฟเวอร์ SA-MP, แชท, Dialog และ /dweb UI ได้แล้ว (3D GTA engine ยังอยู่ระหว่างพอร์ต)")
-                                .font(.callout).foregroundColor(.yellow)
+
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("ดาต้าเกม & แพตช์ UI (เหมือน Android)").font(.title3.bold())
+                            Text(dataManager.dataStatusText)
+                                .font(.caption)
+                                .foregroundColor(dataManager.dataInstalled ? .green : .yellow)
+                            Button {
+                                dataManager.startDataDownload()
+                            } label: {
+                                Label(dataManager.dataInstalled ? "อัปเดตดาต้าเกม (~623 MB)" : "ติดตั้งดาต้าเกม (~623 MB)", systemImage: "arrow.down.circle")
+                            }
+                            .buttonStyle(.bordered)
+                            .disabled(dataManager.isDownloading)
+
+                            Text(dataManager.patchStatusText)
+                                .font(.caption)
+                                .foregroundColor(dataManager.pendingManifest != nil ? .cyan : .secondary)
+                            HStack(spacing: 10) {
+                                Button("ตรวจสอบแพตช์ UI") {
+                                    dataManager.checkPatchManifest(autoApply: true)
+                                }
+                                .buttonStyle(.bordered)
+                                .disabled(dataManager.checkingPatch || dataManager.isDownloading)
+
+                                if let manifest = dataManager.pendingManifest {
+                                    Button("อัปเดต v\(manifest.version)") {
+                                        dataManager.downloadAndApplyPatch(manifest)
+                                    }
+                                    .buttonStyle(.borderedProminent)
+                                    .tint(accent)
+                                }
+                            }
+
+                            if let err = dataManager.downloadError {
+                                Text("ดาวน์โหลดไม่สำเร็จ: \(err)").font(.caption).foregroundColor(.red)
+                            }
+
+                            Divider().padding(.vertical, 4)
+
                             Button { microphone.stop(); showingUI = true } label: { Label("เปิด UI เดียวกับ Android", systemImage: "square.grid.2x2") }
                                 .buttonStyle(.borderedProminent).tint(accent)
                             Button { microphone.isCapturing ? microphone.stop() : microphone.requestAndStart() } label: {
@@ -57,10 +93,12 @@ struct LauncherView: View {
                             }.buttonStyle(.bordered)
                             ProgressView(value: microphone.level).tint(.green)
                             Text(microphone.status).font(.caption).foregroundColor(.secondary)
-                            Text("การทดสอบไมค์อ่านระดับเสียงในเครื่อง ยังไม่ส่งเสียงไปเซิร์ฟเวอร์")
-                                .font(.caption).foregroundColor(.secondary)
                         }.frame(maxWidth: 430, alignment: .leading)
                     }.padding(32).frame(minWidth: size.size.width, minHeight: size.size.height)
+                }
+
+                if dataManager.isDownloading {
+                    downloadOverlay
                 }
             }
         }
@@ -68,8 +106,32 @@ struct LauncherView: View {
         .fullScreenCover(isPresented: $showingGame) {
             GameSessionView(nickname: nickname.trimmingCharacters(in: .whitespacesAndNewlines))
         }
-        .onAppear { refresh() }
+        .onAppear {
+            refresh()
+            dataManager.checkPatchManifest(autoApply: false)
+        }
         .onDisappear { microphone.stop() }
+    }
+
+    private var downloadOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.65).ignoresSafeArea()
+            VStack(alignment: .leading, spacing: 12) {
+                Text(dataManager.downloadTitle).font(.headline)
+                ProgressView(value: dataManager.downloadProgress).tint(accent)
+                Text(dataManager.downloadDetail).font(.caption).foregroundColor(.secondary)
+                HStack {
+                    Spacer()
+                    Button("ยกเลิกการดาวน์โหลด") { dataManager.cancelDownload() }
+                        .buttonStyle(.bordered)
+                }
+            }
+            .padding(20)
+            .frame(maxWidth: 440)
+            .background(Color(red: 0.04, green: 0.10, blue: 0.18))
+            .cornerRadius(16)
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(accent.opacity(0.4)))
+        }
     }
 
     private func enterGame() {
