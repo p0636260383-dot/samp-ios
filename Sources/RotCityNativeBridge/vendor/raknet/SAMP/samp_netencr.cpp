@@ -4,7 +4,9 @@
 	Updated to 0.3.7 by P3ti
 */
 
-#include "..//..//..//main.h"\n#include <cstring>\n#include <cstdint>
+#include "..//..//..//main.h"
+#include <cstring>
+#include <cstdint>
 
 int dblSpace;
 char buf[131072];
