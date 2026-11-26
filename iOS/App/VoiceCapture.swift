@@ -11,6 +11,7 @@ final class VoiceCapture: ObservableObject {
     @Published private(set) var status = "48 kHz · Mono · PCM 16-bit"
     private let engine = AVAudioEngine()
     private var hasTap = false
+    private var wantsCapture = false
     private var observers: [NSObjectProtocol] = []
 
     init() {
@@ -22,9 +23,10 @@ final class VoiceCapture: ObservableObject {
     deinit { observers.forEach(NotificationCenter.default.removeObserver); engine.stop() }
 
     func requestAndStart() {
+        wantsCapture = true
         AVAudioSession.sharedInstance().requestRecordPermission { [weak self] granted in
             DispatchQueue.main.async {
-                guard let self = self else { return }
+                guard let self = self, self.wantsCapture, UIApplication.shared.applicationState == .active else { return }
                 if granted { self.start() } else { self.status = "ยังไม่ได้รับอนุญาตใช้ไมโครโฟน" }
             }
         }
@@ -68,8 +70,9 @@ final class VoiceCapture: ObservableObject {
                 }
                 let level = min(1, sqrt(energy / Float(count)) * 5)
                 DispatchQueue.main.async {
-                    self?.level = level
-                    if let bytes = packetBytes { self?.status = "Opus 48 kHz Mono · 100 ms · \(bytes) bytes · ทดสอบในเครื่อง" }
+                    guard let self = self, self.isCapturing else { return }
+                    self.level = level
+                    if let bytes = packetBytes { self.status = "Opus 48 kHz Mono · 100 ms · \(bytes) bytes · ทดสอบในเครื่อง" }
                 }
             }
             hasTap = true
@@ -83,6 +86,7 @@ final class VoiceCapture: ObservableObject {
         }
     }
     func stop() {
+        wantsCapture = false
         engine.stop()
         if hasTap { engine.inputNode.removeTap(onBus: 0); hasTap = false }
         isCapturing = false; level = 0

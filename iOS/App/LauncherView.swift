@@ -2,6 +2,7 @@ import SwiftUI
 import RotCityIOS
 
 struct LauncherView: View {
+    private static let cover = UIImage(contentsOfFile: Bundle.main.bundleURL.appendingPathComponent("Brand/rotcity_cover.png").path)
     @AppStorage("rotcity.nickname") private var nickname = ""
     @State private var serverStatus: ServerStatus?
     @State private var checking = false
@@ -14,7 +15,7 @@ struct LauncherView: View {
         GeometryReader { size in
             ZStack {
                 Color(red: 0.02, green: 0.04, blue: 0.08).ignoresSafeArea()
-                if let image = UIImage(contentsOfFile: Bundle.main.bundleURL.appendingPathComponent("Brand/rotcity_cover.png").path) {
+                if let image = Self.cover {
                     Image(uiImage: image).resizable().scaledToFill().frame(width: size.size.width, height: size.size.height).clipped().opacity(0.22).ignoresSafeArea()
                 }
                 ScrollView {
@@ -33,7 +34,7 @@ struct LauncherView: View {
                             Text("เวอร์ชันทดสอบระบบ iOS").font(.title3.bold())
                             Text("ยังเข้าเล่นเกม 3D ไม่ได้: อยู่ระหว่างพอร์ต GTA engine, player sync และม็อดสำหรับ iOS")
                                 .font(.callout).foregroundColor(.yellow)
-                            Button { showingUI = true } label: { Label("เปิด UI เดียวกับ Android", systemImage: "square.grid.2x2") }
+                            Button { microphone.stop(); showingUI = true } label: { Label("เปิด UI เดียวกับ Android", systemImage: "square.grid.2x2") }
                                 .buttonStyle(.borderedProminent).tint(accent)
                             Button { microphone.isCapturing ? microphone.stop() : microphone.requestAndStart() } label: {
                                 Label(microphone.isCapturing ? "หยุดทดสอบไมค์" : "ทดสอบไมค์", systemImage: microphone.isCapturing ? "mic.fill" : "mic")

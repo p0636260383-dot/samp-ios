@@ -1,5 +1,7 @@
 #include "rotcity_native_bridge.h"
 #include <netdb.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <sys/socket.h>
 #include <sys/select.h>
 #include <unistd.h>

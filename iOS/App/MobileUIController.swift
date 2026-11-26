@@ -33,10 +33,11 @@ final class MobileUIController: UIViewController, WKScriptMessageHandler, WKNavi
     func receive(_ packet: String) {
         precondition(Thread.isMainThread)
         guard let action = transport.receive(packet) else { return }
-        if packet == "=R" { closeAll() }
         switch action {
         case .reset: closeAll()
-        case .command(let command): sendCommand?(command)
+        case .command(let command):
+            if command == "/dweb ready" { closeAll() }
+            sendCommand?(command)
         case .create(let id, let path, let hidden, let focused): open(id: id, path: path, hidden: hidden, focused: focused)
         case .hidden(let id, let value): pages[id]?.hidden = value; apply(id)
         case .focused(let id, let value): pages[id]?.focused = value; apply(id)
@@ -70,9 +71,9 @@ final class MobileUIController: UIViewController, WKScriptMessageHandler, WKNavi
           if(!events.has(n))events.set(n,[]);events.get(n).push(f)},
           emit:(n,...a)=>window.webkit.messageHandlers.DiamondUi.postMessage({name:String(n),args:a.map(String).join(' ')})});
         window.diamondUiReceive=(n,a)=>{for(const f of events.get(n)||[]){try{f(...a)}catch(e){console.error(e)}}};
-        const panel=\(panelJSON)[0];document.documentElement.dataset.rotPage=panel;
-        document.documentElement.dataset.mobileUi=panel;
+        const panel=\(panelJSON)[0];
         document.addEventListener('DOMContentLoaded',()=>{
+          document.documentElement.dataset.rotPage=panel;document.documentElement.dataset.mobileUi=panel;
           if(!document.querySelector('meta[name="viewport"]')){const m=document.createElement('meta');m.name='viewport';m.content='width=device-width, initial-scale=1, viewport-fit=cover';document.head.appendChild(m)}
           for(const name of ['mobile.css','mobile-layout.css']){const l=document.createElement('link');l.rel='stylesheet';l.href='rotui://bundle/rotcity-shared/'+name;document.head.appendChild(l)}
         });})();

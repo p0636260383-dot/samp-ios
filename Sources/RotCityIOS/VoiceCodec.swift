@@ -4,7 +4,7 @@ import RotCityOpus
 /// Use one instance per capture/remote speaker on its audio queue.
 public final class VoiceCodec {
     private let handle: OpaquePointer
-    public init?(bitrate: Int32 = 24000) {
+    public init?(bitrate: Int32 = 40000) {
         guard let handle = rotcity_codec_create(bitrate) else { return nil }
         self.handle = handle
     }

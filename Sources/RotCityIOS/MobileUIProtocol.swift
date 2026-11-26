@@ -37,7 +37,7 @@ public struct MobileUIProtocol {
             guard let id = Int(fields[1]), id >= 0,
                   ["0", "1"].contains(fields[2]), ["0", "1"].contains(fields[3]) else { return nil }
             return .create(id: id, path: fields[4], hidden: fields[2] == "1", focused: fields[3] == "1")
-        case "H", "F" where fields.count == 3:
+        case "H", "F":
             guard fields.count == 3, let id = Int(fields[1]), ["0", "1"].contains(fields[2]) else { return nil }
             return fields[0] == "H" ? .hidden(id: id, value: fields[2] == "1") : .focused(id: id, value: fields[2] == "1")
         case "E" where fields.count >= 2:

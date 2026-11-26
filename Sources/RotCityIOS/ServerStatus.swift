@@ -13,7 +13,7 @@ public struct ServerStatus: Equatable {
         var buffer = [UInt8](repeating: 0, count: 4096)
         var ping: Int32 = 0
         let count = server.host.withCString { host in
-            rotcity_query_info(host, server.port, &buffer, Int32(buffer.count), &ping)
+            rotcity_query_info(host, server.port, &buffer, 4096, &ping)
         }
         guard count > 0 else { return nil }
         return parse(Data(buffer.prefix(Int(count))), pingMilliseconds: Int(ping))
