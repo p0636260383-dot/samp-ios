@@ -17,6 +17,7 @@ let package = Package(
                 .headerSearchPath("vendor/raknet"),
                 .headerSearchPath("vendor/raknet/SAMP"),
                 .define("RAKNET", to: "1"),
+                .define("RAKSAMP_CLIENT"),
             ]
         ),
     ]
