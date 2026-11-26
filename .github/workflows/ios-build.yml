@@ -13,6 +13,10 @@ jobs:
       - name: Swift version
         run: swift --version
       - name: Build for iOS (arm64)
-        run: swift build -c release --triple arm64-apple-ios
+        run: |
+          SDK=$(xcrun --sdk iphoneos --show-sdk-path)
+          swift build -c release --triple arm64-apple-ios --sdk "$SDK"
       - name: Build for iOS Simulator
-        run: swift build -c release --triple arm64-apple-ios-simulator
+        run: |
+          SDK=$(xcrun --sdk iphonesimulator --show-sdk-path)
+          swift build -c release --triple arm64-apple-ios-simulator --sdk "$SDK"
