@@ -5,9 +5,10 @@ let package = Package(
     name: "RotCityIOS",
     platforms: [.iOS(.v15)],
     products: [
-        .library(name: "RotCityIOS", targets: ["RotCityIOS"]),
+        .library(name: "RotCityIOS", targets: ["RotCityIOS", "RotCityNativeBridge"]),
     ],
     targets: [
-        .target(name: "RotCityIOS", path: "Sources/RotCityIOS"),
+        .target(name: "RotCityIOS", dependencies: ["RotCityNativeBridge"], path: "Sources/RotCityIOS"),
+        .target(name: "RotCityNativeBridge", path: "Sources/RotCityNativeBridge", publicHeadersPath: "include"),
     ]
 )
