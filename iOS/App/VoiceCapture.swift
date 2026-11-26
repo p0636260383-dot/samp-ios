@@ -1,6 +1,7 @@
 import AVFoundation
 import Combine
 import UIKit
+import RotCityIOS
 
 /// Real AVAudioEngine capture, resampled to the Android client's 48 kHz mono PCM.
 /// Network transmission is deliberately unavailable until the game session negotiates SampVoice.
@@ -40,7 +41,9 @@ final class VoiceCapture: ObservableObject {
             let source = input.outputFormat(forBus: 0)
             guard source.sampleRate > 0, source.channelCount > 0,
                   let target = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 48000, channels: 1, interleaved: false),
-                  let converter = AVAudioConverter(from: source, to: target) else { throw CaptureError.unsupportedFormat }
+                  let converter = AVAudioConverter(from: source, to: target),
+                  let codec = VoiceCodec() else { throw CaptureError.unsupportedFormat }
+            var pendingPCM: [Int16] = []
             input.installTap(onBus: 0, bufferSize: 960, format: source) { [weak self] buffer, _ in
                 let capacity = AVAudioFrameCount(ceil(Double(buffer.frameLength) * 48000 / source.sampleRate) + 64)
                 guard let output = AVAudioPCMBuffer(pcmFormat: target, frameCapacity: capacity) else { return }
@@ -52,12 +55,22 @@ final class VoiceCapture: ObservableObject {
                 }
                 guard error == nil, output.frameLength > 0, let pcm = output.int16ChannelData?[0] else { return }
                 let count = Int(output.frameLength)
+                pendingPCM.append(contentsOf: UnsafeBufferPointer(start: pcm, count: count))
+                var packetBytes: Int?
+                while pendingPCM.count >= 4800 {
+                    let frame = Array(pendingPCM.prefix(4800))
+                    pendingPCM.removeFirst(4800)
+                    packetBytes = codec.encode(frame)?.count
+                }
                 let energy = (0..<count).reduce(Float(0)) { sum, i in
                     let sample = Float(pcm[i]) / 32768
                     return sum + sample * sample
                 }
                 let level = min(1, sqrt(energy / Float(count)) * 5)
-                DispatchQueue.main.async { self?.level = level }
+                DispatchQueue.main.async {
+                    self?.level = level
+                    if let bytes = packetBytes { self?.status = "Opus 48 kHz Mono · 100 ms · \(bytes) bytes · ทดสอบในเครื่อง" }
+                }
             }
             hasTap = true
             engine.prepare()

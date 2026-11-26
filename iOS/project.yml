@@ -24,6 +24,9 @@ targets:
       - path: Resources/Brand
         type: folder
         buildPhase: resources
+      - path: Resources/Licenses
+        type: folder
+        buildPhase: resources
     info:
       path: App/Info.plist
       properties:
