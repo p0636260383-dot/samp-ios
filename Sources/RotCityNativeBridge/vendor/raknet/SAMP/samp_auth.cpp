@@ -1,5 +1,5 @@
 // https://github.com/P3ti/RakSAMP/blob/master/raknet/SAMP/samp_auth.cpp
-#include "..//..//..//main.h"
+#include "..//..//main.h"
 #include <cstring>
 #include <cstdio>
 #include <iterator>
@@ -532,3 +532,5 @@ const char* findKey(const char* sendValue) {
     }
     return nullptr; // Если не найдено соответствие, возвращаем nullptr или другое значение по умолчанию
 }
+
+

@@ -4,7 +4,7 @@
 	Updated to 0.3.7 by P3ti
 */
 
-#include "..//..//..//main.h"
+#include "..//..//main.h"
 #include <cstring>
 #include <cstdint>
 
@@ -65,3 +65,5 @@ void kyretardizeDatagram(unsigned char *buf, int len, int port, int unk)
 		unk ^= 1u;
     }
 }
+
+
