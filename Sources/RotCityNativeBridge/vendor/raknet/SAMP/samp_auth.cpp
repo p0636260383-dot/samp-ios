@@ -525,12 +525,13 @@ static const AuthEntry AuthTable[] = {
 //};
 
 const char* findKey(const char* sendValue) {
-    for (size_t i = 0; i < std::size(AuthTable); ++i) {
+    for (size_t i = 0; i < (sizeof(AuthTable)/sizeof(AuthTable[0])); ++i) {
         if (strcmp(AuthTable[i].send, sendValue) == 0) {
             return AuthTable[i].recv; // Найдено соответствие, возвращаем recv
         }
     }
     return nullptr; // Если не найдено соответствие, возвращаем nullptr или другое значение по умолчанию
 }
+
 
 
