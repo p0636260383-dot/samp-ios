@@ -8,6 +8,8 @@ struct LauncherView: View {
     @State private var checking = false
     @State private var queried = false
     @State private var showingUI = false
+    @State private var showingGame = false
+    @State private var nicknameError: String?
     @StateObject private var microphone = VoiceCapture()
     private let accent = Color(red: 0.35, green: 0.78, blue: 1)
 
@@ -28,11 +30,25 @@ struct LauncherView: View {
                                  ?? (checking ? "กำลังตรวจสถานะ…" : queried ? "เซิร์ฟเวอร์ไม่ตอบคำขอสถานะ" : "ยังไม่ได้ตรวจสถานะเซิร์ฟเวอร์"))
                                 .foregroundColor(.secondary)
                             Button("ตรวจสถานะเซิร์ฟเวอร์", action: refresh).disabled(checking)
-                            TextField("ชื่อผู้เล่น", text: $nickname).textInputAutocapitalization(.never).disableAutocorrection(true).textFieldStyle(.roundedBorder)
+                            TextField("ชื่อผู้เล่น (3-20 ตัวอักษร A-Z, 0-9, _)", text: $nickname)
+                                .textInputAutocapitalization(.never)
+                                .disableAutocorrection(true)
+                                .textFieldStyle(.roundedBorder)
+                            if let nicknameError {
+                                Text(nicknameError).font(.caption).foregroundColor(.red)
+                            }
+                            Button {
+                                enterGame()
+                            } label: {
+                                Label("เข้าเกม (เชื่อมต่อเซิร์ฟเวอร์)", systemImage: "play.fill")
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(.green)
                         }.frame(maxWidth: 400, alignment: .leading)
                         VStack(alignment: .leading, spacing: 14) {
                             Text("เวอร์ชันทดสอบระบบ iOS").font(.title3.bold())
-                            Text("ยังเข้าเล่นเกม 3D ไม่ได้: อยู่ระหว่างพอร์ต GTA engine, player sync และม็อดสำหรับ iOS")
+                            Text("เชื่อมต่อเซิร์ฟเวอร์ SA-MP, แชท, Dialog และ /dweb UI ได้แล้ว (3D GTA engine ยังอยู่ระหว่างพอร์ต)")
                                 .font(.callout).foregroundColor(.yellow)
                             Button { microphone.stop(); showingUI = true } label: { Label("เปิด UI เดียวกับ Android", systemImage: "square.grid.2x2") }
                                 .buttonStyle(.borderedProminent).tint(accent)
@@ -49,7 +65,22 @@ struct LauncherView: View {
             }
         }
         .fullScreenCover(isPresented: $showingUI) { UICatalogView() }
+        .fullScreenCover(isPresented: $showingGame) {
+            GameSessionView(nickname: nickname.trimmingCharacters(in: .whitespacesAndNewlines))
+        }
+        .onAppear { refresh() }
         .onDisappear { microphone.stop() }
+    }
+
+    private func enterGame() {
+        let trimmed = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard SampClient.isValidNickname(trimmed) else {
+            nicknameError = "ชื่อผู้เล่นต้องเป็นภาษาอังกฤษ/ตัวเลข 3-20 ตัวอักษร (เช่น Somchai หรือ Player_1)"
+            return
+        }
+        nicknameError = nil
+        microphone.stop()
+        showingGame = true
     }
 
     private func refresh() {
