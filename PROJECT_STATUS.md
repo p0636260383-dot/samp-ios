@@ -15,14 +15,23 @@ Updated: 27 November 2026 (Asia/Bangkok).
 
 - UI asset size/hash and registry integrity checks passed.
 - ARM64 syntax checks passed for 137 Opus C sources using installed Android NDK.
+- Installed Swift 6.1.3 and C/C++ development tools in the existing Ubuntu WSL.
+- Shared core builds and all 7 Swift XCTest cases pass on Linux.
+- Real Opus encode/decode round trip passes: 48000 Hz mono, 40000 bps, 100 ms,
+  547 encoded bytes and 4800 decoded samples.
+- Authentication SHA-1 matches Python hashlib for 14 vectors, including padding
+  boundaries. Fixed incorrect 64-bit word selection and padding arithmetic.
+- RakNet bit-reader/copy regression tests pass for 64 alignment combinations.
+  Fixed unsequenced offset reads/increments in the vendored bitstream.
+- All iOS app Swift files pass parser checks; this is not an Xcode type/link check.
 - Git whitespace checks passed.
 
 ## External blockers / unverified work
 
 - GitHub Actions is disabled at the account level. Dispatch returns HTTP 422,
   `Actions has been disabled for this user.` Workflow state itself is `active`.
-- No local macOS/Xcode/Swift toolchain. Swift tests, iOS linking, simulator smoke
-  tests and IPA production have not been verified.
+- No local macOS/Xcode. iOS type checking/linking, simulator smoke tests and IPA
+  production have not been verified. Linux shared-core tests are now available.
 - Supplied ROTCITY directory is an open.mp/Pawn server, with no iOS game engine.
 - Game engine/rendering, world sync, touch controls, mod loader, live SampVoice
   negotiation/playback/radio and RPC-to-UI integration remain unimplemented.

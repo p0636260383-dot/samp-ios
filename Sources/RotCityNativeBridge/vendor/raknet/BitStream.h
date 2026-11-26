@@ -1016,7 +1016,8 @@ namespace RakNet
 		if ( readOffset + 1 > numberOfBitsUsed )
 			return false;
 
-		if ( data[ readOffset >> 3 ] & ( 0x80 >> ( readOffset++ % 8 ) ) )   // Is it faster to just write it out here?
+		const int offset = readOffset++;
+		if ( data[ offset >> 3 ] & ( 0x80 >> ( offset % 8 ) ) )
 			var = true;
 		else
 			var = false;

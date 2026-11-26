@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <iterator>
 #include <cstdlib>
+#include <cstdint>
 
 #define endian_swap8(x) (x)
 #define endian_swap16(x) ((x>>8) | (x<<8))
@@ -17,15 +18,9 @@
 #define ROTR(value, shift) ((value >> shift) | (value << (sizeof(value)*8 - shift)))
 #define swap(x,y,T) {T tmp = x; x = y; y = tmp;}
 
-#ifdef VER_x32
-// Use uint32_t for 32-bit architecture
+// SHA-1 uses 32-bit words on both 32-bit and 64-bit CPUs.
 typedef uint32_t arch_ulong;
 typedef uint64_t arch_ulonglong;
-#else
-// Use uint64_t for 64-bit architecture
-typedef uint64_t arch_ulong;
-typedef uint64_t arch_ulonglong;
-#endif
 
 void *aligned_alloc_fallback(size_t alignment, size_t size) {
     void *ptr = NULL;
@@ -50,7 +45,7 @@ void SHA1(const char *message, arch_ulong *out) {
         bitlen += 8;
     }
 
-    arch_ulong complement = (55 - (len % 64)) + 8 * (((len + 8) / 64));
+    arch_ulong complement = (55 + 64 - (len % 64)) % 64;
     arch_ulong newlen = len + complement + 8 + 1;
 
     // Aligned memory allocation

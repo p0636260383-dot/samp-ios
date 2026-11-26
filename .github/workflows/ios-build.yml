@@ -21,6 +21,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify Android UI snapshot
         run: node tools/verify-assets.mjs
+      - name: Test shared Opus codec
+        run: python3 tools/test-opus-native.py
+      - name: Test authentication hash portability
+        run: python3 tools/test-auth-native.py
+      - name: Test RakNet bit reading
+        run: python3 tools/test-bitstream-native.py
       - name: Test protocol compatibility
         run: swift test
       - name: Install XcodeGen

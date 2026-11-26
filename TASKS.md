@@ -20,6 +20,9 @@
 - [x] Add native microphone capture and Android Opus source codec
 - [x] Add SampVoice v11 packet serializer/parser and compatibility test suites
 - [x] Configure unsigned IPA artifact and iPhone/iPad simulator smoke workflow
+- [x] Run 7 Swift shared-core tests on Ubuntu WSL
+- [x] Run native Opus, SHA-1 reference and RakNet bit-alignment regression tests
+- [x] Fix auth word size/padding and unsequenced RakNet bit offsets
 - [ ] Restore account-level GitHub Actions access
 - [ ] Run Swift tests, Xcode build and simulator screenshots successfully
 - [ ] Supply/integrate iOS GTA engine and gameplay sync

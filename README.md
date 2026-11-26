@@ -4,7 +4,7 @@ iOS app source targeting the same ROT CITY server as the Android launcher:
 `diamond1412.thddns.net:6160`.
 
 **This is a port in progress, not a playable GTA/SA-MP client. No successful IPA
-build has been verified.** The macOS Actions build is currently blocked by GitHub's
+build has been verified.** Shared-core Swift tests pass on Ubuntu WSL. The macOS Actions build is currently blocked by GitHub's
 account-level response: `HTTP 422: Actions has been disabled for this user.`
 
 ## Implemented
@@ -47,7 +47,20 @@ xcodebuild -project iOS/RotCity.xcodeproj -scheme RotCity -configuration Release
 The Actions workflow packages `Payload/RotCity.app` into `RotCity-iOS-unsigned.ipa`
 and uploads an artifact of the same name with installation notes and SHA-256.
 It also builds the simulator and launches the app on iPhone and iPad simulators.
-These steps remain unverified until Actions is restored or a Mac runs them.
+Xcode build and simulator steps remain unverified until Actions is restored or a Mac runs them.
+
+## Shared-core tests on Linux
+
+```sh
+swift test
+python3 tools/test-opus-native.py
+python3 tools/test-auth-native.py
+python3 tools/test-bitstream-native.py
+```
+
+All 7 Swift tests and the native codec/hash/bitstream regression checks passed on
+Ubuntu WSL with Swift 6.1.3, GCC/G++ 15. This verifies shared logic, not UIKit,
+SwiftUI, microphone hardware, signing or a playable iOS game.
 
 For device signing, open the generated project in Xcode and select your own Apple
 development team. Certificates, provisioning profiles and credentials are not

@@ -23,9 +23,19 @@ Source inspected: `SAMP-Mobile-GTA-2.11/app/src/main` and the user-supplied
 - All 39 registered page documents exist.
 - All 137 shared Opus C files (136 vendor + wrapper) passed ARM64 syntax checking
   using the existing Android NDK 30 compiler. This is not an iOS compile or runtime test.
-- Swift XCTest suites cover framing, malformed packets, path restrictions, Thai wire
-  bytes, SAMP status parsing, voice checksum, and an Opus audio round trip. They have
-  **not run** because Swift/Xcode are unavailable locally and GitHub Actions is blocked.
+- Swift 6.1.3 builds the shared core on Ubuntu WSL. All 7 XCTest cases pass:
+  framing, malformed packets, path restrictions, Thai wire bytes, SAMP status
+  parsing, voice checksum and a real Opus audio round trip.
+- The independent native Opus round trip passes (547-byte packet / 4800 decoded
+  samples at 48 kHz mono, 40 kbps and 100 ms).
+- The vendored authentication SHA-1 used 64-bit words on 64-bit hosts and wrong
+  padding for some input lengths. It now uses 32-bit words and passes 14 independent
+  hashlib reference vectors, including lengths 55, 56, 63 and 64.
+- RakNet bit readers/copy previously read and incremented the same offset in one
+  expression. Offset operations are now sequenced; tests pass all 64 source/destination
+  alignment combinations and both boolean-reader paths.
+- iOS app Swift syntax parses successfully. Xcode builds, UIKit/SwiftUI type checking,
+  device execution and simulator visual checks still require a Mac.
 
 ## Account blocker
 
