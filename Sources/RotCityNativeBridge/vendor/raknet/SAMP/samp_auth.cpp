@@ -1,5 +1,5 @@
 // https://github.com/P3ti/RakSAMP/blob/master/raknet/SAMP/samp_auth.cpp
-#include "..//..//..//main.h"
+#include "..//..//..//main.h"\n#include <cstring>\n#include <cstdio>\n#include <iterator>
 #include <cstdlib>
 
 #define endian_swap8(x) (x)
