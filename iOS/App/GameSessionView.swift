@@ -137,6 +137,7 @@ struct GameSessionView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var session = GameSessionModel()
     @StateObject private var voice = VoiceCapture()
+    @StateObject private var worldState = World3DState()
     @State private var showChat = true
     @State private var showInputBar = false
     @State private var chatText = ""
@@ -148,7 +149,9 @@ struct GameSessionView: View {
 
     var body: some View {
         ZStack {
-            Color(red: 0.03, green: 0.05, blue: 0.09).ignoresSafeArea()
+            // OpenGL ES 3.0 3D World + RenderWare gta3.img/.dff/.ipl Renderer
+            GLES3RenderView(worldState: worldState)
+                .ignoresSafeArea()
 
             // Live Android-compatible /dweb WebView UI layer
             LiveMobileUIView(session: session)
@@ -255,6 +258,22 @@ struct GameSessionView: View {
                 }
 
                 Spacer()
+
+                HStack(alignment: .bottom) {
+                    VirtualJoystickView(worldState: worldState)
+                        .padding(.leading, 22)
+                        .padding(.bottom, 18)
+                    Spacer()
+                    Text("3D: \(worldState.loadedPedName) · \(worldState.loadedBuildings) อาคาร")
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundColor(.white.opacity(0.65))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.black.opacity(0.4))
+                        .cornerRadius(6)
+                        .padding(.trailing, 14)
+                        .padding(.bottom, 12)
+                }
             }
 
             // Loading screen while connecting (matches Android LoadingScreen)

@@ -32,6 +32,7 @@ final class MobileUIController: UIViewController, WKScriptMessageHandler, WKNavi
            let decoded = try? JSONDecoder().decode([String: String].self, from: data) { registry = decoded }
     }
     required init?(coder: NSCoder) { fatalError("Use init()") }
+    override func loadView() { view = PassthroughView() }
     override func viewDidLoad() { super.viewDidLoad(); view.backgroundColor = .clear }
 
     func receive(_ packet: String) {
@@ -138,6 +139,13 @@ final class MobileUIController: UIViewController, WKScriptMessageHandler, WKNavi
     }
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         report?("เปิด UI ไม่ได้: \(error.localizedDescription)")
+    }
+}
+
+private final class PassthroughView: UIView {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let hit = super.hitTest(point, with: event)
+        return hit === self ? nil : hit
     }
 }
 

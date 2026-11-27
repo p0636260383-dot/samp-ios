@@ -1,4 +1,5 @@
 module RotCityNativeBridge {
     header "rotcity_native_bridge.h"
+    header "rw_loader.h"
     export *
 }
