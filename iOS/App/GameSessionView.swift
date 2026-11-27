@@ -130,12 +130,21 @@ private struct LiveMobileUIView: UIViewControllerRepresentable {
 }
 
 struct GameSessionView: View {
+    private static let cover = UIImage(contentsOfFile: Bundle.main.bundleURL.appendingPathComponent("Brand/rotcity_cover.png").path)
+    private static let logo = UIImage(contentsOfFile: Bundle.main.bundleURL.appendingPathComponent("Brand/rotcity_logo.png").path)
+
     let nickname: String
     @Environment(\.dismiss) private var dismiss
     @StateObject private var session = GameSessionModel()
     @StateObject private var voice = VoiceCapture()
     @State private var showChat = true
+    @State private var showInputBar = false
     @State private var chatText = ""
+
+    private let shortcuts: [(String, String)] = [
+        ("ALL", "/all"), ("TAB", "/tab"), ("ALT", "/alt"),
+        ("F", "/f"), ("N", "/n"), ("F2", "/help")
+    ]
 
     var body: some View {
         ZStack {
@@ -145,27 +154,39 @@ struct GameSessionView: View {
             LiveMobileUIView(session: session)
                 .ignoresSafeArea()
 
-            // Top HUD bar + Chat + Controls
+            // Top HUD + Chat + Shortcuts (matches Android in-game layout)
             VStack(spacing: 6) {
-                HStack(spacing: 10) {
-                    Circle()
-                        .fill(stateColor)
-                        .frame(width: 9, height: 9)
-                    Text("\(session.statusText) · \(nickname)")
-                        .font(.caption.bold())
-                        .lineLimit(1)
+                HStack(spacing: 8) {
+                    HStack(spacing: 6) {
+                        Circle().fill(stateColor).frame(width: 8, height: 8)
+                        Text("\(session.statusText) · \(nickname)")
+                            .font(.caption2.bold())
+                            .foregroundColor(.white)
+                            .lineLimit(1)
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Color.black.opacity(0.45))
+                    .cornerRadius(8)
+
                     Spacer()
+
+                    Button { showInputBar.toggle() } label: {
+                        Image(systemName: "text.bubble")
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.cyan)
+
                     Button {
                         voice.isCapturing ? voice.stop() : voice.requestAndStart()
                     } label: {
-                        Label(voice.isCapturing ? "MIC ON" : "MIC", systemImage: voice.isCapturing ? "mic.fill" : "mic")
+                        Image(systemName: voice.isCapturing ? "mic.fill" : "mic")
                     }
-                    .font(.caption)
                     .buttonStyle(.bordered)
-                    .tint(voice.isCapturing ? .green : .secondary)
+                    .tint(voice.isCapturing ? .green : .white)
 
                     Button(showChat ? "ซ่อนแชท" : "แชท") { showChat.toggle() }
-                        .font(.caption)
+                        .font(.caption2)
                         .buttonStyle(.bordered)
 
                     Button("ออกเกม") {
@@ -173,44 +194,60 @@ struct GameSessionView: View {
                         session.stop()
                         dismiss()
                     }
-                    .font(.caption)
+                    .font(.caption2.bold())
                     .buttonStyle(.borderedProminent)
                     .tint(.red)
                 }
                 .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(.ultraThinMaterial)
+                .padding(.top, 8)
 
                 if showChat {
                     VStack(alignment: .leading, spacing: 6) {
                         ScrollViewReader { proxy in
                             ScrollView {
-                                LazyVStack(alignment: .leading, spacing: 3) {
+                                LazyVStack(alignment: .leading, spacing: 2) {
                                     ForEach(Array(session.chatLines.enumerated()), id: \.offset) { idx, line in
                                         styledSampText(line.text)
-                                            .font(.caption)
+                                            .font(.system(size: 12, weight: .semibold))
+                                            .shadow(color: .black, radius: 1, x: 1, y: 1)
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .id(idx)
                                     }
                                 }
-                                .padding(8)
+                                .padding(6)
                             }
                             .onChange(of: session.chatLines.count) { count in
                                 if count > 0 { proxy.scrollTo(count - 1, anchor: .bottom) }
                             }
                         }
-                        .frame(maxWidth: 460, maxHeight: 150)
-                        .background(Color.black.opacity(0.6))
-                        .cornerRadius(8)
+                        .frame(maxWidth: 480, maxHeight: 145)
 
-                        HStack(spacing: 8) {
-                            TextField("พิมพ์แชทหรือคำสั่ง (/...)", text: $chatText)
-                                .textFieldStyle(.roundedBorder)
-                                .frame(maxWidth: 340)
-                                .onSubmit(sendChat)
-                            Button("ส่ง", action: sendChat)
-                                .buttonStyle(.borderedProminent)
-                                .disabled(session.state != .connected)
+                        // Android-style shortcut strip
+                        HStack(spacing: 6) {
+                            ForEach(shortcuts, id: \.0) { label, cmd in
+                                Button(label) {
+                                    session.sendCommand(cmd)
+                                }
+                                .font(.system(size: 11, weight: .bold))
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(Color(red: 0.06, green: 0.14, blue: 0.24).opacity(0.85))
+                                .foregroundColor(.white)
+                                .cornerRadius(7)
+                                .overlay(RoundedRectangle(cornerRadius: 7).stroke(Color.cyan.opacity(0.45)))
+                            }
+                        }
+
+                        if showInputBar {
+                            HStack(spacing: 8) {
+                                TextField("พิมพ์แชทหรือคำสั่ง (/...)", text: $chatText)
+                                    .textFieldStyle(.roundedBorder)
+                                    .frame(maxWidth: 340)
+                                    .onSubmit(sendChat)
+                                Button("ส่ง", action: sendChat)
+                                    .buttonStyle(.borderedProminent)
+                                    .disabled(session.state != .connected)
+                            }
                         }
                     }
                     .padding(.leading, 12)
@@ -220,9 +257,18 @@ struct GameSessionView: View {
                 Spacer()
             }
 
+            // Loading screen while connecting (matches Android LoadingScreen)
+            if session.state == .connecting || session.state == .awaitJoin {
+                loadingOverlay
+                    .zIndex(90)
+            }
+
             if let dialog = session.activeDialog {
-                dialogOverlay(dialog)
-                    .zIndex(100)
+                if isAuthDialog(dialog) {
+                    authOverlay(dialog).zIndex(100)
+                } else {
+                    dialogOverlay(dialog).zIndex(100)
+                }
             }
         }
         .onAppear { session.start(nickname: nickname) }
@@ -230,6 +276,39 @@ struct GameSessionView: View {
             voice.stop()
             session.stop()
         }
+    }
+
+    private var loadingOverlay: some View {
+        ZStack {
+            Color(red: 0.02, green: 0.05, blue: 0.10).ignoresSafeArea()
+            if let cover = Self.cover {
+                Image(uiImage: cover)
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                    .opacity(0.45)
+            }
+            VStack(spacing: 18) {
+                if let logo = Self.logo {
+                    Image(uiImage: logo)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 110, height: 110)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                }
+                ProgressView()
+                    .progressViewStyle(.linear)
+                    .tint(Color(red: 0.35, green: 0.78, blue: 1.0))
+                    .frame(width: 220)
+                Text(session.statusText)
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.85))
+            }
+        }
+    }
+
+    private func isAuthDialog(_ dialog: SampDialog) -> Bool {
+        dialog.style == 3 || dialog.title.contains("เข้าสู่ระบบ") || dialog.title.contains("สมัคร")
     }
 
     private var stateColor: Color {
@@ -270,6 +349,126 @@ struct GameSessionView: View {
             i = nextBrace
         }
         return result
+    }
+
+    private func authOverlay(_ dialog: SampDialog) -> some View {
+        ZStack {
+            Color.black.opacity(0.72).ignoresSafeArea()
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(alignment: .top) {
+                    HStack(spacing: 10) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.green.opacity(0.18))
+                                .frame(width: 34, height: 34)
+                            Text("☣")
+                                .font(.title3)
+                                .foregroundColor(.green)
+                        }
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack(spacing: 4) {
+                                Text("Rot City").font(.caption.bold()).foregroundColor(.white)
+                                Text("ROLEPLAY").font(.caption2).foregroundColor(.red.opacity(0.85))
+                            }
+                            styledSampText(dialog.title)
+                                .font(.headline.bold())
+                            Text("SURVIVOR AUTHENTICATION")
+                                .font(.system(size: 9, weight: .bold))
+                                .tracking(1.2)
+                                .foregroundColor(.white.opacity(0.55))
+                        }
+                    }
+                    Spacer()
+                    Text("ROT CITY\nZONE 01")
+                        .font(.system(size: 8, weight: .bold))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.orange.opacity(0.85))
+                        .padding(5)
+                        .overlay(Rectangle().stroke(Color.orange.opacity(0.5)))
+                        .rotationEffect(.degrees(-6))
+                }
+
+                Divider().background(Color.white.opacity(0.15))
+
+                HStack(spacing: 8) {
+                    Text("◆").foregroundColor(.yellow).font(.caption)
+                    styledSampText(dialog.message)
+                        .font(.callout)
+                    Spacer()
+                }
+                .padding(10)
+                .background(Color(red: 0.08, green: 0.16, blue: 0.22))
+                .cornerRadius(6)
+                .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.cyan.opacity(0.25)))
+
+                Text("รหัสผ่าน")
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.75))
+
+                Group {
+                    if dialog.style == 3 {
+                        SecureField("กรอกรหัสผ่าน", text: $session.dialogInput)
+                    } else {
+                        TextField("กรอกรหัสผ่าน", text: $session.dialogInput)
+                    }
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
+                .background(Color.black.opacity(0.45))
+                .cornerRadius(6)
+                .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.white.opacity(0.18)))
+                .foregroundColor(.white)
+
+                HStack(spacing: 10) {
+                    if !dialog.button2.isEmpty {
+                        Button {
+                            session.submitDialog(buttonId: 0)
+                        } label: {
+                            Text(dialog.button2)
+                                .font(.callout.bold())
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 11)
+                                .foregroundColor(.white.opacity(0.85))
+                                .background(Color.white.opacity(0.08))
+                                .cornerRadius(6)
+                                .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.white.opacity(0.18)))
+                        }
+                    }
+                    Button {
+                        session.submitDialog(buttonId: 1)
+                    } label: {
+                        Text(dialog.button1.isEmpty ? "เข้าสู่ระบบ" : dialog.button1)
+                            .font(.callout.bold())
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 11)
+                            .foregroundColor(.white)
+                            .background(
+                                LinearGradient(
+                                    colors: [Color(red: 0.14, green: 0.56, blue: 0.68), Color(red: 0.12, green: 0.45, blue: 0.62)],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .cornerRadius(6)
+                    }
+                }
+
+                HStack {
+                    Text(dialog.title.contains("สมัคร") ? "ลงทะเบียน" : "เข้าสู่ระบบ")
+                        .font(.caption2)
+                        .foregroundColor(.white.opacity(0.5))
+                    Spacer()
+                    Text("INFECTED AREA · ACCESS CONTROL")
+                        .font(.system(size: 9, weight: .semibold))
+                        .foregroundColor(.orange.opacity(0.65))
+                }
+            }
+            .padding(18)
+            .frame(maxWidth: 460)
+            .background(Color(red: 0.06, green: 0.11, blue: 0.16))
+            .cornerRadius(10)
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.cyan.opacity(0.35)))
+        }
     }
 
     @ViewBuilder
