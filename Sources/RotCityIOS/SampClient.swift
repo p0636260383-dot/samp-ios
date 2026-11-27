@@ -100,22 +100,15 @@ public final class SampClient {
         var raw = rotcity_event_t()
         guard rotcity_client_pop_event(handle, &raw) else { return nil }
 
-        let title = withUnsafePointer(to: &raw.title) { ptr in
-            ptr.withMemoryRebound(to: CChar.self, capacity: 256) { String(cString: $0) }
-        }
-        let textData = withUnsafePointer(to: &raw.text) { ptr -> Data in
-            ptr.withMemoryRebound(to: UInt8.self, capacity: 4096) { buf in
-                let len = strnlen(UnsafeRawPointer(buf).assumingMemoryBound(to: CChar.self), 4096)
-                return Data(bytes: buf, count: len)
-            }
-        }
-        let button1 = withUnsafePointer(to: &raw.button1) { ptr in
-            ptr.withMemoryRebound(to: CChar.self, capacity: 64) { String(cString: $0) }
-        }
-        let button2 = withUnsafePointer(to: &raw.button2) { ptr in
-            ptr.withMemoryRebound(to: CChar.self, capacity: 64) { String(cString: $0) }
-        }
+        let titleData = readFixedBytes(&raw.title, capacity: 256)
+        let textData = readFixedBytes(&raw.text, capacity: 4096)
+        let button1Data = readFixedBytes(&raw.button1, capacity: 64)
+        let button2Data = readFixedBytes(&raw.button2, capacity: 64)
+
+        let title = ThaiServerEncoding.decode(titleData)
         let decodedText = ThaiServerEncoding.decode(textData)
+        let button1 = ThaiServerEncoding.decode(button1Data)
+        let button2 = ThaiServerEncoding.decode(button2Data)
 
         switch raw.type {
         case ROTCITY_EVENT_STATE_CHANGED:
@@ -131,16 +124,10 @@ public final class SampClient {
                 text: decodedText
             ))
         case ROTCITY_EVENT_SHOW_DIALOG:
-            let titleData = withUnsafePointer(to: &raw.title) { ptr -> Data in
-                ptr.withMemoryRebound(to: UInt8.self, capacity: 256) { buf in
-                    let len = strnlen(UnsafeRawPointer(buf).assumingMemoryBound(to: CChar.self), 256)
-                    return Data(bytes: buf, count: len)
-                }
-            }
             return .showDialog(SampDialog(
                 id: UInt16(truncatingIfNeeded: raw.int_arg1),
                 style: Int(raw.int_arg2),
-                title: ThaiServerEncoding.decode(titleData),
+                title: title,
                 message: decodedText,
                 button1: button1,
                 button2: button2
@@ -149,6 +136,15 @@ public final class SampClient {
             return .disconnected(reason: decodedText)
         default:
             return nil
+        }
+    }
+
+    private func readFixedBytes<T>(_ field: inout T, capacity: Int) -> Data {
+        withUnsafePointer(to: &field) { ptr in
+            ptr.withMemoryRebound(to: UInt8.self, capacity: capacity) { buf in
+                let len = strnlen(UnsafeRawPointer(buf).assumingMemoryBound(to: CChar.self), capacity)
+                return Data(bytes: buf, count: len)
+            }
         }
     }
 
