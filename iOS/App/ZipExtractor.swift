@@ -95,28 +95,32 @@ enum ZipExtractor {
             }
             fm.createFile(atPath: outURL.path, contents: nil)
             let outHandle = try FileHandle(forWritingTo: outURL)
-            defer { try? outHandle.close() }
-
-            if method == 0 {
-                var remaining = compressedSize
-                while remaining > 0 {
-                    let toRead = Int(min(remaining, UInt64(chunkSize)))
-                    let chunk = handle.readData(ofLength: toRead)
-                    if chunk.isEmpty { throw ZipExtractorError.invalidArchive }
-                    outHandle.write(chunk)
-                    remaining -= UInt64(chunk.count)
+            do {
+                if method == 0 {
+                    var remaining = compressedSize
+                    while remaining > 0 {
+                        let toRead = Int(min(remaining, UInt64(chunkSize)))
+                        let chunk = handle.readData(ofLength: toRead)
+                        if chunk.isEmpty { throw ZipExtractorError.invalidArchive }
+                        outHandle.write(chunk)
+                        remaining -= UInt64(chunk.count)
+                    }
+                } else if method == 8 {
+                    if uncompressedSize > 0 || compressedSize > 0 {
+                        try streamInflate(
+                            from: handle,
+                            compressedBytes: compressedSize,
+                            to: outHandle,
+                            entryName: safeRel
+                        )
+                    }
+                } else {
+                    throw ZipExtractorError.unsupportedCompression(method)
                 }
-            } else if method == 8 {
-                if uncompressedSize > 0 || compressedSize > 0 {
-                    try streamInflate(
-                        from: handle,
-                        compressedBytes: compressedSize,
-                        to: outHandle,
-                        entryName: safeRel
-                    )
-                }
-            } else {
-                throw ZipExtractorError.unsupportedCompression(method)
+                try? outHandle.close()
+            } catch {
+                try? outHandle.close()
+                throw error
             }
         }
     }
@@ -184,6 +188,9 @@ enum ZipExtractor {
             }
             if status == COMPRESSION_STATUS_ERROR {
                 throw ZipExtractorError.decompressionFailed(entryName)
+            }
+            if produced == 0 && remaining == 0 && stream.src_size == 0 {
+                break
             }
         }
     }

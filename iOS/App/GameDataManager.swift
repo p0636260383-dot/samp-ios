@@ -118,7 +118,9 @@ final class GameDataManager: NSObject, ObservableObject, URLSessionDownloadDeleg
                 self?.refreshLocalStatus()
             }
         }
-        downloadTask = session.downloadTask(with: PatchAndDataConfig.dataDownloadURL)
+        var request = URLRequest(url: PatchAndDataConfig.dataDownloadURL)
+        request.setValue("RotCityLauncher/1.0", forHTTPHeaderField: "User-Agent")
+        downloadTask = session.downloadTask(with: request)
         downloadTask?.resume()
     }
 
@@ -137,7 +139,9 @@ final class GameDataManager: NSObject, ObservableObject, URLSessionDownloadDeleg
                 self?.refreshLocalStatus()
             }
         }
-        downloadTask = session.downloadTask(with: manifest.zipURL)
+        var request = URLRequest(url: manifest.zipURL)
+        request.setValue("RotCityLauncher/1.0", forHTTPHeaderField: "User-Agent")
+        downloadTask = session.downloadTask(with: request)
         downloadTask?.resume()
     }
 

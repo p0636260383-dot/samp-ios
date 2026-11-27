@@ -141,33 +141,17 @@ struct GameSessionView: View {
         ZStack {
             Color(red: 0.03, green: 0.05, blue: 0.09).ignoresSafeArea()
 
-            // Placeholder layer for 3D GTA world (no iOS libGame.so engine yet)
-            VStack(spacing: 8) {
-                Image(systemName: "gamecontroller.fill")
-                    .font(.system(size: 38))
-                    .foregroundColor(.white.opacity(0.22))
-                Text("SA-MP Session · \(nickname)")
-                    .font(.headline)
-                    .foregroundColor(.white.opacity(0.5))
-                Text(session.statusText)
-                    .font(.caption)
-                    .foregroundColor(.cyan.opacity(0.85))
-                Text("หมายเหตุ: ฝั่ง iOS เชื่อมต่อเซิร์ฟเวอร์ SA-MP + /dweb UI จริงแล้ว (3D GTA engine ยังอยู่ระหว่างพอร์ต)")
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
-            }
-
             // Live Android-compatible /dweb WebView UI layer
             LiveMobileUIView(session: session)
                 .ignoresSafeArea()
 
             // Top HUD bar + Chat + Controls
-            VStack {
-                HStack(spacing: 12) {
+            VStack(spacing: 6) {
+                HStack(spacing: 10) {
                     Circle()
                         .fill(stateColor)
-                        .frame(width: 10, height: 10)
-                    Text(session.statusText)
+                        .frame(width: 9, height: 9)
+                    Text("\(session.statusText) · \(nickname)")
                         .font(.caption.bold())
                         .lineLimit(1)
                     Spacer()
@@ -176,10 +160,12 @@ struct GameSessionView: View {
                     } label: {
                         Label(voice.isCapturing ? "MIC ON" : "MIC", systemImage: voice.isCapturing ? "mic.fill" : "mic")
                     }
+                    .font(.caption)
                     .buttonStyle(.bordered)
                     .tint(voice.isCapturing ? .green : .secondary)
 
                     Button(showChat ? "ซ่อนแชท" : "แชท") { showChat.toggle() }
+                        .font(.caption)
                         .buttonStyle(.bordered)
 
                     Button("ออกเกม") {
@@ -187,41 +173,47 @@ struct GameSessionView: View {
                         session.stop()
                         dismiss()
                     }
+                    .font(.caption)
                     .buttonStyle(.borderedProminent)
                     .tint(.red)
                 }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
                 .background(.ultraThinMaterial)
 
                 if showChat {
                     VStack(alignment: .leading, spacing: 6) {
-                        ScrollView {
-                            LazyVStack(alignment: .leading, spacing: 3) {
-                                ForEach(Array(session.chatLines.enumerated()), id: \.offset) { _, line in
-                                    Text(line.text)
-                                        .font(.caption)
-                                        .foregroundColor(.white)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                        ScrollViewReader { proxy in
+                            ScrollView {
+                                LazyVStack(alignment: .leading, spacing: 3) {
+                                    ForEach(Array(session.chatLines.enumerated()), id: \.offset) { idx, line in
+                                        styledSampText(line.text)
+                                            .font(.caption)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .id(idx)
+                                    }
                                 }
+                                .padding(8)
                             }
-                            .padding(8)
+                            .onChange(of: session.chatLines.count) { count in
+                                if count > 0 { proxy.scrollTo(count - 1, anchor: .bottom) }
+                            }
                         }
-                        .frame(maxWidth: 460, maxHeight: 160)
-                        .background(Color.black.opacity(0.55))
+                        .frame(maxWidth: 460, maxHeight: 150)
+                        .background(Color.black.opacity(0.6))
                         .cornerRadius(8)
 
                         HStack(spacing: 8) {
                             TextField("พิมพ์แชทหรือคำสั่ง (/...)", text: $chatText)
                                 .textFieldStyle(.roundedBorder)
-                                .frame(maxWidth: 360)
+                                .frame(maxWidth: 340)
                                 .onSubmit(sendChat)
                             Button("ส่ง", action: sendChat)
                                 .buttonStyle(.borderedProminent)
                                 .disabled(session.state != .connected)
                         }
                     }
-                    .padding(.leading, 14)
+                    .padding(.leading, 12)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
@@ -230,6 +222,7 @@ struct GameSessionView: View {
 
             if let dialog = session.activeDialog {
                 dialogOverlay(dialog)
+                    .zIndex(100)
             }
         }
         .onAppear { session.start(nickname: nickname) }
@@ -252,12 +245,39 @@ struct GameSessionView: View {
         chatText = ""
     }
 
+    private func styledSampText(_ raw: String) -> Text {
+        var result = Text("")
+        var currentColor = Color.white
+        var i = raw.startIndex
+        while i < raw.endIndex {
+            if raw[i] == "{",
+               let end = raw.index(i, offsetBy: 7, limitedBy: raw.endIndex),
+               end < raw.endIndex,
+               raw[end] == "}" {
+                let hex = String(raw[raw.index(after: i)..<end])
+                if let val = UInt32(hex, radix: 16), hex.count == 6 {
+                    currentColor = Color(
+                        red: Double((val >> 16) & 0xFF) / 255.0,
+                        green: Double((val >> 8) & 0xFF) / 255.0,
+                        blue: Double(val & 0xFF) / 255.0
+                    )
+                    i = raw.index(after: end)
+                    continue
+                }
+            }
+            let nextBrace = raw[raw.index(after: i)...].firstIndex(of: "{") ?? raw.endIndex
+            result = result + Text(String(raw[i..<nextBrace])).foregroundColor(currentColor)
+            i = nextBrace
+        }
+        return result
+    }
+
     @ViewBuilder
     private func dialogOverlay(_ dialog: SampDialog) -> some View {
         ZStack {
             Color.black.opacity(0.65).ignoresSafeArea()
             VStack(alignment: .leading, spacing: 12) {
-                Text(dialog.title).font(.headline)
+                styledSampText(dialog.title).font(.headline)
                 if dialog.style == 2 || dialog.style == 4 || dialog.style == 5 {
                     let lines = dialog.message.components(separatedBy: "\n")
                     ScrollView {
@@ -266,7 +286,7 @@ struct GameSessionView: View {
                                 Button {
                                     session.selectedListIndex = idx
                                 } label: {
-                                    Text(line.replacingOccurrences(of: "\t", with: "   "))
+                                    styledSampText(line.replacingOccurrences(of: "\t", with: "   "))
                                         .font(.callout)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .padding(8)
@@ -277,14 +297,14 @@ struct GameSessionView: View {
                             }
                         }
                     }
-                    .frame(maxHeight: 200)
+                    .frame(maxHeight: 180)
                 } else {
                     ScrollView {
-                        Text(dialog.message)
+                        styledSampText(dialog.message)
                             .font(.callout)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .frame(maxHeight: 160)
+                    .frame(maxHeight: 150)
                 }
 
                 if dialog.style == 1 {
@@ -308,7 +328,7 @@ struct GameSessionView: View {
                 }
             }
             .padding(20)
-            .frame(maxWidth: 480)
+            .frame(maxWidth: 460)
             .background(Color(red: 0.08, green: 0.11, blue: 0.17))
             .cornerRadius(14)
             .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.white.opacity(0.15)))
