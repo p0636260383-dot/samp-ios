@@ -17,6 +17,8 @@ enum ZipExtractorError: LocalizedError {
 }
 
 enum ZipExtractor {
+    private static let chunkSize = 65536
+
     static func extract(
         zipURL: URL,
         to destination: URL,
@@ -50,8 +52,8 @@ enum ZipExtractor {
         while cursor + 46 <= cdData.count {
             guard readUInt32(cdData, cursor) == 0x02014b50 else { break }
             let method = readUInt16(cdData, cursor + 10)
-            let compressedSize = Int(readUInt32(cdData, cursor + 20))
-            let uncompressedSize = Int(readUInt32(cdData, cursor + 24))
+            let compressedSize = UInt64(readUInt32(cdData, cursor + 20))
+            let uncompressedSize = UInt64(readUInt32(cdData, cursor + 24))
             let nameLen = Int(readUInt16(cdData, cursor + 28))
             let extraLen = Int(readUInt16(cdData, cursor + 30))
             let commentLen = Int(readUInt16(cdData, cursor + 32))
@@ -64,7 +66,9 @@ enum ZipExtractor {
             cursor = nameEnd + extraLen + commentLen
 
             extracted += 1
-            progress?(extracted, max(totalEntries, extracted))
+            if extracted == 1 || extracted == totalEntries || extracted % 10 == 0 {
+                progress?(extracted, max(totalEntries, extracted))
+            }
 
             if rawName.hasSuffix("/") { continue }
             var relative = rawName
@@ -85,30 +89,101 @@ enum ZipExtractor {
             let localNameLen = Int(readUInt16(localHeader, 26))
             let localExtraLen = Int(readUInt16(localHeader, 28))
             try handle.seek(toOffset: localOffset + 30 + UInt64(localNameLen + localExtraLen))
-            let payload = handle.readData(ofLength: compressedSize)
-            guard payload.count == compressedSize else { throw ZipExtractorError.invalidArchive }
+
+            if fm.fileExists(atPath: outURL.path) {
+                try fm.removeItem(at: outURL)
+            }
+            fm.createFile(atPath: outURL.path, contents: nil)
+            let outHandle = try FileHandle(forWritingTo: outURL)
+            defer { try? outHandle.close() }
 
             if method == 0 {
-                try payload.write(to: outURL, options: .atomic)
+                var remaining = compressedSize
+                while remaining > 0 {
+                    let toRead = Int(min(remaining, UInt64(chunkSize)))
+                    let chunk = handle.readData(ofLength: toRead)
+                    if chunk.isEmpty { throw ZipExtractorError.invalidArchive }
+                    outHandle.write(chunk)
+                    remaining -= UInt64(chunk.count)
+                }
             } else if method == 8 {
-                if uncompressedSize == 0 {
-                    try Data().write(to: outURL, options: .atomic)
-                } else {
-                    var output = Data(count: uncompressedSize)
-                    let decodedCount = output.withUnsafeMutableBytes { dstRaw in
-                        payload.withUnsafeBytes { srcRaw -> Int in
-                            guard let dst = dstRaw.bindMemory(to: UInt8.self).baseAddress,
-                                  let src = srcRaw.bindMemory(to: UInt8.self).baseAddress else { return 0 }
-                            return compression_decode_buffer(dst, uncompressedSize, src, compressedSize, nil, COMPRESSION_ZLIB)
-                        }
-                    }
-                    guard decodedCount == uncompressedSize else {
-                        throw ZipExtractorError.decompressionFailed(safeRel)
-                    }
-                    try output.write(to: outURL, options: .atomic)
+                if uncompressedSize > 0 || compressedSize > 0 {
+                    try streamInflate(
+                        from: handle,
+                        compressedBytes: compressedSize,
+                        to: outHandle,
+                        entryName: safeRel
+                    )
                 }
             } else {
                 throw ZipExtractorError.unsupportedCompression(method)
+            }
+        }
+    }
+
+    private static func streamInflate(
+        from input: FileHandle,
+        compressedBytes: UInt64,
+        to output: FileHandle,
+        entryName: String
+    ) throws {
+        let dummy = UnsafeMutablePointer<UInt8>.allocate(capacity: 1)
+        defer { dummy.deallocate() }
+        var stream = compression_stream(
+            dst_ptr: dummy, dst_size: 0,
+            src_ptr: UnsafePointer(dummy), src_size: 0,
+            state: nil
+        )
+        guard compression_stream_init(&stream, COMPRESSION_STREAM_DECODE, COMPRESSION_ZLIB) == COMPRESSION_STATUS_OK else {
+            throw ZipExtractorError.decompressionFailed(entryName)
+        }
+        defer { compression_stream_destroy(&stream) }
+
+        var outBuf = [UInt8](repeating: 0, count: chunkSize)
+        var remaining = compressedBytes
+        var currentChunk = Data()
+        var chunkOffset = 0
+
+        while true {
+            if stream.src_size == 0 && remaining > 0 {
+                let toRead = Int(min(remaining, UInt64(chunkSize)))
+                currentChunk = input.readData(ofLength: toRead)
+                if currentChunk.isEmpty { throw ZipExtractorError.invalidArchive }
+                remaining -= UInt64(currentChunk.count)
+                chunkOffset = 0
+                stream.src_size = currentChunk.count
+            }
+
+            let flags = remaining == 0
+                ? Int32(COMPRESSION_STREAM_FINALIZE.rawValue)
+                : 0
+
+            let status: compression_status = currentChunk.withUnsafeBytes { srcRaw in
+                let srcBase = srcRaw.bindMemory(to: UInt8.self).baseAddress
+                if let srcBase {
+                    stream.src_ptr = srcBase.advanced(by: chunkOffset)
+                }
+                return outBuf.withUnsafeMutableBufferPointer { dstBuf in
+                    stream.dst_ptr = dstBuf.baseAddress!
+                    stream.dst_size = chunkSize
+                    let s = compression_stream_process(&stream, flags)
+                    if let srcBase {
+                        chunkOffset = srcBase.distance(to: stream.src_ptr)
+                    }
+                    return s
+                }
+            }
+
+            let produced = chunkSize - stream.dst_size
+            if produced > 0 {
+                output.write(Data(outBuf[0..<produced]))
+            }
+
+            if status == COMPRESSION_STATUS_END {
+                break
+            }
+            if status == COMPRESSION_STATUS_ERROR {
+                throw ZipExtractorError.decompressionFailed(entryName)
             }
         }
     }

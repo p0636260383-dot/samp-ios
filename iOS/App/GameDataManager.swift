@@ -113,7 +113,7 @@ final class GameDataManager: NSObject, ObservableObject, URLSessionDownloadDeleg
         downloadDetail = "กำลังเชื่อมต่อ Google Drive (~623 MB)..."
 
         activeCompletion = { [weak self] localZip in
-            self?.extractArchive(localZip, to: Self.gtaDataDir, stripPrefix: nil, title: "กำลังแตกไฟล์ดาต้าเกม...") {
+            self?.extractArchive(localZip, to: Self.gtaDataDir, stripPrefix: "GTA/", title: "กำลังแตกไฟล์ดาต้าเกม...") {
                 UserDefaults.standard.set(1, forKey: Self.dataVersionKey)
                 self?.refreshLocalStatus()
             }
@@ -199,6 +199,13 @@ final class GameDataManager: NSObject, ObservableObject, URLSessionDownloadDeleg
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        if let http = downloadTask.response as? HTTPURLResponse, !(200...299).contains(http.statusCode) {
+            isDownloading = false
+            self.downloadTask = nil
+            activeCompletion = nil
+            downloadError = "เซิร์ฟเวอร์ตอบกลับ HTTP \(http.statusCode)"
+            return
+        }
         let tmp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".zip")
         do {
             try FileManager.default.moveItem(at: location, to: tmp)
